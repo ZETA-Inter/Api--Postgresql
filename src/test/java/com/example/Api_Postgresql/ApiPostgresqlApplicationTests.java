@@ -2,12 +2,7 @@ package com.example.Api_Postgresql;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
-class ApiPostgresqlApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+class ApiPostgresqlApplicationTests { }
