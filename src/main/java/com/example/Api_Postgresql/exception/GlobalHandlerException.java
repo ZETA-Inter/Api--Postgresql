@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -24,6 +25,11 @@ public class GlobalHandlerException {
         return ResponseEntity.status(409).body(ex.getMessage());
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<String> handler(BadRequestException ex) {
+        return ResponseEntity.status(401).body(ex.getMessage());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handler(RuntimeException ex) {
         Throwable root = ex;
@@ -42,7 +48,7 @@ public class GlobalHandlerException {
         }
 
         // Caso não seja violação de constraint, retorna 500
-        return ResponseEntity.status(500).body("Erro inesperado: " + ex.getMessage());
+        return ResponseEntity.status(400).body(ex.getMessage());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

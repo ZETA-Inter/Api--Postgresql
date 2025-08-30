@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.CompanyResponseDTO;
+import com.example.Api_Postgresql.dto.LoginRequestDTO;
 import com.example.Api_Postgresql.service.CompanyService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
@@ -34,6 +35,11 @@ public class CompanyController {
     @GetMapping("/find-email/{email}")
     public ResponseEntity<CompanyResponseDTO> findCompanyByEmail(@PathVariable String email) {
         return ResponseEntity.status(200).body(companyService.findByEmail(email));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<CompanyResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+        return ResponseEntity.status(200).body(companyService.login(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 
     @PostMapping("/create")

@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.CompanyResponseDTO;
+import com.example.Api_Postgresql.exception.BadCredentialsException;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.CompanyMapper;
 import com.example.Api_Postgresql.model.Company;
@@ -46,6 +47,18 @@ public class CompanyService {
         Company exists = companyRepository.findByEmail(email);
         if (exists == null) {
             throw new EntityNotFoundException("Company not found!");
+        }
+        return companyMapper.convertFornecedorToFornecedorResponseDTO(exists);
+    }
+
+    public CompanyResponseDTO login(String email, String password) {
+        Company exists = companyRepository.findByEmail(email);
+        if (exists == null) {
+            throw new EntityNotFoundException("Email is incorrect!");
+        }
+
+        if (!password.equals(exists.getPassword())) {
+            throw new BadCredentialsException("Password is incorrect!");
         }
         return companyMapper.convertFornecedorToFornecedorResponseDTO(exists);
     }
