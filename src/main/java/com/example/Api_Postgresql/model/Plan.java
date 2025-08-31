@@ -21,4 +21,5 @@ public class Plan {
     @Column(nullable = false)
     private String name;
 
+    private Double value;
 }
