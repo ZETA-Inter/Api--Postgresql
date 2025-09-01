@@ -26,7 +26,7 @@ public class WorkerRequestDTO {
     @NotNull(message = "field 'password' is null", groups = OnCreate.class)
     private String password;
 
-    private LocalDate BirthDate;
+    private LocalDate birthDate;
 
     @Min(value = 0, message = "'PlanId' can't be less than 1")
     private Integer planId;
