@@ -60,7 +60,7 @@ public class CompanyService {
         if (!password.equals(exists.getPassword())) {
             throw new BadCredentialsException("Password is incorrect!");
         }
-        return companyMapper.convertFornecedorToFornecedorResponseDTO(exists);
+        return companyMapper.convertCompanyToCompanyResponseDTO(exists);
     }
 
     public CompanyResponseDTO createCompany(CompanyRequestDTO request) {
@@ -88,9 +88,9 @@ public class CompanyService {
     }
 
     public void partiallyUpdateCompany(Integer id, CompanyRequestDTO request) {
-        Optional<Company> workerExists = companyRepository.findById(id);
-        if (workerExists.isPresent()) {
-            Company company = workerExists.get();
+        Optional<Company> companyExists = companyRepository.findById(id);
+        if (companyExists.isPresent()) {
+            Company company = companyExists.get();
 
             Company companyFinal = validation.validator(request, company);
 

@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.WorkerRequestDTO;
 import com.example.Api_Postgresql.dto.WorkerResponseDTO;
+import com.example.Api_Postgresql.exception.BadCredentialsException;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
 import com.example.Api_Postgresql.model.Worker;
@@ -43,6 +44,18 @@ public class WorkerService {
         Worker exists = workerRepository.findByEmail(email);
         if (exists == null) {
             throw new EntityNotFoundException("Worker not found!");
+        }
+        return workerMapper.convertWorkerToWorkerResponse(exists);
+    }
+
+    public WorkerResponseDTO login(String email, String password) {
+        Worker exists = workerRepository.findByEmail(email);
+        if (exists == null) {
+            throw new EntityNotFoundException("Email is incorrect!");
+        }
+
+        if (!password.equals(exists.getPassword())) {
+            throw new BadCredentialsException("Password is incorrect!");
         }
         return workerMapper.convertWorkerToWorkerResponse(exists);
     }

@@ -1,12 +1,10 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.CompanyRequestDTO;
-import com.example.Api_Postgresql.dto.CompanyResponseDTO;
-import com.example.Api_Postgresql.dto.WorkerRequestDTO;
-import com.example.Api_Postgresql.dto.WorkerResponseDTO;
+import com.example.Api_Postgresql.dto.*;
 import com.example.Api_Postgresql.service.WorkerService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
+import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +33,11 @@ public class WorkerController {
     @GetMapping("/find-email/{email}")
     public ResponseEntity<WorkerResponseDTO> findCompanyByEmail(@PathVariable String email) {
         return ResponseEntity.status(200).body(workerService.findByEmail(email));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<CompanyResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+        return ResponseEntity.status(200).body(workerService.login(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 
     @PostMapping("/create")
