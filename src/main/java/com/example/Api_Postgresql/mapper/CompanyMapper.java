@@ -4,11 +4,9 @@ import com.example.Api_Postgresql.dto.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.CompanyResponseDTO;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Plan;
-import com.example.Api_Postgresql.model.Responsible;
 import com.example.Api_Postgresql.repository.PlanRepository;
 import com.example.Api_Postgresql.repository.ResponsibleRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +19,7 @@ public class CompanyMapper {
     @Autowired
     private ResponsibleRepository responsibleRepository;
 
-    public Company convertFornecedorRequestToFornecedor(CompanyRequestDTO request) {
+    public Company convertCompanyRequestToCompany(CompanyRequestDTO request) {
 
         Plan plan = planRepository.findById(request.getPlanId())
                 .orElseThrow(() -> new EntityNotFoundException("Plan not found"));
@@ -34,7 +32,7 @@ public class CompanyMapper {
         return company;
     }
 
-    public CompanyResponseDTO convertFornecedorToFornecedorResponseDTO(Company company) {
+    public CompanyResponseDTO convertCompanyToCompanyResponseDTO(Company company) {
         CompanyResponseDTO responseDTO = new CompanyResponseDTO();
         responseDTO.setId(company.getId());
         responseDTO.setName(company.getName());

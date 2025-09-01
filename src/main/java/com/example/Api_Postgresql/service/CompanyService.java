@@ -29,7 +29,7 @@ public class CompanyService {
         List<Company> companies = companyRepository.findAll();
         List<CompanyResponseDTO> companiesResponseDTO = new ArrayList<>();
         for (Company company : companies) {
-            CompanyResponseDTO companyResponseDTO = companyMapper.convertFornecedorToFornecedorResponseDTO(company);
+            CompanyResponseDTO companyResponseDTO = companyMapper.convertCompanyToCompanyResponseDTO(company);
             companiesResponseDTO.add(companyResponseDTO);
         }
         return companiesResponseDTO;
@@ -40,7 +40,7 @@ public class CompanyService {
         if (exists == null) {
             throw new EntityNotFoundException("Company not found!");
         }
-        return companyMapper.convertFornecedorToFornecedorResponseDTO(exists);
+        return companyMapper.convertCompanyToCompanyResponseDTO(exists);
     }
 
     public CompanyResponseDTO findByEmail(String email) {
@@ -48,7 +48,7 @@ public class CompanyService {
         if (exists == null) {
             throw new EntityNotFoundException("Company not found!");
         }
-        return companyMapper.convertFornecedorToFornecedorResponseDTO(exists);
+        return companyMapper.convertCompanyToCompanyResponseDTO(exists);
     }
 
     public CompanyResponseDTO login(String email, String password) {
@@ -60,16 +60,16 @@ public class CompanyService {
         if (!password.equals(exists.getPassword())) {
             throw new BadCredentialsException("Password is incorrect!");
         }
-        return companyMapper.convertFornecedorToFornecedorResponseDTO(exists);
+        return companyMapper.convertCompanyToCompanyResponseDTO(exists);
     }
 
     public CompanyResponseDTO createCompany(CompanyRequestDTO request) {
         if (companyRepository.findByEmail(request.getEmail()) != null) {
             throw new EntityAlreadyExists("Company already exist!");
         }
-        Company company = companyMapper.convertFornecedorRequestToFornecedor(request);
+        Company company = companyMapper.convertCompanyRequestToCompany(request);
         companyRepository.save(company);
-        return companyMapper.convertFornecedorToFornecedorResponseDTO(company);
+        return companyMapper.convertCompanyToCompanyResponseDTO(company);
     }
 
     public void deleteCompany(Integer id) {
@@ -82,15 +82,15 @@ public class CompanyService {
 
     public void updateCompany(Integer id, CompanyRequestDTO request) {
         Company companyExists = companyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Company with ID \"" + id + "\" not found"));
-        Company company = companyMapper.convertFornecedorRequestToFornecedor(request);
+        Company company = companyMapper.convertCompanyRequestToCompany(request);
         company.setId(id);
         companyRepository.save(company);
     }
 
     public void partiallyUpdateCompany(Integer id, CompanyRequestDTO request) {
-        Optional<Company> fornecedorExists = companyRepository.findById(id);
-        if (fornecedorExists.isPresent()) {
-            Company company = fornecedorExists.get();
+        Optional<Company> companyExists = companyRepository.findById(id);
+        if (companyExists.isPresent()) {
+            Company company = companyExists.get();
 
             Company companyFinal = validation.validator(request, company);
 
