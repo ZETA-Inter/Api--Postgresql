@@ -36,7 +36,7 @@ public class WorkerController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<CompanyResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+    public ResponseEntity<WorkerResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
         return ResponseEntity.status(200).body(workerService.login(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 

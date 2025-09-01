@@ -28,6 +28,7 @@ public class Worker {
 
     private String password;
 
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     @ManyToOne

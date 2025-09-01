@@ -12,6 +12,7 @@ import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,12 @@ public class WorkerPatchValidation {
         if (StringUtils.isNotEmpty(updates.getPassword())) {
             if (verifyPassword(updates.getPassword(), errors)) {
                 worker.setPassword(updates.getPassword());
+            }
+        }
+
+        if (updates.getBirthDate() != null) {
+            if (verifyBirthDate(updates.getBirthDate(), errors)) {
+                worker.setBirthDate(updates.getBirthDate());
             }
         }
 
@@ -81,6 +88,14 @@ public class WorkerPatchValidation {
     public boolean verifyPassword(String password, Map<String, String> errors) {
         if (password.length() < 8){
             errors.put("password", "Password shouldn't have have less than 8 characters!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean verifyBirthDate(LocalDate birthDate, Map<String, String> errors) {
+        if (birthDate.isAfter(LocalDate.now())){
+            errors.put("birthDate", "The birthDate should be before now!");
             return false;
         }
         return true;
