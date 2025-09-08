@@ -1,9 +1,12 @@
 package com.example.Api_Postgresql.service;
 
+import com.example.Api_Postgresql.dto.ProgramRequestDTO;
 import com.example.Api_Postgresql.dto.ProgramResponseDTO;
+import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.ProgramMapper;
 import com.example.Api_Postgresql.model.Program;
 import com.example.Api_Postgresql.repository.ProgramRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,7 @@ public class ProgramService {
     public List<ProgramResponseDTO> listAllPrograms() {
         return programRepository.findAll()
                 .stream()
-                .map(p -> mapper.convertProgramToRequest(p))
+                .map(p -> mapper.convertProgramToResponse(p))
                 .toList();
     }
 
@@ -29,7 +32,17 @@ public class ProgramService {
         Program program = programRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Program not found"));
 
-        return mapper.convertProgramToRequest(program);
+        return mapper.convertProgramToResponse(program);
+    }
+
+    public ProgramResponseDTO createProgram(ProgramRequestDTO request) {
+        Program exists = programRepository.findByName(request.getName());
+        if (exists != null) {
+            throw new EntityAlreadyExists("Program name already exists");
+        }
+        Program program = mapper.converRequestToProgram(request);
+        programRepository.save(program);
+        return mapper.convertProgramToResponse(program);
     }
 
 }
