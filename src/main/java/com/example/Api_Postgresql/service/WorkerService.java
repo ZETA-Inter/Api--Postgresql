@@ -25,6 +25,8 @@ public class WorkerService {
 
     private final WorkerPatchValidation validation;
 
+    private final ImageService imageService;
+
     public List<WorkerResponseDTO> list() {
         return workerRepository.findAll()
                 .stream()
@@ -66,6 +68,9 @@ public class WorkerService {
         }
         Worker worker = workerMapper.convertWorkerRequestToWorker(request);
         workerRepository.save(worker);
+
+        imageService.createImage("workers", request.getImageUrl(), worker.getId());
+
         return workerMapper.convertWorkerToWorkerResponse(worker);
     }
 

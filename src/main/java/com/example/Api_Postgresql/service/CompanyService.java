@@ -25,6 +25,8 @@ public class CompanyService {
 
     private final CompanyPatchValidation validation;
 
+    private final ImageService imageService;
+
     public List<CompanyResponseDTO> list() {
         List<Company> companies = companyRepository.findAll();
         List<CompanyResponseDTO> companiesResponseDTO = new ArrayList<>();
@@ -69,6 +71,9 @@ public class CompanyService {
         }
         Company company = companyMapper.convertCompanyRequestToCompany(request);
         companyRepository.save(company);
+
+        imageService.createImage("companies", request.getImageUrl(), company.getId());
+
         return companyMapper.convertCompanyToCompanyResponseDTO(company);
     }
 
