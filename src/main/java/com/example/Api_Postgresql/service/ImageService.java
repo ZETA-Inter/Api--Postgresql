@@ -13,7 +13,7 @@ public class ImageService {
 
     public Image createImage(String origin, String url, Integer referenceId) {
         Image image = Image.builder()
-                .originTable("programs")
+                .originTable(origin)
                 .imageUrl(url)
                 .sourceId(referenceId)
                 .build();
