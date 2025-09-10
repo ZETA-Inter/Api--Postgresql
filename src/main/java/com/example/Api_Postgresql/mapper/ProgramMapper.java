@@ -21,7 +21,7 @@ public class ProgramMapper {
     private final ImageRepository imageRepository;
     private final ProgramRepository programRepository;
 
-    public Program converRequestToProgram(ProgramRequestDTO request) {
+    public Program convertRequestToProgram(ProgramRequestDTO request) {
 
         Segment segment = segmentRepository.findById(request.getSegmentId())
                 .orElseThrow(() -> new EntityNotFoundException("Segment not found"));
@@ -32,16 +32,6 @@ public class ProgramMapper {
                 .quantityModules(request.getQuantityModules())
                 .segment(segment)
                 .build();
-
-        program = programRepository.save(program);
-
-        Image image = Image.builder()
-                .originTable("programs")
-                .imageUrl(request.getImageUrl())
-                .sourceId(program.getId())
-                .build();
-
-        imageRepository.save(image);
 
         return program;
     }

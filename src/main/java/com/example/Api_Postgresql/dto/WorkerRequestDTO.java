@@ -28,6 +28,9 @@ public class WorkerRequestDTO {
 
     private LocalDate birthDate;
 
+    @NotNull(message = "field 'imageUrl' is null", groups = OnCreate.class)
+    private String imageUrl;
+
     @Min(value = 0, message = "'PlanId' can't be less than 1")
     private Integer planId;
 

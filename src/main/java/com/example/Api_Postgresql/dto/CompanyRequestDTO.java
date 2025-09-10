@@ -23,6 +23,9 @@ public class CompanyRequestDTO {
     @NotNull(message = "field 'password' is null", groups = OnCreate.class)
     private String password;
 
+    @NotNull(message = "field 'imageUrl' is null", groups = OnCreate.class)
+    private String imageUrl;
+
     @Min(value = 0, message = "'PlanId' can't be less than 1")
     private Integer planId;
 
