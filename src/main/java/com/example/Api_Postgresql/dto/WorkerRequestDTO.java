@@ -37,5 +37,9 @@ public class WorkerRequestDTO {
     @Min(value = 0, message = "'CompanyId' can't be less than 1")
     private Integer companyId;
 
+    @Min(value = 0, message = "'ProgramId' can't be less than 1")
+    private Integer programId;
+
+
 
 }
