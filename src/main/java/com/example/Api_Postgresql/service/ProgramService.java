@@ -7,6 +7,7 @@ import com.example.Api_Postgresql.mapper.ProgramMapper;
 import com.example.Api_Postgresql.model.Image;
 import com.example.Api_Postgresql.model.Program;
 import com.example.Api_Postgresql.repository.ProgramRepository;
+import com.example.Api_Postgresql.validation.ProgramPatchValidation;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ public class ProgramService {
     private final ImageService imageService;
 
     private final ProgramMapper mapper;
+
+    private final ProgramPatchValidation validator;
 
     public List<ProgramResponseDTO> listAllPrograms() {
         return programRepository.findAll()
@@ -49,6 +52,28 @@ public class ProgramService {
         imageService.createImage("programs", request.getImageUrl(), program.getId());
 
         return mapper.convertProgramToResponse(program);
+    }
+
+    public void deleteProgramById(Integer id) {
+        programRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Program not found"));
+
+        programRepository.deleteById(id);
+    }
+
+    public void updateProgram(Integer id, ProgramRequestDTO request) {
+        Program exists = programRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Program not found"));
+        Program newProgram = mapper.convertRequestToProgram(request);
+        newProgram.setId(id);
+        programRepository.save(newProgram);
+    }
+
+    public void partiallyUpdateProgram(Integer id, ProgramRequestDTO request) {
+        Program exists = programRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Program not found"));
+        Program newProgram = validator.validator(request, exists);
+        programRepository.save(newProgram);
     }
 
 }

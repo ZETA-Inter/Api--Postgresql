@@ -2,11 +2,16 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.ProgramRequestDTO;
 import com.example.Api_Postgresql.dto.ProgramResponseDTO;
+import com.example.Api_Postgresql.dto.ResponsibleRequestDTO;
 import com.example.Api_Postgresql.model.Program;
 import com.example.Api_Postgresql.service.ProgramService;
+import com.example.Api_Postgresql.validation.OnCreate;
+import com.example.Api_Postgresql.validation.OnPatch;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +37,24 @@ public class ProgramController {
     @PostMapping("/create")
     public ResponseEntity<ProgramResponseDTO> createProgram(@RequestBody ProgramRequestDTO request) {
         return ResponseEntity.status(201).body(service.createProgram(request));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteProgram(@PathVariable Integer id) {
+        service.deleteProgramById(id);
+        return ResponseEntity.status(200).body("Program with ID "+id+" deleted successfully!");
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updatePrgoram(@PathVariable Integer id, @Validated({OnCreate.class, Default.class}) @RequestBody ProgramRequestDTO requestDTO) {
+        service.updateProgram(id, requestDTO);
+        return ResponseEntity.ok().body("Program with ID "+id+" updated successfully!");
+    }
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<String> partiallyUpdateProgram(@PathVariable Integer id, @Validated({OnPatch.class, Default.class}) @RequestBody ProgramRequestDTO requestDTO) {
+        service.partiallyUpdateProgram(id, requestDTO);
+        return ResponseEntity.ok().body("Program with ID "+id+" partially updated successfully!");
     }
 
 }
