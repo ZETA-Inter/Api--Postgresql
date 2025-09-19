@@ -1,0 +1,59 @@
+package com.example.Api_Postgresql.validation;
+
+import com.example.Api_Postgresql.dto.ProgramRequestDTO;
+import com.example.Api_Postgresql.exception.MultipleValidationException;
+import com.example.Api_Postgresql.model.Program;
+import com.example.Api_Postgresql.model.Segment;
+import com.example.Api_Postgresql.repository.SegmentRepository;
+import io.micrometer.common.util.StringUtils;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RequiredArgsConstructor
+@Component
+public class ProgramPatchValidation {
+
+    private final SegmentRepository segmentRepository;
+
+    public Program validator(ProgramRequestDTO updates, Program program) {
+        Map<String, String> errors = new HashMap<>();
+
+        if (StringUtils.isNotEmpty(updates.getName())) {
+            if (verifyName(updates.getName(), errors)) {
+                program.setName(updates.getName());
+            }
+        }
+
+        if (updates.getDescription() != null) {
+            program.setDescription(updates.getDescription());
+        }
+
+        if (updates.getQuantityModules() != null && updates.getQuantityModules() > 0) {
+            program.setQuantityModules(updates.getQuantityModules());
+        }
+
+        if (updates.getSegmentId() != null && updates.getSegmentId() > 0) {
+            Segment segment = segmentRepository.findById(updates.getSegmentId()).get();
+            program.setSegment(segment);
+        }
+
+        if (!errors.isEmpty()) {
+            throw new MultipleValidationException(errors);
+        }
+
+        return program;
+    }
+
+    public boolean verifyName(String name, Map<String, String> errors) {
+        if (name.length() < 2){
+            errors.put("name", "The name should have a minimun of 2 characters");
+            return false;
+        }
+        return true;
+    }
+
+}
