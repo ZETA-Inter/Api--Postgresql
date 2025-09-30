@@ -31,10 +31,6 @@ public class Worker {
     private LocalDate birthDate;
 
     @ManyToOne
-    @JoinColumn(name = "plan_id", nullable = false)
-    private Plan plan;
-
-    @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 

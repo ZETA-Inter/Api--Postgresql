@@ -1,8 +1,9 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.CompanyRequestDTO;
-import com.example.Api_Postgresql.dto.CompanyResponseDTO;
-import com.example.Api_Postgresql.dto.LoginRequestDTO;
+import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
+import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
+import com.example.Api_Postgresql.dto.request.LoginRequestDTO;
+import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.CompanyService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
@@ -64,6 +65,11 @@ public class CompanyController {
     public ResponseEntity<String> partiallyUpdateCompany(@PathVariable Integer id, @RequestBody @Validated({OnPatch.class, Default.class}) CompanyRequestDTO requestDTO) {
         companyService.partiallyUpdateCompany(id, requestDTO);
         return ResponseEntity.status(200).body("Company ID "+id+" partially updated sucessfully!");
+    }
+
+    @GetMapping("/ranking")
+    public ResponseEntity<List<WorkerResponseDTO>> getRanking(@RequestParam Integer companyId) {
+        return ResponseEntity.status(200).body(companyService.getWorkersRanking(companyId));
     }
 
 }

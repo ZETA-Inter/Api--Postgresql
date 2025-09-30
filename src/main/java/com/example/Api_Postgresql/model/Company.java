@@ -25,8 +25,4 @@ public class Company {
 
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "plan_id", nullable = false)
-    private Plan plan;
-
 }

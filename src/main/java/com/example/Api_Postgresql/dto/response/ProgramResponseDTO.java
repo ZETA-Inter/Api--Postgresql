@@ -1,4 +1,4 @@
-package com.example.Api_Postgresql.dto;
+package com.example.Api_Postgresql.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

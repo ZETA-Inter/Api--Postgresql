@@ -1,7 +1,7 @@
 package com.example.Api_Postgresql.mapper;
 
-import com.example.Api_Postgresql.dto.ResponsibleRequestDTO;
-import com.example.Api_Postgresql.dto.ResponsibleResponseDTO;
+import com.example.Api_Postgresql.dto.request.ResponsibleRequestDTO;
+import com.example.Api_Postgresql.dto.response.ResponsibleResponseDTO;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Responsible;
 import com.example.Api_Postgresql.repository.CompanyRepository;

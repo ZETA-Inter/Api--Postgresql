@@ -1,10 +1,8 @@
 package com.example.Api_Postgresql.validation;
 
-import com.example.Api_Postgresql.dto.CompanyRequestDTO;
-import com.example.Api_Postgresql.dto.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.exception.MultipleValidationException;
 import com.example.Api_Postgresql.model.Company;
-import com.example.Api_Postgresql.model.Plan;
 import com.example.Api_Postgresql.model.Worker;
 import com.example.Api_Postgresql.repository.CompanyRepository;
 import com.example.Api_Postgresql.repository.PlanRepository;
@@ -49,11 +47,6 @@ public class WorkerPatchValidation {
             if (verifyBirthDate(updates.getBirthDate(), errors)) {
                 worker.setBirthDate(updates.getBirthDate());
             }
-        }
-
-        if (updates.getPlanId() != null) {
-            Plan plan = planRepository.findById(updates.getPlanId()).get(); // talvez poderia retornar uma exceção de plano não encontrado
-            worker.setPlan(plan);
         }
 
         if (updates.getCompanyId() != null) {

@@ -1,14 +1,12 @@
 package com.example.Api_Postgresql.service;
 
-import com.example.Api_Postgresql.dto.ProgramRequestDTO;
-import com.example.Api_Postgresql.dto.ProgramResponseDTO;
+import com.example.Api_Postgresql.dto.request.ProgramRequestDTO;
+import com.example.Api_Postgresql.dto.response.ProgramResponseDTO;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.ProgramMapper;
-import com.example.Api_Postgresql.model.Image;
 import com.example.Api_Postgresql.model.Program;
 import com.example.Api_Postgresql.repository.ProgramRepository;
 import com.example.Api_Postgresql.validation.ProgramPatchValidation;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
