@@ -15,6 +15,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @RequiredArgsConstructor
 @Component
 public class PaymentMapper {
@@ -30,6 +32,7 @@ public class PaymentMapper {
         Plan plan = planRepository.findById(request.getPlanId())
                 .orElseThrow(() -> new EntityNotFoundException("Plan with id "+ request.getPlanId() +" not found"));
 
+        LocalDate paidDate = LocalDate.now();
 
         if (request.getUserType().equals("worker")) {
             Worker worker = workerRepository.findById(request.getUserId())
@@ -39,7 +42,7 @@ public class PaymentMapper {
                     worker,
                     plan,
                     plan.getValue(),
-                    request.getPaidDate(),
+                    paidDate,
                     request.getFrequency()
             );
         } else {
@@ -50,7 +53,7 @@ public class PaymentMapper {
                     company,
                     plan,
                     plan.getValue(),
-                    request.getPaidDate(),
+                    paidDate,
                     request.getFrequency()
             );
         }

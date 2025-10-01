@@ -25,9 +25,6 @@ public class PaymentRequest {
     @Min(value = 0, message = "'PlanId' can't be less than 1")
     private Integer planId;
 
-    @NotNull(message = "field 'paidDate' is null", groups = OnCreate.class)
-    private LocalDate paidDate;
-
     @NotNull(message = "field 'frequency' is null", groups = OnCreate.class)
     private String frequency;
 
