@@ -1,12 +1,11 @@
 package com.example.Api_Postgresql.validation;
 
-import com.example.Api_Postgresql.dto.ProgramRequestDTO;
+import com.example.Api_Postgresql.dto.request.ProgramRequestDTO;
 import com.example.Api_Postgresql.exception.MultipleValidationException;
 import com.example.Api_Postgresql.model.Program;
 import com.example.Api_Postgresql.model.Segment;
 import com.example.Api_Postgresql.repository.SegmentRepository;
 import io.micrometer.common.util.StringUtils;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

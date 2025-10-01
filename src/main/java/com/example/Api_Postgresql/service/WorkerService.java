@@ -1,7 +1,7 @@
 package com.example.Api_Postgresql.service;
 
-import com.example.Api_Postgresql.dto.WorkerRequestDTO;
-import com.example.Api_Postgresql.dto.WorkerResponseDTO;
+import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.exception.BadCredentialsException;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.WorkerMapper;

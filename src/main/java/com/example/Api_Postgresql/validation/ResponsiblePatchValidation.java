@@ -1,10 +1,8 @@
 package com.example.Api_Postgresql.validation;
 
-import com.example.Api_Postgresql.dto.CompanyRequestDTO;
-import com.example.Api_Postgresql.dto.ResponsibleRequestDTO;
+import com.example.Api_Postgresql.dto.request.ResponsibleRequestDTO;
 import com.example.Api_Postgresql.exception.MultipleValidationException;
 import com.example.Api_Postgresql.model.Company;
-import com.example.Api_Postgresql.model.Plan;
 import com.example.Api_Postgresql.model.Responsible;
 import com.example.Api_Postgresql.repository.CompanyRepository;
 import com.example.Api_Postgresql.repository.ResponsibleRepository;

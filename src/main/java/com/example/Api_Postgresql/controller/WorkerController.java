@@ -1,6 +1,8 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.*;
+import com.example.Api_Postgresql.dto.request.LoginRequestDTO;
+import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;

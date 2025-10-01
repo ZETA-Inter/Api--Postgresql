@@ -1,15 +1,12 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.ProgramRequestDTO;
-import com.example.Api_Postgresql.dto.ProgramResponseDTO;
-import com.example.Api_Postgresql.dto.ResponsibleRequestDTO;
-import com.example.Api_Postgresql.model.Program;
+import com.example.Api_Postgresql.dto.request.ProgramRequestDTO;
+import com.example.Api_Postgresql.dto.response.ProgramResponseDTO;
 import com.example.Api_Postgresql.service.ProgramService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

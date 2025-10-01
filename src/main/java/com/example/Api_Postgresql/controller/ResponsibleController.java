@@ -1,7 +1,7 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.ResponsibleRequestDTO;
-import com.example.Api_Postgresql.dto.ResponsibleResponseDTO;
+import com.example.Api_Postgresql.dto.request.ResponsibleRequestDTO;
+import com.example.Api_Postgresql.dto.response.ResponsibleResponseDTO;
 import com.example.Api_Postgresql.service.ResponsibleService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;

@@ -1,7 +1,7 @@
 package com.example.Api_Postgresql.mapper;
 
-import com.example.Api_Postgresql.dto.WorkerRequestDTO;
-import com.example.Api_Postgresql.dto.WorkerResponseDTO;
+import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Plan;
 import com.example.Api_Postgresql.model.Program;
@@ -41,7 +41,6 @@ public class WorkerMapper {
         worker.setEmail(request.getEmail());
         worker.setPassword(request.getPassword());
         worker.setBirthDate(request.getBirthDate());
-        worker.setPlan(plan);
         worker.setCompany(company);
         worker.setProgram(program);
         return worker;
@@ -52,7 +51,6 @@ public class WorkerMapper {
         responseDTO.setId(worker.getId());
         responseDTO.setName(worker.getName());
         responseDTO.setEmail(worker.getEmail());
-        responseDTO.setPlanName(worker.getPlan().getName());
         responseDTO.setCompanyName(worker.getCompany().getName());
         return responseDTO;
     }

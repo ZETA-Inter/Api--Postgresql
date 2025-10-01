@@ -1,4 +1,4 @@
-package com.example.Api_Postgresql.dto;
+package com.example.Api_Postgresql.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,16 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponsibleResponseDTO {
+public class WorkerResponseDTO {
+
     private Integer id;
+
     private String name;
+
     private String email;
-    private String company_name;
+
+    private String planName;
+
+    private String companyName;
+
 }

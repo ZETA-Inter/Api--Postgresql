@@ -1,6 +1,5 @@
-package com.example.Api_Postgresql.dto;
+package com.example.Api_Postgresql.dto.request;
 
-import com.example.Api_Postgresql.model.Segment;
 import com.example.Api_Postgresql.validation.OnCreate;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
