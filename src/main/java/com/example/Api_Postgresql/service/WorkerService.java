@@ -30,7 +30,14 @@ public class WorkerService {
     public List<WorkerResponseDTO> list() {
         return workerRepository.findAll()
                 .stream()
-                .map(w -> workerMapper.convertWorkerToWorkerResponse(w))
+                .map(workerMapper::convertWorkerToWorkerResponse)
+                .toList();
+    }
+
+    public List<WorkerResponseDTO> listWorkersByCompanyId(Integer companyId) {
+        return workerRepository.findAllByCompany_Id(companyId)
+                .stream()
+                .map(workerMapper::convertWorkerToWorkerResponse)
                 .toList();
     }
 

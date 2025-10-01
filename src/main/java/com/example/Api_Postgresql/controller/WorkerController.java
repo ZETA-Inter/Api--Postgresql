@@ -27,13 +27,18 @@ public class WorkerController {
         return ResponseEntity.status(200).body(workerService.list());
     }
 
-    @GetMapping("/find-id/{id}")
-    public ResponseEntity<WorkerResponseDTO> findCompanyById(@PathVariable Integer id) {
+    @GetMapping("/listByCompanyId/{id}")
+    public ResponseEntity<List<WorkerResponseDTO>> listarByCompanyId(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(workerService.listWorkersByCompanyId(id));
+    }
+
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<WorkerResponseDTO> findWorkerById(@PathVariable Integer id) {
         return ResponseEntity.status(200).body(workerService.findById(id));
     }
 
-    @GetMapping("/find-email/{email}")
-    public ResponseEntity<WorkerResponseDTO> findCompanyByEmail(@PathVariable String email) {
+    @GetMapping("/findEmail/{email}")
+    public ResponseEntity<WorkerResponseDTO> findWorkerByEmail(@PathVariable String email) {
         return ResponseEntity.status(200).body(workerService.findByEmail(email));
     }
 
@@ -43,24 +48,24 @@ public class WorkerController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<WorkerResponseDTO> createCompany(@RequestBody @Validated({OnCreate.class, Default.class}) WorkerRequestDTO requestDTO) {
+    public ResponseEntity<WorkerResponseDTO> createWorker(@RequestBody @Validated({OnCreate.class, Default.class}) WorkerRequestDTO requestDTO) {
         return ResponseEntity.status(201).body(workerService.createWorker(requestDTO));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCompany(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteWorker(@PathVariable Integer id) {
         workerService.deleteWorker(id);
         return ResponseEntity.status(200).body("Worker ID "+id+" sucessfully deleted!");
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateCompany(@PathVariable Integer id, @Validated({OnCreate.class, Default.class}) @RequestBody WorkerRequestDTO requestDTO) {
+    public ResponseEntity<String> updateWorker(@PathVariable Integer id, @Validated({OnCreate.class, Default.class}) @RequestBody WorkerRequestDTO requestDTO) {
         workerService.updateWorker(id, requestDTO);
         return ResponseEntity.status(200).body("Worker ID "+id+" sucessfully updated!");
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<String> partiallyUpdateCompany(@PathVariable Integer id, @RequestBody @Validated({OnPatch.class, Default.class}) WorkerRequestDTO requestDTO) {
+    public ResponseEntity<String> partiallyUpdateWorker(@PathVariable Integer id, @RequestBody @Validated({OnPatch.class, Default.class}) WorkerRequestDTO requestDTO) {
         workerService.partiallyUpdateWorker(id, requestDTO);
         return ResponseEntity.status(200).body("Worker ID "+id+" partially updated sucessfully!");
     }
