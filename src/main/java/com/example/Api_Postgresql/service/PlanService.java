@@ -33,11 +33,11 @@ public class PlanService {
         }
 
         listPlans.forEach(plan -> {
-            List<Functionalities> functionalities = planRepository.listAllFunctionalitiesByPlanId(plan.getId()).stream()
+            List<Functionalities> functionalities = planRepository.getFunctionalitiesByPlan(plan.getId()).stream()
                     .map(functionalatitiesMapper::getFunctionalities)
                     .toList();
 
-            System.out.println(functionalities.toString());
+            System.out.println(functionalities);
 
             PlanResponse planFunctionalities = planMapper.createPlanFunctionalitiesResponse(plan, functionalities);
             planResponse.add(planFunctionalities);

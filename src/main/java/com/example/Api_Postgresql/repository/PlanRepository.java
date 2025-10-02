@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PlanRepository extends JpaRepository<Plan, Integer> {
 
-    @Query(value = "SELECT fn_functionalities_by_plan(:planId)", nativeQuery = true)
-    List<PlanFunctionalitiesResponse> listAllFunctionalitiesByPlanId(@Param("planId") Integer planId);
+    @Query(value = "SELECT * FROM fn_functionalities_by_plan(:planId)", nativeQuery = true)
+    List<PlanFunctionalitiesResponse> getFunctionalitiesByPlan(@Param("planId") Integer planId);
 
 }

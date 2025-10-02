@@ -3,6 +3,7 @@ package com.example.Api_Postgresql.controller;
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.dto.request.LoginRequestDTO;
+import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.CompanyService;
 import com.example.Api_Postgresql.validation.OnCreate;
@@ -68,7 +69,7 @@ public class CompanyController {
     }
 
     @GetMapping("/ranking")
-    public ResponseEntity<List<WorkerResponseDTO>> getRanking(@RequestParam Integer companyId) {
+    public ResponseEntity<List<WorkerRankingResponse>> getRanking(@RequestParam Integer companyId) {
         return ResponseEntity.status(200).body(companyService.getWorkersRanking(companyId));
     }
 

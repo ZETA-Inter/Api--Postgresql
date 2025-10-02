@@ -2,13 +2,12 @@ package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
-import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
+import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.exception.BadCredentialsException;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.CompanyMapper;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
 import com.example.Api_Postgresql.model.Company;
-import com.example.Api_Postgresql.model.Worker;
 import com.example.Api_Postgresql.repository.CompanyRepository;
 import com.example.Api_Postgresql.validation.CompanyPatchValidation;
 import jakarta.persistence.EntityNotFoundException;
@@ -42,16 +41,14 @@ public class CompanyService {
         return companiesResponseDTO;
     }
 
-    public List<WorkerResponseDTO> getWorkersRanking(Integer companyId) {
-        List<Worker> workersRanking = companyRepository.getWorkersRanking(companyId);
+    public List<WorkerRankingResponse> getWorkersRanking(Integer companyId) {
+        List<WorkerRankingResponse> workersRanking = companyRepository.getWorkersRanking(companyId);
 
         if (workersRanking == null) {
             throw new EntityNotFoundException("Workers not found");
         }
 
-        return workersRanking.stream()
-                .map(workerMapper::convertWorkerToWorkerResponse)
-                .toList();
+        return workersRanking;
     }
 
     public CompanyResponseDTO findById(Integer id) {
