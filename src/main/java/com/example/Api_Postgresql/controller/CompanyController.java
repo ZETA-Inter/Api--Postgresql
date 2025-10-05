@@ -4,7 +4,6 @@ import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.dto.request.LoginRequestDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
-import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.CompanyService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
@@ -71,6 +70,11 @@ public class CompanyController {
     @GetMapping("/ranking")
     public ResponseEntity<List<WorkerRankingResponse>> getRanking(@RequestParam Integer companyId) {
         return ResponseEntity.status(200).body(companyService.getWorkersRanking(companyId));
+    }
+
+    @PostMapping("/assign_goal/{goalId}")
+    public ResponseEntity<String> assignGoalToWorker(@RequestBody List<Integer> workerIds, @PathVariable("goalId") Integer goalId) {
+        return ResponseEntity.status(200).body(companyService.assignGoal(workerIds, goalId));
     }
 
 }

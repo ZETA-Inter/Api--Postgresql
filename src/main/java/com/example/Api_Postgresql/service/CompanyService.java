@@ -13,6 +13,9 @@ import com.example.Api_Postgresql.validation.CompanyPatchValidation;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.sql.DataSource;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,8 @@ public class CompanyService {
     private final CompanyPatchValidation validation;
 
     private final ImageService imageService;
+
+    private final DataSource dataSource;
 
     public List<CompanyResponseDTO> list() {
         List<Company> companies = companyRepository.findAll();
@@ -117,6 +122,26 @@ public class CompanyService {
         } else {
             throw new EntityNotFoundException("Company with ID '"+id+"' not found!");
         }
+    }
+
+    public String assignGoal(List<Integer> workerIds, Integer goalId) {
+        if (workerIds == null || workerIds.isEmpty()) {
+            throw new IllegalArgumentException("Lista de workers não pode estar vazia");
+        }
+
+        String idsArray = workerIds.toString().replace("[", "{").replace("]", "}");
+        String sql = String.format("CALL sp_assign_goal(%d, '%s')", goalId, idsArray);
+
+        try (Connection conn = dataSource.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.execute(sql);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atribuir goal aos workers: " + e.getMessage(), e);
+        }
+
+        return "Workers successfully assigned";
     }
 
 }
