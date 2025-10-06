@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.WorkerProgressResponse;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.exception.BadCredentialsException;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
@@ -107,6 +108,14 @@ public class WorkerService {
         } else {
             throw new EntityNotFoundException("Worker with ID '"+id+"' not found!");
         }
+    }
+
+    public WorkerProgressResponse getMostRecentProgress(Integer workerId) {
+        return workerRepository.getMostRecentProgress(workerId);
+    }
+
+    public WorkerProgressResponse getProgramProgress(Integer workerId, Integer programId) {
+        return workerRepository.getProgramProgress(workerId, programId);
     }
 
 }

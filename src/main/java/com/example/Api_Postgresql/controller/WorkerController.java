@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.LoginRequestDTO;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.WorkerProgressResponse;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerService;
 import com.example.Api_Postgresql.validation.OnCreate;
@@ -70,4 +71,13 @@ public class WorkerController {
         return ResponseEntity.status(200).body("Worker ID "+id+" partially updated sucessfully!");
     }
 
+    @GetMapping("/recent_progress/{id}")
+    public ResponseEntity<WorkerProgressResponse> getRecentProgress(@PathVariable("id") Integer workerId) {
+        return ResponseEntity.status(200).body(workerService.getMostRecentProgress(workerId));
+    }
+
+    @GetMapping("/program_progress/{id}")
+    public ResponseEntity<WorkerProgressResponse> getProgramProgress(@PathVariable("id") Integer workerId, @RequestParam Integer programId) {
+        return ResponseEntity.status(200).body(workerService.getProgramProgress(workerId, programId));
+    }
 }
