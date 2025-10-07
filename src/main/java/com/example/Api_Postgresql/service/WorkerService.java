@@ -57,26 +57,19 @@ public class WorkerService {
         return workerMapper.convertWorkerToWorkerResponse(exists);
     }
 
-    public WorkerResponseDTO login(String email, String password) {
-        Worker exists = workerRepository.findByEmail(email);
-        if (exists == null) {
-            throw new EntityNotFoundException("Email is incorrect!");
-        }
-
-        if (!password.equals(exists.getPassword())) {
-            throw new BadCredentialsException("Password is incorrect!");
-        }
-        return workerMapper.convertWorkerToWorkerResponse(exists);
-    }
-
     public WorkerResponseDTO createWorker(WorkerRequestDTO request) {
         if (workerRepository.findByEmail(request.getEmail()) != null) {
             throw new EntityAlreadyExists("Company already exist!");
         }
+
         Worker worker = workerMapper.convertWorkerRequestToWorker(request);
         workerRepository.save(worker);
 
-        imageService.createImage("workers", request.getImageUrl(), worker.getId());
+        if (request.getImageUrl() != null) {
+            imageService.createImage("workers", request.getImageUrl(), worker.getId());
+        }
+
+
 
         return workerMapper.convertWorkerToWorkerResponse(worker);
     }

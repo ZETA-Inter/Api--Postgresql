@@ -17,7 +17,7 @@ public class CompanyMapper {
         Company company = new Company();
         company.setName(request.getName());
         company.setEmail(request.getEmail());
-        company.setPassword(request.getPassword());
+        company.setCnpj(request.getCnpj());
         return company;
     }
 
@@ -26,6 +26,7 @@ public class CompanyMapper {
         responseDTO.setId(company.getId());
         responseDTO.setName(company.getName());
         responseDTO.setEmail(company.getEmail());
+        responseDTO.setCnpj(company.getCnpj());
         return responseDTO;
     }
 

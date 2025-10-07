@@ -14,6 +14,7 @@ public class CompanyResponseDTO {
     private Integer id;
     private String name;
     private String email;
+    private  String cnpj;
     private String planName;
 
 }

@@ -28,8 +28,6 @@ public class CompanyService {
 
     private final CompanyMapper companyMapper;
 
-    private final WorkerMapper workerMapper;
-
     private final CompanyPatchValidation validation;
 
     private final ImageService imageService;
@@ -72,26 +70,19 @@ public class CompanyService {
         return companyMapper.convertCompanyToCompanyResponseDTO(exists);
     }
 
-    public CompanyResponseDTO login(String email, String password) {
-        Company exists = companyRepository.findByEmail(email);
-        if (exists == null) {
-            throw new EntityNotFoundException("Email is incorrect!");
-        }
-
-        if (!password.equals(exists.getPassword())) {
-            throw new BadCredentialsException("Password is incorrect!");
-        }
-        return companyMapper.convertCompanyToCompanyResponseDTO(exists);
-    }
-
     public CompanyResponseDTO createCompany(CompanyRequestDTO request) {
         if (companyRepository.findByEmail(request.getEmail()) != null) {
             throw new EntityAlreadyExists("Company already exist!");
         }
+
         Company company = companyMapper.convertCompanyRequestToCompany(request);
         companyRepository.save(company);
 
-        imageService.createImage("companies", request.getImageUrl(), company.getId());
+        if (request.getImageUrl() != null) {
+            imageService.createImage("companies", request.getImageUrl(), company.getId());
+        }
+
+
 
         return companyMapper.convertCompanyToCompanyResponseDTO(company);
     }

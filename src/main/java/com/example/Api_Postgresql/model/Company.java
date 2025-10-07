@@ -23,6 +23,6 @@ public class Company {
     @Column(unique = true)
     private String email;
 
-    private String password;
+    private String cnpj;
 
 }

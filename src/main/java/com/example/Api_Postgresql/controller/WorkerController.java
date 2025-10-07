@@ -1,6 +1,5 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.request.LoginRequestDTO;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerService;
@@ -40,11 +39,6 @@ public class WorkerController {
     @GetMapping("/findEmail/{email}")
     public ResponseEntity<WorkerResponseDTO> findWorkerByEmail(@PathVariable String email) {
         return ResponseEntity.status(200).body(workerService.findByEmail(email));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<WorkerResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
-        return ResponseEntity.status(200).body(workerService.login(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 
     @PostMapping("/create")

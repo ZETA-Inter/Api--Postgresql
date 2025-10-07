@@ -22,12 +22,11 @@ public class WorkerRequestDTO {
     @NotNull(message = "field 'email' is null", groups = OnCreate.class)
     private String email;
 
-    @NotNull(message = "field 'password' is null", groups = OnCreate.class)
-    private String password;
+    @NotNull(message = "field 'cpf' is null", groups = OnCreate.class)
+    private String cpf;
 
     private LocalDate birthDate;
 
-    @NotNull(message = "field 'imageUrl' is null", groups = OnCreate.class)
     private String imageUrl;
 
     @Min(value = 0, message = "'PlanId' can't be less than 1")
@@ -35,10 +34,5 @@ public class WorkerRequestDTO {
 
     @Min(value = 0, message = "'CompanyId' can't be less than 1")
     private Integer companyId;
-
-    @Min(value = 0, message = "'ProgramId' can't be less than 1")
-    private Integer programId;
-
-
 
 }
