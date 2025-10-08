@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
+import com.example.Api_Postgresql.dto.request.PaymentRequest;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.exception.BadCredentialsException;
@@ -33,6 +34,8 @@ public class CompanyService {
     private final ImageService imageService;
 
     private final DataSource dataSource;
+
+    private final PaymentService paymentService;
 
     public List<CompanyResponseDTO> list() {
         List<Company> companies = companyRepository.findAll();
@@ -82,21 +85,20 @@ public class CompanyService {
             imageService.createImage("companies", request.getImageUrl(), company.getId());
         }
 
-
+        paymentService.createPayment(new PaymentRequest("company", company.getId(), request.getPlanId(), request.getPlanFrequency()));
 
         return companyMapper.convertCompanyToCompanyResponseDTO(company);
     }
 
     public void deleteCompany(Integer id) {
-        Company company = companyRepository.findById(id).get();
-        if (company == null) {
-            throw new EntityNotFoundException("Company with ID '"+id+"' don't exist!");
-        }
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Company with id " + id + "not found!"));
         companyRepository.delete(company);
     }
 
     public void updateCompany(Integer id, CompanyRequestDTO request) {
-        Company companyExists = companyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Company with ID \"" + id + "\" not found"));
+        Company companyExists = companyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Company with ID \"" + id + "\" not found"));
         Company company = companyMapper.convertCompanyRequestToCompany(request);
         company.setId(id);
         companyRepository.save(company);

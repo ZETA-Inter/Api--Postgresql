@@ -20,12 +20,11 @@ public class CompanyRequestDTO {
     @NotNull(message = "field 'email' is null", groups = OnCreate.class)
     private String email;
 
-    @NotNull(message = "field 'cnpj' is null", groups = OnCreate.class)
-    private String cnpj;
-
     private String imageUrl;
 
     @Min(value = 0, message = "'PlanId' can't be less than 1")
     private Integer planId;
+
+    private String planFrequency;
 
 }

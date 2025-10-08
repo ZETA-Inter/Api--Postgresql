@@ -1,8 +1,8 @@
 package com.example.Api_Postgresql.service;
 
+import com.example.Api_Postgresql.dto.request.PaymentRequest;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
-import com.example.Api_Postgresql.exception.BadCredentialsException;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
 import com.example.Api_Postgresql.model.Worker;
@@ -26,6 +26,8 @@ public class WorkerService {
     private final WorkerPatchValidation validation;
 
     private final ImageService imageService;
+
+    private final PaymentService paymentService;
 
     public List<WorkerResponseDTO> list() {
         return workerRepository.findAll()
@@ -69,7 +71,7 @@ public class WorkerService {
             imageService.createImage("workers", request.getImageUrl(), worker.getId());
         }
 
-
+        paymentService.createPayment(new PaymentRequest("worker", worker.getId(), request.getPlanId(), request.getPlanFrequency()));
 
         return workerMapper.convertWorkerToWorkerResponse(worker);
     }

@@ -1,6 +1,8 @@
 package com.example.Api_Postgresql.dto.request;
 
 import com.example.Api_Postgresql.validation.OnCreate;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,15 +24,15 @@ public class WorkerRequestDTO {
     @NotNull(message = "field 'email' is null", groups = OnCreate.class)
     private String email;
 
-    @NotNull(message = "field 'cpf' is null", groups = OnCreate.class)
-    private String cpf;
-
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
     private String imageUrl;
 
     @Min(value = 0, message = "'PlanId' can't be less than 1")
     private Integer planId;
+
+    private String planFrequency;
 
     @Min(value = 0, message = "'CompanyId' can't be less than 1")
     private Integer companyId;

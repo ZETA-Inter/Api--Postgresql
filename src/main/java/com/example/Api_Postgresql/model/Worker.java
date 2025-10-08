@@ -27,8 +27,6 @@ public class Worker {
     @Column(unique = true)
     private String email;
 
-    private String cpf;
-
     @Column(name = "birth_date")
     private LocalDate birthDate;
 

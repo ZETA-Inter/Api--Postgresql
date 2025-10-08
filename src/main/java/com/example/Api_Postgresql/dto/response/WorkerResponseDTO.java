@@ -17,8 +17,6 @@ public class WorkerResponseDTO {
 
     private String email;
 
-    private String cpf;
-
     private String planName;
 
     private String companyName;

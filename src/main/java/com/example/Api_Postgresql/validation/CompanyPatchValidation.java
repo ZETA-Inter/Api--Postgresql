@@ -29,12 +29,6 @@ public class CompanyPatchValidation {
             }
         }
 
-        if (StringUtils.isNotEmpty(updates.getPassword())) {
-            if (verifyPassword(updates.getPassword(), errors)) {
-                company.setPassword(updates.getPassword());
-            }
-        }
-
         if (!errors.isEmpty()) {
             throw new MultipleValidationException(errors);
         }
