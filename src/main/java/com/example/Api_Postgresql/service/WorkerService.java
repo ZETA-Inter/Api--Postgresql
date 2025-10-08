@@ -1,8 +1,8 @@
 package com.example.Api_Postgresql.service;
 
+import com.example.Api_Postgresql.dto.request.PaymentRequest;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
-import com.example.Api_Postgresql.exception.BadCredentialsException;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
 import com.example.Api_Postgresql.model.Worker;
@@ -26,6 +26,8 @@ public class WorkerService {
     private final WorkerPatchValidation validation;
 
     private final ImageService imageService;
+
+    private final PaymentService paymentService;
 
     public List<WorkerResponseDTO> list() {
         return workerRepository.findAll()
@@ -57,26 +59,19 @@ public class WorkerService {
         return workerMapper.convertWorkerToWorkerResponse(exists);
     }
 
-    public WorkerResponseDTO login(String email, String password) {
-        Worker exists = workerRepository.findByEmail(email);
-        if (exists == null) {
-            throw new EntityNotFoundException("Email is incorrect!");
-        }
-
-        if (!password.equals(exists.getPassword())) {
-            throw new BadCredentialsException("Password is incorrect!");
-        }
-        return workerMapper.convertWorkerToWorkerResponse(exists);
-    }
-
     public WorkerResponseDTO createWorker(WorkerRequestDTO request) {
         if (workerRepository.findByEmail(request.getEmail()) != null) {
             throw new EntityAlreadyExists("Company already exist!");
         }
+
         Worker worker = workerMapper.convertWorkerRequestToWorker(request);
         workerRepository.save(worker);
 
-        imageService.createImage("workers", request.getImageUrl(), worker.getId());
+        if (request.getImageUrl() != null) {
+            imageService.createImage("workers", request.getImageUrl(), worker.getId());
+        }
+
+        paymentService.createPayment(new PaymentRequest("worker", worker.getId(), request.getPlanInfo()));
 
         return workerMapper.convertWorkerToWorkerResponse(worker);
     }

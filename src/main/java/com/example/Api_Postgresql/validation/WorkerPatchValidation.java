@@ -37,12 +37,6 @@ public class WorkerPatchValidation {
             }
         }
 
-        if (StringUtils.isNotEmpty(updates.getPassword())) {
-            if (verifyPassword(updates.getPassword(), errors)) {
-                worker.setPassword(updates.getPassword());
-            }
-        }
-
         if (updates.getBirthDate() != null) {
             if (verifyBirthDate(updates.getBirthDate(), errors)) {
                 worker.setBirthDate(updates.getBirthDate());

@@ -19,8 +19,6 @@ public class PaymentResponse {
 
     private LocalDate paidDate;
 
-    private String frequency;
-
     @Getter
     @Setter
     @AllArgsConstructor
@@ -41,6 +39,7 @@ public class PaymentResponse {
         private Integer id;
         private String name;
         private Double amount;
+        private String frequency;
     }
 
 }

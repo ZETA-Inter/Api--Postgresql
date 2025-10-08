@@ -27,5 +27,4 @@ public class Goal {
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
-
 }

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,17 +27,10 @@ public class Worker {
     @Column(unique = true)
     private String email;
 
-    private String password;
-
-    @Column(name = "birth_date")
+    @Column(name = "birthdate")
     private LocalDate birthDate;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
-
-    @ManyToOne
-    @JoinColumn(name = "program_id", nullable = false)
-    private Program program;
-
 }

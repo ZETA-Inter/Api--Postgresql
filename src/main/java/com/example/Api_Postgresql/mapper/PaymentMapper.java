@@ -29,8 +29,8 @@ public class PaymentMapper {
 
     public Payment toPayment(PaymentRequest request) {
 
-        Plan plan = planRepository.findById(request.getPlanId())
-                .orElseThrow(() -> new EntityNotFoundException("Plan with id "+ request.getPlanId() +" not found"));
+        Plan plan = planRepository.findById(request.getPlanInfo().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Plan with id "+ request.getPlanInfo().getId() +" not found"));
 
         LocalDate paidDate = LocalDate.now();
 
@@ -41,9 +41,9 @@ public class PaymentMapper {
             return new Payment(
                     worker,
                     plan,
-                    plan.getValue(),
+                    request.getPlanInfo().getAmount(),
                     paidDate,
-                    request.getFrequency()
+                    request.getPlanInfo().getFrequency()
             );
         } else {
             Company company = companyRepository.findById(request.getUserId())
@@ -52,9 +52,9 @@ public class PaymentMapper {
             return new Payment(
                     company,
                     plan,
-                    plan.getValue(),
+                    request.getPlanInfo().getAmount(),
                     paidDate,
-                    request.getFrequency()
+                    request.getPlanInfo().getFrequency()
             );
         }
     }
@@ -74,15 +74,15 @@ public class PaymentMapper {
         PlanInfo planInfo = new PlanInfo(
                 payment.getPlan().getId(),
                 payment.getPlan().getName(),
-                payment.getAmount()
+                payment.getAmount(),
+                payment.getFrequency()
         );
 
          return new PaymentResponse(
                 payment.getId(),
                 userInfo,
                 planInfo,
-                payment.getPaidDate(),
-                payment.getFrequency()
+                payment.getPaidDate()
         );
     }
 

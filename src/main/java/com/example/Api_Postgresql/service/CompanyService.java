@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
+import com.example.Api_Postgresql.dto.request.PaymentRequest;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.exception.BadCredentialsException;
@@ -13,6 +14,9 @@ import com.example.Api_Postgresql.validation.CompanyPatchValidation;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.sql.DataSource;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +29,13 @@ public class CompanyService {
 
     private final CompanyMapper companyMapper;
 
-    private final WorkerMapper workerMapper;
-
     private final CompanyPatchValidation validation;
 
     private final ImageService imageService;
+
+    private final DataSource dataSource;
+
+    private final PaymentService paymentService;
 
     public List<CompanyResponseDTO> list() {
         List<Company> companies = companyRepository.findAll();
@@ -67,40 +73,32 @@ public class CompanyService {
         return companyMapper.convertCompanyToCompanyResponseDTO(exists);
     }
 
-    public CompanyResponseDTO login(String email, String password) {
-        Company exists = companyRepository.findByEmail(email);
-        if (exists == null) {
-            throw new EntityNotFoundException("Email is incorrect!");
-        }
-
-        if (!password.equals(exists.getPassword())) {
-            throw new BadCredentialsException("Password is incorrect!");
-        }
-        return companyMapper.convertCompanyToCompanyResponseDTO(exists);
-    }
-
     public CompanyResponseDTO createCompany(CompanyRequestDTO request) {
         if (companyRepository.findByEmail(request.getEmail()) != null) {
             throw new EntityAlreadyExists("Company already exist!");
         }
+
         Company company = companyMapper.convertCompanyRequestToCompany(request);
         companyRepository.save(company);
 
-        imageService.createImage("companies", request.getImageUrl(), company.getId());
+        if (request.getImageUrl() != null) {
+            imageService.createImage("companies", request.getImageUrl(), company.getId());
+        }
+
+        paymentService.createPayment(new PaymentRequest("company", company.getId(), request.getPlanInfo()));
 
         return companyMapper.convertCompanyToCompanyResponseDTO(company);
     }
 
     public void deleteCompany(Integer id) {
-        Company company = companyRepository.findById(id).get();
-        if (company == null) {
-            throw new EntityNotFoundException("Company with ID '"+id+"' don't exist!");
-        }
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Company with id " + id + "not found!"));
         companyRepository.delete(company);
     }
 
     public void updateCompany(Integer id, CompanyRequestDTO request) {
-        Company companyExists = companyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Company with ID \"" + id + "\" not found"));
+        Company companyExists = companyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Company with ID \"" + id + "\" not found"));
         Company company = companyMapper.convertCompanyRequestToCompany(request);
         company.setId(id);
         companyRepository.save(company);
@@ -117,6 +115,26 @@ public class CompanyService {
         } else {
             throw new EntityNotFoundException("Company with ID '"+id+"' not found!");
         }
+    }
+
+    public String assignGoal(List<Integer> workerIds, Integer goalId) {
+        if (workerIds == null || workerIds.isEmpty()) {
+            throw new IllegalArgumentException("Lista de workers não pode estar vazia");
+        }
+
+        String idsArray = workerIds.toString().replace("[", "{").replace("]", "}");
+        String sql = String.format("CALL sp_assign_goal(%d, '%s')", goalId, idsArray);
+
+        try (Connection conn = dataSource.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            stmt.execute(sql);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atribuir goal aos workers: " + e.getMessage(), e);
+        }
+
+        return "Workers successfully assigned";
     }
 
 }
