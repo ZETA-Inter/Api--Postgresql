@@ -27,14 +27,10 @@ public class Worker {
     @Column(unique = true)
     private String email;
 
-    @Column(name = "birth_date")
+    @Column(name = "birthdate")
     private LocalDate birthDate;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
-
-    @ManyToOne
-    @JoinColumn(name = "program_id", nullable = false)
-    private Program program;
 }

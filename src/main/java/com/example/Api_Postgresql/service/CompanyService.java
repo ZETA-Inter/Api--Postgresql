@@ -85,7 +85,7 @@ public class CompanyService {
             imageService.createImage("companies", request.getImageUrl(), company.getId());
         }
 
-        paymentService.createPayment(new PaymentRequest("company", company.getId(), request.getPlanId(), request.getPlanFrequency()));
+        paymentService.createPayment(new PaymentRequest("company", company.getId(), request.getPlanInfo()));
 
         return companyMapper.convertCompanyToCompanyResponseDTO(company);
     }

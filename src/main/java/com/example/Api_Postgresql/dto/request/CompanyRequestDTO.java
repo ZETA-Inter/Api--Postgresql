@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.dto.request;
 
 import com.example.Api_Postgresql.validation.OnCreate;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,9 +23,8 @@ public class CompanyRequestDTO {
 
     private String imageUrl;
 
-    @Min(value = 0, message = "'PlanId' can't be less than 1")
-    private Integer planId;
-
-    private String planFrequency;
+    @JsonProperty("plan_info")
+    @NotNull(message = "field 'plan_info' is null", groups = OnCreate.class)
+    private PlanInfoRequestDTO planInfo;
 
 }

@@ -22,10 +22,5 @@ public class PaymentRequest {
     private Integer userId;
 
     @NotNull(message = "field 'planoId' is null", groups = OnCreate.class)
-    @Min(value = 0, message = "'PlanId' can't be less than 1")
-    private Integer planId;
-
-    @NotNull(message = "field 'frequency' is null", groups = OnCreate.class)
-    private String frequency;
-
+    private PlanInfoRequestDTO planInfo;
 }

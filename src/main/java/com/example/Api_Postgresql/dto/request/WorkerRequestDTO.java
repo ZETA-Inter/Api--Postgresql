@@ -29,12 +29,13 @@ public class WorkerRequestDTO {
 
     private String imageUrl;
 
-    @Min(value = 0, message = "'PlanId' can't be less than 1")
-    private Integer planId;
-
-    private String planFrequency;
+    @JsonProperty("plan_info")
+    @NotNull(message = "field 'plan_info' is null", groups = OnCreate.class)
+    private PlanInfoRequestDTO planInfo;
 
     @Min(value = 0, message = "'CompanyId' can't be less than 1")
     private Integer companyId;
+
+
 
 }

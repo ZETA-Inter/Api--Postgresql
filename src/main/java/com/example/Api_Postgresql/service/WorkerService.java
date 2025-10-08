@@ -71,7 +71,7 @@ public class WorkerService {
             imageService.createImage("workers", request.getImageUrl(), worker.getId());
         }
 
-        paymentService.createPayment(new PaymentRequest("worker", worker.getId(), request.getPlanId(), request.getPlanFrequency()));
+        paymentService.createPayment(new PaymentRequest("worker", worker.getId(), request.getPlanInfo()));
 
         return workerMapper.convertWorkerToWorkerResponse(worker);
     }

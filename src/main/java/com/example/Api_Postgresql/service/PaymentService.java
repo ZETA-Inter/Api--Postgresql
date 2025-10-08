@@ -4,9 +4,7 @@ import com.example.Api_Postgresql.dto.request.PaymentRequest;
 import com.example.Api_Postgresql.dto.response.PaymentResponse;
 import com.example.Api_Postgresql.mapper.PaymentMapper;
 import com.example.Api_Postgresql.model.Payment;
-import com.example.Api_Postgresql.model.Plan;
 import com.example.Api_Postgresql.repository.PaymentRepository;
-import com.example.Api_Postgresql.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
