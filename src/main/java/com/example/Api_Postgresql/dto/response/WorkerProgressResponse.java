@@ -1,7 +1,7 @@
 package com.example.Api_Postgresql.dto.response;
 
 public interface WorkerProgressResponse {
-    Integer getWorkerId();
-    Integer getPoints();
-    Double getProgressPercentage();
+    Integer getWorker();
+    Integer getWorkerPoints();
+    Double getWorkerProgress();
 }
