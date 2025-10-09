@@ -17,8 +17,10 @@ public class WorkerMapper {
 
     public Worker convertWorkerRequestToWorker(WorkerRequestDTO request) {
 
-        Company company = companyRepository.findById(request.getCompanyId())
-                .orElseThrow(() -> new EntityNotFoundException("Company not found"));
+        Company company = null;
+        if (request.getCompanyId() != null) {
+            company = companyRepository.findById(request.getCompanyId()).get();
+        }
 
         Worker worker = new Worker();
         worker.setName(request.getName());

@@ -33,9 +33,6 @@ public class WorkerRequestDTO {
     @NotNull(message = "field 'plan_info' is null", groups = OnCreate.class)
     private PlanInfoRequestDTO planInfo;
 
-    @Min(value = 0, message = "'CompanyId' can't be less than 1")
     private Integer companyId;
-
-
 
 }

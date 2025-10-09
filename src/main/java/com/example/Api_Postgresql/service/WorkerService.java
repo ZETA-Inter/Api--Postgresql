@@ -61,7 +61,7 @@ public class WorkerService {
 
     public WorkerResponseDTO createWorker(WorkerRequestDTO request) {
         if (workerRepository.findByEmail(request.getEmail()) != null) {
-            throw new EntityAlreadyExists("Company already exist!");
+            throw new EntityAlreadyExists("Worker already exist!");
         }
 
         Worker worker = workerMapper.convertWorkerRequestToWorker(request);
