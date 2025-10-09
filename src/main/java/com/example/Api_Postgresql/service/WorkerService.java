@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.PaymentRequest;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.ImageResponseDTO;
 import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerProgressResponse;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
@@ -37,14 +38,31 @@ public class WorkerService {
     public List<WorkerResponseDTO> list() {
         return workerRepository.findAll()
                 .stream()
-                .map(workerMapper::convertWorkerToWorkerResponse)
-                .toList();
+                .map(w -> {
+                    ImageResponseDTO image = imageService.getImageById("workers", w.getId());
+                    WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(w);
+
+                    if (image != null) {
+                        response.setImageUrl(image.getImageUrl());
+                    }
+
+                    return response;
+                })                .toList();
     }
 
     public List<WorkerResponseDTO> listWorkersByCompanyId(Integer companyId) {
         return workerRepository.findAllByCompany_Id(companyId)
                 .stream()
-                .map(workerMapper::convertWorkerToWorkerResponse)
+                .map(w -> {
+                    ImageResponseDTO image = imageService.getImageById("workers", w.getId());
+                    WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(w);
+
+                    if (image != null) {
+                        response.setImageUrl(image.getImageUrl());
+                    }
+
+                    return response;
+                })
                 .toList();
     }
 
@@ -53,7 +71,15 @@ public class WorkerService {
         if (exists == null) {
             throw new EntityNotFoundException("Worker not found!");
         }
-        return workerMapper.convertWorkerToWorkerResponse(exists);
+
+        ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
+        WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(exists);
+
+        if (image != null) {
+            response.setImageUrl(image.getImageUrl());
+        }
+
+        return response;
     }
 
     public WorkerResponseDTO findByEmail(String email) {
@@ -61,7 +87,15 @@ public class WorkerService {
         if (exists == null) {
             throw new EntityNotFoundException("Worker not found!");
         }
-        return workerMapper.convertWorkerToWorkerResponse(exists);
+
+        ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
+        WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(exists);
+
+        if (image != null) {
+            response.setImageUrl(image.getImageUrl());
+        }
+
+        return response;
     }
 
     public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
