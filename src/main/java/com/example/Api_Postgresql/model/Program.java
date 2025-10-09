@@ -3,6 +3,9 @@ package com.example.Api_Postgresql.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Builder
 @Getter
 @Setter
@@ -27,4 +30,7 @@ public class Program {
     @ManyToOne
     @JoinColumn(name = "segment_id", nullable = false)
     private Segment segment;
+
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<WorkerProgram> workerPrograms = new HashSet<>();
 }

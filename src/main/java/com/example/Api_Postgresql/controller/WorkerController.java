@@ -1,6 +1,8 @@
 package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.ProgramResponseDTO;
+import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerService;
 import com.example.Api_Postgresql.validation.OnCreate;
@@ -44,6 +46,11 @@ public class WorkerController {
     @PostMapping("/create")
     public ResponseEntity<WorkerResponseDTO> createWorker(@RequestBody @Validated({OnCreate.class, Default.class}) WorkerRequestDTO requestDTO) {
         return ResponseEntity.status(201).body(workerService.createWorker(requestDTO));
+    }
+
+    @GetMapping("/listActualProgramsById/{id}")
+    public ResponseEntity<List<ProgramWorkerResponseDTO>> listActualProgramsById(@PathVariable("id") Integer id) {
+        return ResponseEntity.status(200).body(workerService.listActualProgramsById(id));
     }
 
     @DeleteMapping("/delete/{id}")

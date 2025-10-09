@@ -2,10 +2,12 @@ package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.PaymentRequest;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
 import com.example.Api_Postgresql.model.Worker;
+import com.example.Api_Postgresql.model.WorkerProgram;
 import com.example.Api_Postgresql.repository.WorkerRepository;
 import com.example.Api_Postgresql.validation.WorkerPatchValidation;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,6 +30,8 @@ public class WorkerService {
     private final ImageService imageService;
 
     private final PaymentService paymentService;
+
+    private final WorkerProgramService workerProgramService;
 
     public List<WorkerResponseDTO> list() {
         return workerRepository.findAll()
@@ -57,6 +61,23 @@ public class WorkerService {
             throw new EntityNotFoundException("Worker not found!");
         }
         return workerMapper.convertWorkerToWorkerResponse(exists);
+    }
+
+    public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
+        List<WorkerProgram> wps = workerProgramService.listWorkerPrograms(workerId);
+        List<ProgramWorkerResponseDTO> programs = wps.stream()
+                .filter(wp -> wp.getProgress().getProgressPercentage() < 100)
+                .map(wp -> {
+                    ProgramWorkerResponseDTO dto = new ProgramWorkerResponseDTO();
+                    dto.setId(wp.getProgram().getId());
+                    dto.setName(wp.getProgram().getName());
+                    dto.setDescription(wp.getProgram().getDescription());
+                    dto.setSegmentName(wp.getProgram().getSegment().getName());
+                    dto.setProgressPercentage(wp.getProgress().getProgressPercentage());
+                    return dto;
+                })
+                .toList();
+        return programs;
     }
 
     public WorkerResponseDTO createWorker(WorkerRequestDTO request) {
