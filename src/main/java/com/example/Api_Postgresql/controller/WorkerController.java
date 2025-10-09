@@ -1,7 +1,8 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.request.LoginRequestDTO;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
+import com.example.Api_Postgresql.dto.response.ProgramResponseDTO;
+import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerProgressResponse;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerService;
@@ -43,14 +44,14 @@ public class WorkerController {
         return ResponseEntity.status(200).body(workerService.findByEmail(email));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<WorkerResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
-        return ResponseEntity.status(200).body(workerService.login(loginRequest.getEmail(), loginRequest.getPassword()));
-    }
-
     @PostMapping("/create")
     public ResponseEntity<WorkerResponseDTO> createWorker(@RequestBody @Validated({OnCreate.class, Default.class}) WorkerRequestDTO requestDTO) {
         return ResponseEntity.status(201).body(workerService.createWorker(requestDTO));
+    }
+
+    @GetMapping("/listActualProgramsById/{id}")
+    public ResponseEntity<List<ProgramWorkerResponseDTO>> listActualProgramsById(@PathVariable("id") Integer id) {
+        return ResponseEntity.status(200).body(workerService.listActualProgramsById(id));
     }
 
     @DeleteMapping("/delete/{id}")

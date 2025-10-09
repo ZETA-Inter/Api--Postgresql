@@ -10,14 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class CompanyMapper {
 
-    @Autowired
-    private ResponsibleRepository responsibleRepository;
-
     public Company convertCompanyRequestToCompany(CompanyRequestDTO request) {
         Company company = new Company();
         company.setName(request.getName());
         company.setEmail(request.getEmail());
-        company.setPassword(request.getPassword());
         return company;
     }
 

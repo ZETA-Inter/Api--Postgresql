@@ -10,12 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProgramResponseDTO {
-
-    private Integer id;
-    private String name;
-    private String description;
-    private String imageUrl;
-    private Integer quantityModules;
-    private String segmentName;
+public class ProgramWorkerResponseDTO extends ProgramResponseDTO {
+    @JsonProperty("progress_percentage")
+    private Integer progressPercentage;
 }

@@ -20,11 +20,11 @@ public class Payment {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "worker_id", nullable = true)
+    @JoinColumn(name = "worker_id")
     private Worker worker;
 
     @ManyToOne
-    @JoinColumn(name = "company_id", nullable = true)
+    @JoinColumn(name = "company_id")
     private Company company;
 
     @ManyToOne

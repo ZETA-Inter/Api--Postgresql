@@ -2,13 +2,10 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
-import com.example.Api_Postgresql.dto.request.LoginRequestDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
-import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.CompanyService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
-import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +37,6 @@ public class CompanyController {
         return ResponseEntity.status(200).body(companyService.findByEmail(email));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<CompanyResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
-        return ResponseEntity.status(200).body(companyService.login(loginRequest.getEmail(), loginRequest.getPassword()));
-    }
-
     @PostMapping("/create")
     public ResponseEntity<CompanyResponseDTO> createCompany(@RequestBody @Validated({OnCreate.class, Default.class}) CompanyRequestDTO requestDTO) {
         return ResponseEntity.status(201).body(companyService.createCompany(requestDTO));
@@ -71,6 +63,11 @@ public class CompanyController {
     @GetMapping("/ranking")
     public ResponseEntity<List<WorkerRankingResponse>> getRanking(@RequestParam Integer companyId) {
         return ResponseEntity.status(200).body(companyService.getWorkersRanking(companyId));
+    }
+
+    @PostMapping("/assign_goal/{goalId}")
+    public ResponseEntity<String> assignGoalToWorker(@RequestBody List<Integer> workerIds, @PathVariable("goalId") Integer goalId) {
+        return ResponseEntity.status(200).body(companyService.assignGoal(workerIds, goalId));
     }
 
 }
