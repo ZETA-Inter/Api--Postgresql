@@ -35,7 +35,11 @@ public class WorkerMapper {
         responseDTO.setId(worker.getId());
         responseDTO.setName(worker.getName());
         responseDTO.setEmail(worker.getEmail());
-        responseDTO.setCompanyName(worker.getCompany().getName());
+
+        if (worker.getCompany() != null) {
+            responseDTO.setCompanyName(worker.getCompany().getName());
+        }
+
         return responseDTO;
     }
 
