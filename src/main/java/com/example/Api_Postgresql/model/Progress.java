@@ -27,8 +27,8 @@ public class Progress {
     @Column(name = "progress_percentage") // Campo que faltava
     private Integer progressPercentage;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_program_id", nullable = false)
+    @OneToOne(mappedBy = "progress", fetch = FetchType.LAZY)
     private WorkerProgram workerProgram;
+
 
 }
