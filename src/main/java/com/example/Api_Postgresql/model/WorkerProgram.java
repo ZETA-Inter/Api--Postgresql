@@ -1,11 +1,9 @@
 package com.example.Api_Postgresql.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,12 +20,12 @@ public class WorkerProgram {
     @JoinColumn(name = "worker_id", nullable = false) // Mapeia para a coluna worker_id
     private Worker worker;
 
-    // 3. Relação com a Entidade Program (Chave Estrangeira)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "program_id", nullable = false) // Mapeia para a coluna program_id
     private Program program;
 
-    @OneToOne(mappedBy = "workerProgram", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "progress_id", referencedColumnName = "id")
     private Progress progress;
 
     private Integer grade;

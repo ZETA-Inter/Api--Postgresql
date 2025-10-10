@@ -2,14 +2,14 @@ package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.PaymentRequest;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
-import com.example.Api_Postgresql.dto.response.ImageResponseDTO;
-import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
-import com.example.Api_Postgresql.dto.response.WorkerProgressResponse;
-import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
+import com.example.Api_Postgresql.dto.response.*;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
+import com.example.Api_Postgresql.mapper.SegmentMapper;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
+import com.example.Api_Postgresql.model.Program;
 import com.example.Api_Postgresql.model.Worker;
 import com.example.Api_Postgresql.model.WorkerProgram;
+import com.example.Api_Postgresql.repository.ProgramRepository;
 import com.example.Api_Postgresql.repository.WorkerRepository;
 import com.example.Api_Postgresql.validation.WorkerPatchValidation;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,6 +34,10 @@ public class WorkerService {
     private final PaymentService paymentService;
 
     private final WorkerProgramService workerProgramService;
+
+    private final ProgramRepository programRepository;
+
+    private final SegmentMapper segmentMapper;
 
     public List<WorkerResponseDTO> list() {
         return workerRepository.findAll()
@@ -100,19 +104,18 @@ public class WorkerService {
 
     public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
         List<WorkerProgram> wps = workerProgramService.listWorkerPrograms(workerId);
-        List<ProgramWorkerResponseDTO> programs = wps.stream()
+        return wps.stream()
                 .filter(wp -> wp.getProgress().getProgressPercentage() < 100)
                 .map(wp -> {
                     ProgramWorkerResponseDTO dto = new ProgramWorkerResponseDTO();
                     dto.setId(wp.getProgram().getId());
                     dto.setName(wp.getProgram().getName());
                     dto.setDescription(wp.getProgram().getDescription());
-                    dto.setSegmentName(wp.getProgram().getSegment().getName());
+                    dto.setSegment(segmentMapper.toSegmentResponseDTO(wp.getProgram().getSegment()));
                     dto.setProgressPercentage(wp.getProgress().getProgressPercentage());
                     return dto;
                 })
                 .toList();
-        return programs;
     }
 
     public WorkerResponseDTO createWorker(WorkerRequestDTO request) {
@@ -133,11 +136,11 @@ public class WorkerService {
     }
 
     public void deleteWorker(Integer id) {
-        Worker worker = workerRepository.findById(id).get();
-        if (worker == null) {
+        Optional<Worker> worker = workerRepository.findById(id);
+        if (worker.isEmpty()) {
             throw new EntityNotFoundException("Worker with ID '"+id+"' don't exist!");
         }
-        workerRepository.delete(worker);
+        workerRepository.delete(worker.get());
     }
 
     public void updateWorker(Integer id, WorkerRequestDTO request) {
@@ -166,6 +169,16 @@ public class WorkerService {
 
     public WorkerProgressResponse getProgramProgress(Integer workerId, Integer programId) {
         return workerRepository.getProgramProgress(workerId, programId);
+    }
+
+    public void assignProgramToWorker(Integer workerId, Integer programId) {
+        Worker worker = workerRepository.findById(workerId)
+                .orElseThrow(() -> new EntityNotFoundException("Worker with ID '" + workerId + "' not found"));
+
+        Program program = programRepository.findById(programId)
+                .orElseThrow(() -> new EntityNotFoundException("Program with ID '" + programId + "' not found"));
+
+        workerProgramService.assignProgramToWorker(worker, program);
     }
 
 }

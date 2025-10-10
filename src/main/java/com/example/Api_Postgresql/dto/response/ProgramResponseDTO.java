@@ -16,5 +16,5 @@ public class ProgramResponseDTO {
     private String name;
     private String description;
     private String imageUrl;
-    private String segmentName;
+    private SegmentResponseDTO segment;
 }
