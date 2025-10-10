@@ -37,12 +37,6 @@ public class WorkerPatchValidation {
             }
         }
 
-        if (updates.getBirthDate() != null) {
-            if (verifyBirthDate(updates.getBirthDate(), errors)) {
-                worker.setBirthDate(updates.getBirthDate());
-            }
-        }
-
         if (updates.getCompanyId() != null) {
             Company company = companyRepository.findById(updates.getCompanyId()).get(); // talvez poderia retornar uma exceção de company não encontrado
             worker.setCompany(company);

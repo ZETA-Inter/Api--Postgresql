@@ -25,7 +25,6 @@ public class WorkerMapper {
         Worker worker = new Worker();
         worker.setName(request.getName());
         worker.setEmail(request.getEmail());
-        worker.setBirthDate(request.getBirthDate());
         worker.setCompany(company);
         return worker;
     }

@@ -24,9 +24,6 @@ public class WorkerRequestDTO {
     @NotNull(message = "field 'email' is null", groups = OnCreate.class)
     private String email;
 
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
-
     private String imageUrl;
 
     @JsonProperty("plan_info")
