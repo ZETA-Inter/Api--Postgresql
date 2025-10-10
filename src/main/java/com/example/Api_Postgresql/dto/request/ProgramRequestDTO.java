@@ -20,9 +20,6 @@ public class ProgramRequestDTO {
     @NotNull(message = "field 'description' is null", groups = OnCreate.class)
     private String description;
 
-    @Min(value = 0, message = "'QuantityModules' can't be less than 1")
-    private Integer quantityModules;
-
     @NotNull(message = "field 'imageUrl' is null", groups = OnCreate.class)
     private String imageUrl;
 
