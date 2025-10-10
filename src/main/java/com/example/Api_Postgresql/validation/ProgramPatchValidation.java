@@ -31,10 +31,6 @@ public class ProgramPatchValidation {
             program.setDescription(updates.getDescription());
         }
 
-        if (updates.getQuantityModules() != null && updates.getQuantityModules() > 0) {
-            program.setQuantityModules(updates.getQuantityModules());
-        }
-
         if (updates.getSegmentId() != null && updates.getSegmentId() > 0) {
             Segment segment = segmentRepository.findById(updates.getSegmentId()).get();
             program.setSegment(segment);

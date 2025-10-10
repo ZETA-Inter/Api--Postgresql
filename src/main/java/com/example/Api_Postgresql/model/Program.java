@@ -24,9 +24,6 @@ public class Program {
 
     private String description;
 
-    @Column(name = "quantity_modules")
-    private Integer quantityModules;
-
     @ManyToOne
     @JoinColumn(name = "segment_id", nullable = false)
     private Segment segment;

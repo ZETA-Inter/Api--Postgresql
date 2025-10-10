@@ -29,7 +29,6 @@ public class ProgramMapper {
         Program program = Program.builder()
                 .name(request.getName())
                 .description(request.getDescription())
-                .quantityModules(request.getQuantityModules())
                 .segment(segment)
                 .build();
 
@@ -47,7 +46,6 @@ public class ProgramMapper {
         programResponseDTO.setId(program.getId());
         programResponseDTO.setName(program.getName());
         programResponseDTO.setDescription(program.getDescription());
-        programResponseDTO.setQuantityModules(program.getQuantityModules());
         programResponseDTO.setSegmentName(segment.getName());
 
         if (image != null) {
