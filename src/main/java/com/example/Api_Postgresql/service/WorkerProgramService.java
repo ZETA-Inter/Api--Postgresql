@@ -35,8 +35,6 @@ public class WorkerProgramService {
             throw new IllegalArgumentException("Program with id=" + program.getId() + " is already assigned to worker with id=" + worker.getId());
         }
 
-
-
         WorkerProgram wp = WorkerProgram.builder()
                 .worker(worker)
                 .program(program)
@@ -48,11 +46,25 @@ public class WorkerProgramService {
         progress.setPoints(0);
         progress.setProgressPercentage(0);
 
-        // definir o vínculo bidirecional
-        wp.setProgress(progress);
-        progress.setWorkerProgram(wp);
+        // Adiciona o progresso ao workerProgram (mantém bidirecional)
+        wp.addProgress(progress);
+
+        worker.getWorkerPrograms().add(wp);
 
         workerProgramRepository.save(wp);
+    }
+
+    public String updateGrade(Integer workerId, Integer programId, Integer newGrade) {
+        WorkerProgram wp = workerProgramRepository.findByWorker_IdAndProgram_Id(workerId, programId);
+
+        if (wp == null) {
+            throw new EntityNotFoundException("Worker program with worker_id=" + workerId + " and program_id=" + programId + " not found");
+        }
+
+        wp.setGrade(newGrade);
+        workerProgramRepository.save(wp);
+
+        return "Grade updated to " + newGrade + " for worker_id=" + workerId + " and program_id=" + programId;
     }
 
 }

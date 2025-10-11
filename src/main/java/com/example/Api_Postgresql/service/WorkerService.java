@@ -7,6 +7,7 @@ import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.SegmentMapper;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
 import com.example.Api_Postgresql.model.Program;
+import com.example.Api_Postgresql.model.Progress;
 import com.example.Api_Postgresql.model.Worker;
 import com.example.Api_Postgresql.model.WorkerProgram;
 import com.example.Api_Postgresql.repository.ProgramRepository;
@@ -105,14 +106,18 @@ public class WorkerService {
     public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
         List<WorkerProgram> wps = workerProgramService.listWorkerPrograms(workerId);
         return wps.stream()
-                .filter(wp -> wp.getProgress().getProgressPercentage() < 100)
+                .filter(wp -> {
+                    Progress latest = wp.getLatestProgress();
+                    return latest != null && latest.getProgressPercentage() < 100;
+                })
                 .map(wp -> {
+                    Progress latest = wp.getLatestProgress();
                     ProgramWorkerResponseDTO dto = new ProgramWorkerResponseDTO();
                     dto.setId(wp.getProgram().getId());
                     dto.setName(wp.getProgram().getName());
                     dto.setDescription(wp.getProgram().getDescription());
                     dto.setSegment(segmentMapper.toSegmentResponseDTO(wp.getProgram().getSegment()));
-                    dto.setProgressPercentage(wp.getProgress().getProgressPercentage());
+                    dto.setProgressPercentage(latest.getProgressPercentage());
                     return dto;
                 })
                 .toList();

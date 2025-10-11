@@ -24,11 +24,10 @@ public class Progress {
 
     private Integer points;
 
-    @Column(name = "progress_percentage") // Campo que faltava
+    @Column(name = "progress_percentage")
     private Integer progressPercentage;
 
-    @OneToOne(mappedBy = "progress", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "worker_program_id", nullable = false)
     private WorkerProgram workerProgram;
-
-
 }
