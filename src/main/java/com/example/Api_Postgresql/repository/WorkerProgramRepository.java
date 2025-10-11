@@ -9,4 +9,6 @@ public interface WorkerProgramRepository extends JpaRepository<WorkerProgram, In
 
     List<WorkerProgram> findAllByWorker_Id(Integer workerId);
 
+    WorkerProgram findByWorker_IdAndProgram_Id(Integer workerId, Integer programId);
+
 }

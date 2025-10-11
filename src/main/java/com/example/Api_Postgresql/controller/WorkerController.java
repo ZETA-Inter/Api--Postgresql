@@ -1,14 +1,12 @@
 package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
-import com.example.Api_Postgresql.dto.response.ProgramResponseDTO;
 import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerProgressResponse;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerService;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
-import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -81,4 +79,11 @@ public class WorkerController {
     public ResponseEntity<WorkerProgressResponse> getProgramProgress(@PathVariable("id") Integer workerId, @RequestParam Integer programId) {
         return ResponseEntity.status(200).body(workerService.getProgramProgress(workerId, programId));
     }
+
+    @PostMapping("/assign_program")
+    public ResponseEntity<String> assignProgramToWorker(@RequestParam Integer workerId, @RequestParam Integer programId) {
+        workerService.assignProgramToWorker(workerId, programId);
+        return ResponseEntity.status(201).body("Program ID "+programId+" assigned to Worker ID "+workerId+" sucessfully!");
+    }
+
 }
