@@ -1,7 +1,6 @@
 package com.example.Api_Postgresql.repository;
 
 import com.example.Api_Postgresql.dto.response.PlanFunctionalitiesResponse;
-import com.example.Api_Postgresql.model.Functionalities;
 import com.example.Api_Postgresql.model.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

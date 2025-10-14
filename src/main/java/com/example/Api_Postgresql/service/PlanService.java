@@ -6,6 +6,7 @@ import com.example.Api_Postgresql.mapper.PlanMapper;
 import com.example.Api_Postgresql.model.Functionalities;
 import com.example.Api_Postgresql.model.Plan;
 import com.example.Api_Postgresql.repository.PlanRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +27,8 @@ public class PlanService {
         List<PlanResponse> planResponse = new ArrayList<>();
         List<Plan> listPlans = planRepository.findAll();
 
-        System.out.println(listPlans);
-
         if (listPlans.isEmpty()){
-            throw new NullPointerException("Planos não encontrados");
+            throw new EntityNotFoundException("Planos não encontrados");
         }
 
         listPlans.forEach(plan -> {
@@ -37,12 +36,9 @@ public class PlanService {
                     .map(functionalatitiesMapper::getFunctionalities)
                     .toList();
 
-            System.out.println(functionalities);
-
             PlanResponse planFunctionalities = planMapper.createPlanFunctionalitiesResponse(plan, functionalities);
             planResponse.add(planFunctionalities);
         });
-        System.out.println(planResponse);
         return planResponse;
     }
 
