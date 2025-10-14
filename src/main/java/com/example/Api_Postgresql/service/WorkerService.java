@@ -6,10 +6,8 @@ import com.example.Api_Postgresql.dto.response.*;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.SegmentMapper;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
-import com.example.Api_Postgresql.model.Program;
-import com.example.Api_Postgresql.model.Progress;
-import com.example.Api_Postgresql.model.Worker;
-import com.example.Api_Postgresql.model.WorkerProgram;
+import com.example.Api_Postgresql.model.*;
+import com.example.Api_Postgresql.repository.CompanyRepository;
 import com.example.Api_Postgresql.repository.ProgramRepository;
 import com.example.Api_Postgresql.repository.WorkerRepository;
 import com.example.Api_Postgresql.validation.WorkerPatchValidation;
@@ -38,6 +36,8 @@ public class WorkerService {
 
     private final ProgramRepository programRepository;
 
+    private final CompanyRepository companyRepository;
+
     private final SegmentMapper segmentMapper;
 
     public List<WorkerResponseDTO> list() {
@@ -52,7 +52,7 @@ public class WorkerService {
                     }
 
                     return response;
-                })                .toList();
+                }).toList();
     }
 
     public List<WorkerResponseDTO> listWorkersByCompanyId(Integer companyId) {
@@ -67,15 +67,12 @@ public class WorkerService {
                     }
 
                     return response;
-                })
-                .toList();
+                }).toList();
     }
 
     public WorkerResponseDTO findById(Integer id) {
-        Worker exists = workerRepository.findById(id).get();
-        if (exists == null) {
-            throw new EntityNotFoundException("Worker not found!");
-        }
+        Worker exists = workerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Worker not found!"));
 
         ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
         WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(exists);
@@ -128,7 +125,13 @@ public class WorkerService {
             throw new EntityAlreadyExists("Worker already exist!");
         }
 
-        Worker worker = workerMapper.convertWorkerRequestToWorker(request);
+        Company company = null;
+        if (request.getCompanyId() != null) {
+            company = companyRepository.findById(request.getCompanyId())
+                    .orElseThrow(() -> new EntityNotFoundException("Company with ID '"+request.getCompanyId()+"' don't exist!"));
+        }
+
+        Worker worker = workerMapper.convertWorkerRequestToWorker(request, company);
         workerRepository.save(worker);
 
         if (request.getImageUrl() != null) {
@@ -150,7 +153,14 @@ public class WorkerService {
 
     public void updateWorker(Integer id, WorkerRequestDTO request) {
         Worker workerExists = workerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Worker with ID \"" + id + "\" not found"));
-        Worker worker = workerMapper.convertWorkerRequestToWorker(request);
+
+        Company company = workerExists.getCompany();
+        if (request.getCompanyId() != null) {
+            company = companyRepository.findById(request.getCompanyId())
+                    .orElseThrow(() -> new EntityNotFoundException("Company with ID '"+request.getCompanyId()+"' don't exist!"));
+        }
+
+        Worker worker = workerMapper.convertWorkerRequestToWorker(request, company);
         worker.setId(id);
         workerRepository.save(worker);
     }
@@ -160,7 +170,13 @@ public class WorkerService {
         if (workerExists.isPresent()) {
             Worker worker = workerExists.get();
 
-            Worker workerFinal = validation.validator(request, worker);
+            Company company = worker.getCompany();
+            if (request.getCompanyId() != null) {
+                company = companyRepository.findById(request.getCompanyId())
+                        .orElseThrow(() -> new EntityNotFoundException("Company with ID '"+request.getCompanyId()+"' don't exist!"));
+            }
+
+            Worker workerFinal = validation.validator(request, worker, company);
 
             workerRepository.save(workerFinal);
         } else {

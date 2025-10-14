@@ -20,6 +20,7 @@ public class CompanyRequestDTO {
     @NotNull(message = "field 'email' is null", groups = OnCreate.class)
     private String email;
 
+    @JsonProperty("image_url")
     private String imageUrl;
 
     @JsonProperty("plan_info")

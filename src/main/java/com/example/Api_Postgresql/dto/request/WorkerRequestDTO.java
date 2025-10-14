@@ -24,12 +24,15 @@ public class WorkerRequestDTO {
     @NotNull(message = "field 'email' is null", groups = OnCreate.class)
     private String email;
 
+    @JsonProperty("image_url")
     private String imageUrl;
 
     @JsonProperty("plan_info")
     @NotNull(message = "field 'plan_info' is null", groups = OnCreate.class)
     private PlanInfoRequestDTO planInfo;
 
+    @JsonProperty("company_id")
+    @Min(value = 0, message = "field 'company_id' must be greater than or equal to 0")
     private Integer companyId;
 
 }

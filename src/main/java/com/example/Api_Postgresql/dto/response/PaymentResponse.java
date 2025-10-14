@@ -1,5 +1,6 @@
 package com.example.Api_Postgresql.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -13,10 +14,13 @@ public class PaymentResponse {
 
     private Integer id;
 
+    @JsonProperty("user_info")
     private UserInfo userInfo;
 
+    @JsonProperty("plan_info")
     private PlanInfo planInfo;
 
+    @JsonProperty("paid_date")
     private LocalDate paidDate;
 
     @Getter
