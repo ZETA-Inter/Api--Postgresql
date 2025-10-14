@@ -5,14 +5,12 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PaymentRequest {
+public class PaymentRequestDTO {
 
     @NotNull(message = "field 'userType' is null", groups = OnCreate.class)
     private String userType;

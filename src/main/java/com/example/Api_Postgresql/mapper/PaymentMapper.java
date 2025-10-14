@@ -1,6 +1,6 @@
 package com.example.Api_Postgresql.mapper;
 
-import com.example.Api_Postgresql.dto.request.PaymentRequest;
+import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.response.PaymentResponse;
 import com.example.Api_Postgresql.dto.response.PaymentResponse.UserInfo;
 import com.example.Api_Postgresql.dto.response.PaymentResponse.PlanInfo;
@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Component
 public class PaymentMapper {
 
-    public Payment toPayment(PaymentRequest request, Plan plan, Worker worker) {
+    public Payment toPayment(PaymentRequestDTO request, Plan plan, Worker worker) {
         LocalDate paidDate = LocalDate.now();
 
         return new Payment(
@@ -29,7 +29,7 @@ public class PaymentMapper {
         );
     }
 
-    public Payment toPayment(PaymentRequest request, Plan plan, Company company) {
+    public Payment toPayment(PaymentRequestDTO request, Plan plan, Company company) {
         LocalDate paidDate = LocalDate.now();
 
         return new Payment(

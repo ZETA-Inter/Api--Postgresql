@@ -1,6 +1,6 @@
 package com.example.Api_Postgresql.service;
 
-import com.example.Api_Postgresql.dto.request.PaymentRequest;
+import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.dto.response.*;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
@@ -135,7 +135,7 @@ public class WorkerService {
             imageService.createImage("workers", request.getImageUrl(), worker.getId());
         }
 
-        paymentService.createPayment(new PaymentRequest("worker", worker.getId(), request.getPlanInfo()));
+        paymentService.createPayment(new PaymentRequestDTO("worker", worker.getId(), request.getPlanInfo()));
 
         return workerMapper.convertWorkerToWorkerResponse(worker);
     }

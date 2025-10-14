@@ -1,6 +1,6 @@
 package com.example.Api_Postgresql.service;
 
-import com.example.Api_Postgresql.dto.request.PaymentRequest;
+import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.response.PaymentResponse;
 import com.example.Api_Postgresql.mapper.PaymentMapper;
 import com.example.Api_Postgresql.model.Company;
@@ -30,23 +30,23 @@ public class PaymentService {
     private final WorkerRepository workerRepository;
 
 
-    public PaymentResponse createPayment(PaymentRequest paymentRequest) {
+    public PaymentResponse createPayment(PaymentRequestDTO paymentRequestDTO) {
 
-        Plan plan = planRepository.findById(paymentRequest.getPlanInfo().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Plan with id " + paymentRequest.getPlanInfo().getId() + " not found"));
+        Plan plan = planRepository.findById(paymentRequestDTO.getPlanInfo().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Plan with id " + paymentRequestDTO.getPlanInfo().getId() + " not found"));
 
         Payment payment;
 
-        if (paymentRequest.getUserType().equals("worker")) {
-            Worker worker = workerRepository.findById(paymentRequest.getUserId())
-                    .orElseThrow(() ->  new EntityNotFoundException("Worker with id "+ paymentRequest.getUserId() +" not found"));
+        if (paymentRequestDTO.getUserType().equals("worker")) {
+            Worker worker = workerRepository.findById(paymentRequestDTO.getUserId())
+                    .orElseThrow(() ->  new EntityNotFoundException("Worker with id "+ paymentRequestDTO.getUserId() +" not found"));
 
-            payment = paymentMapper.toPayment(paymentRequest, plan, worker);
+            payment = paymentMapper.toPayment(paymentRequestDTO, plan, worker);
         } else {
-            Company company = companyRepository.findById(paymentRequest.getUserId())
-                    .orElseThrow(() ->  new EntityNotFoundException("Company with id "+ paymentRequest.getUserId() +" not found"));
+            Company company = companyRepository.findById(paymentRequestDTO.getUserId())
+                    .orElseThrow(() ->  new EntityNotFoundException("Company with id "+ paymentRequestDTO.getUserId() +" not found"));
 
-            payment = paymentMapper.toPayment(paymentRequest, plan, company);
+            payment = paymentMapper.toPayment(paymentRequestDTO, plan, company);
         }
 
         paymentRepository.save(payment);
