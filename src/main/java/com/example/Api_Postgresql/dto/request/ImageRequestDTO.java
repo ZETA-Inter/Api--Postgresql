@@ -20,7 +20,7 @@ public class ImageRequestDTO {
     private String originTable;
 
     @JsonProperty("source_id")
-    @Min(value = 0, message = "'sourceId' can't be less than 1")
+    @Min(value = 1, message = "'sourceId' can't be less than 1")
     private Integer sourceId;
 
     @JsonProperty("image_url")

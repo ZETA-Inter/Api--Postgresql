@@ -19,7 +19,7 @@ public class PaymentRequestDTO {
 
     @JsonProperty("user_id")
     @NotNull(message = "field 'userId' is null", groups = OnCreate.class)
-    @Min(value = 0, message = "'UserId' can't be less than 1")
+    @Min(value = 1, message = "'UserId' can't be less than 1")
     private Integer userId;
 
     @JsonProperty("plano_id")

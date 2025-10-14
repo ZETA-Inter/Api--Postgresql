@@ -32,7 +32,7 @@ public class WorkerRequestDTO {
     private PlanInfoRequestDTO planInfo;
 
     @JsonProperty("company_id")
-    @Min(value = 0, message = "field 'company_id' must be greater than or equal to 0")
+    @Min(value = 1, message = "field 'company_id' can't be less than 1")
     private Integer companyId;
 
 }

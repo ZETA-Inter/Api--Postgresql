@@ -101,14 +101,14 @@ public class WorkerService {
     }
 
     public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
-        List<WorkerProgram> wps = workerProgramService.listWorkerPrograms(workerId);
+        List<WorkerProgramResponseDTO> wps = workerProgramService.listWorkerPrograms(workerId);
         return wps.stream()
                 .filter(wp -> {
-                    Progress latest = wp.getLatestProgress();
+                    Progress latest = wp.getProgresses().getFirst();
                     return latest != null && latest.getProgressPercentage() < 100;
                 })
                 .map(wp -> {
-                    Progress latest = wp.getLatestProgress();
+                    Progress latest = wp.getProgresses().getFirst();
                     ProgramWorkerResponseDTO dto = new ProgramWorkerResponseDTO();
                     dto.setId(wp.getProgram().getId());
                     dto.setName(wp.getProgram().getName());

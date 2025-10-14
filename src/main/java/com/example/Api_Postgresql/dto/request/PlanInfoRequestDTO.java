@@ -15,7 +15,7 @@ import lombok.Setter;
 public class PlanInfoRequestDTO {
 
     @NotNull(message = "field 'plan_info.id' is null", groups = OnCreate.class)
-    @Min(value = 0, message = "plan_info.id' can't be less than 1")
+    @Min(value = 1, message = "plan_info.id' can't be less than 1")
     private Integer id;
 
     @NotNull(message = "field 'plan_info.frequency' is null", groups = OnCreate.class)

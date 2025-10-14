@@ -23,12 +23,12 @@ public class GoalRequestDTO {
 
     @JsonProperty("company_id")
     @NotNull(message = "field 'companyId' is null", groups = OnCreate.class)
-    @Min(value = 0, message = "'companyId' can't be less than 1", groups = OnCreate.class)
+    @Min(value = 1, message = "'companyId' can't be less than 1", groups = OnCreate.class)
     private Integer companyId;
 
     @JsonProperty("program_id")
     @NotNull(message = "field 'programId' is null", groups = OnCreate.class)
-    @Min(value = 0, message = "'programId' can't be less than 1", groups = OnCreate.class)
+    @Min(value = 1, message = "'programId' can't be less than 1", groups = OnCreate.class)
     private Integer programId;
 
     @JsonProperty("worker_ids")

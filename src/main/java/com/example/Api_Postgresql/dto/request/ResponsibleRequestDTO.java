@@ -28,7 +28,7 @@ public class ResponsibleRequestDTO {
 
     @JsonProperty("company_id")
     @NotNull(message = "field 'companyId' is null", groups = OnCreate.class)
-    @Min(value = 0, message = "'CompanyId' can't be less than 1")
+    @Min(value = 1, message = "'CompanyId' can't be less than 1")
     private Integer companyId;
 
 }
