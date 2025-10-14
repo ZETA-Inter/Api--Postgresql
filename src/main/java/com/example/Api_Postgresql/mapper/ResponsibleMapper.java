@@ -28,7 +28,7 @@ public class ResponsibleMapper {
         response.setId(responsible.getId());
         response.setName(responsible.getFirstName() + " " + responsible.getLastName());
         response.setEmail(responsible.getEmail());
-        response.setCompany_name(responsible.getCompany().getName());
+        response.setCompanyName(responsible.getCompany().getName());
         return response;
     }
 
