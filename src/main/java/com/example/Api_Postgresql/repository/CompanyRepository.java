@@ -15,10 +15,4 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     @Query(value = "SELECT * FROM fn_get_workers_ranking(:companyId)", nativeQuery = true)
     List<WorkerRankingResponse> getWorkersRanking(@Param("companyId") Integer companyId);
 
-    @Procedure(procedureName = "sp_assign_goal")
-    void assignGoal(
-            @Param("pGoalId") Integer goalId,
-            @Param("pWorkerIds") int[] workerIds
-    );
-
 }

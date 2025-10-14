@@ -65,7 +65,7 @@ public class CompanyController {
         return ResponseEntity.status(200).body(companyService.getWorkersRanking(companyId));
     }
 
-    @PostMapping("/assign_goal/{goalId}")
+    @PostMapping("/assign-goal/{goalId}")
     public ResponseEntity<String> assignGoalToWorker(@RequestBody List<Integer> workerIds, @PathVariable("goalId") Integer goalId) {
         return ResponseEntity.status(200).body(companyService.assignGoal(workerIds, goalId));
     }

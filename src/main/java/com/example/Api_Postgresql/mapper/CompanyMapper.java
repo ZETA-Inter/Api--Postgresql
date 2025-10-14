@@ -3,8 +3,6 @@ package com.example.Api_Postgresql.mapper;
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.model.Company;
-import com.example.Api_Postgresql.repository.ResponsibleRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
