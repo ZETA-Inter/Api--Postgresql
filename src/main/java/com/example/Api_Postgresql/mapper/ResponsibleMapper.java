@@ -5,7 +5,6 @@ import com.example.Api_Postgresql.dto.response.ResponsibleResponseDTO;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Responsible;
 import com.example.Api_Postgresql.repository.CompanyRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +14,7 @@ public class ResponsibleMapper {
 
     private final CompanyRepository companyRepository;
 
-    public Responsible toResponsible(ResponsibleRequestDTO request) {
-
-        Company company = companyRepository.findById(request.getCompanyId())
-                .orElseThrow(() -> new EntityNotFoundException("Company not found"));
-
+    public Responsible toResponsible(ResponsibleRequestDTO request, Company company) {
         Responsible responsible = new Responsible();
         responsible.setFirstName(request.getFirstName());
         responsible.setLastName(request.getLastName());

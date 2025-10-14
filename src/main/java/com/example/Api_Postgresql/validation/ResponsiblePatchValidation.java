@@ -4,8 +4,6 @@ import com.example.Api_Postgresql.dto.request.ResponsibleRequestDTO;
 import com.example.Api_Postgresql.exception.MultipleValidationException;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Responsible;
-import com.example.Api_Postgresql.repository.CompanyRepository;
-import com.example.Api_Postgresql.repository.ResponsibleRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,11 +15,7 @@ import java.util.Map;
 @Component
 public class ResponsiblePatchValidation {
 
-    private final ResponsibleRepository responsibleRepository;
-
-    private final CompanyRepository companyRepository;
-
-    public Responsible validator(ResponsibleRequestDTO updates, Responsible responsible) {
+    public Responsible validator(ResponsibleRequestDTO updates, Responsible responsible, Company company) {
         Map<String, String> errors = new HashMap<>();
 
         if (StringUtils.isNotEmpty(updates.getFirstName())) {
@@ -43,7 +37,6 @@ public class ResponsiblePatchValidation {
         }
 
         if (updates.getCompanyId() != null) {
-            Company company = companyRepository.findById(updates.getCompanyId()).get(); // talvez poderia retornar uma exceção de plano não encontrado
             responsible.setCompany(company);
         }
 

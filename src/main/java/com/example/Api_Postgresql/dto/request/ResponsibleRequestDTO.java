@@ -23,6 +23,7 @@ public class ResponsibleRequestDTO {
     @NotNull(message = "field 'email' is null", groups = OnCreate.class)
     private String email;
 
+    @NotNull(message = "field 'companyId' is null", groups = OnCreate.class)
     @Min(value = 0, message = "'CompanyId' can't be less than 1")
     private Integer companyId;
 
