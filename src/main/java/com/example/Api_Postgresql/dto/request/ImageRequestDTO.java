@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.dto.request;
 
 import com.example.Api_Postgresql.validation.OnCreate;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class ImageRequestDTO {
     @NotNull(message = "field 'originTable' is null", groups = OnCreate.class)
     private String originTable;
 
+    @Min(value = 0, message = "'sourceId' can't be less than 1")
     private Integer sourceId;
 
     @NotNull(message = "field 'imageUrl' is null", groups = OnCreate.class)
