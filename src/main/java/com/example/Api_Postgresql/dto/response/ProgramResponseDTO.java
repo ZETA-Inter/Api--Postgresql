@@ -15,6 +15,7 @@ public class ProgramResponseDTO {
     private Integer id;
     private String name;
     private String description;
+    @JsonProperty("image_url")
     private String imageUrl;
     private SegmentResponseDTO segment;
 }

@@ -4,7 +4,6 @@ import com.example.Api_Postgresql.dto.request.ProgramRequestDTO;
 import com.example.Api_Postgresql.exception.MultipleValidationException;
 import com.example.Api_Postgresql.model.Program;
 import com.example.Api_Postgresql.model.Segment;
-import com.example.Api_Postgresql.repository.SegmentRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,9 +15,8 @@ import java.util.Map;
 @Component
 public class ProgramPatchValidation {
 
-    private final SegmentRepository segmentRepository;
 
-    public Program validator(ProgramRequestDTO updates, Program program) {
+    public Program validator(ProgramRequestDTO updates, Program program, Segment segment) {
         Map<String, String> errors = new HashMap<>();
 
         if (StringUtils.isNotEmpty(updates.getName())) {
@@ -32,7 +30,6 @@ public class ProgramPatchValidation {
         }
 
         if (updates.getSegmentId() != null && updates.getSegmentId() > 0) {
-            Segment segment = segmentRepository.findById(updates.getSegmentId()).get();
             program.setSegment(segment);
         }
 

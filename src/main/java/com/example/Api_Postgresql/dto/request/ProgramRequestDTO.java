@@ -20,9 +20,7 @@ public class ProgramRequestDTO {
     @NotNull(message = "field 'description' is null", groups = OnCreate.class)
     private String description;
 
-    @NotNull(message = "field 'imageUrl' is null", groups = OnCreate.class)
-    private String imageUrl;
-
-    @Min(value = 0, message = "'SegmentId' can't be less than 1")
+    @NotNull(message = "field 'segmentId' is null", groups = OnCreate.class)
+    @Min(value = 0, message = "'segmentId' can't be less than 1")
     private Integer segmentId;
 }
