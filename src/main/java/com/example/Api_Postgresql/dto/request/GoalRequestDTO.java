@@ -20,12 +20,15 @@ public class GoalRequestDTO {
     @NotNull(message = "field 'description' is null", groups = OnCreate.class)
     private String description;
 
+    @NotNull(message = "field 'companyId' is null", groups = OnCreate.class)
     @Min(value = 0, message = "'companyId' can't be less than 1", groups = OnCreate.class)
     private Integer companyId;
 
+    @NotNull(message = "field 'programId' is null", groups = OnCreate.class)
     @Min(value = 0, message = "'programId' can't be less than 1", groups = OnCreate.class)
     private Integer programId;
 
+    @NotNull(message = "field 'workerIds' is null", groups = OnCreate.class)
     @Size(min = 1, message = "A goal must have at least one worker assigned", groups = OnCreate.class)
     private List<Integer> workerIds;
 
