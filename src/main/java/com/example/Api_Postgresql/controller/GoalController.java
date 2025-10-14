@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.GoalRequestDTO;
+import com.example.Api_Postgresql.dto.response.GoalProgressResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
@@ -37,5 +38,11 @@ public class GoalController {
     public ResponseEntity<List<WorkerProgramResponse>> getWorkersGoalByProgramAndCompany(@RequestParam("programId") Integer programId, @RequestParam("companyId") Integer companyId) {
         return ResponseEntity.status(200).body(goalService.getWorkersByProgramIdAndCompanyId(programId, companyId));
     }
+
+    @GetMapping("/progress-goals/{workerId}")
+    public ResponseEntity<GoalProgressResponseDTO> getGoalProgressPercentage(@PathVariable("workerId") Integer workerId) {
+        return ResponseEntity.status(200).body(goalService.getGoalProgressPercentage(workerId));
+    }
+
 
 }

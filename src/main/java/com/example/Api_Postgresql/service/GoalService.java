@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.GoalRequestDTO;
+import com.example.Api_Postgresql.dto.response.GoalProgressResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
@@ -55,6 +56,20 @@ public class GoalService {
         }
 
         return workers;
+    }
+
+    public GoalProgressResponseDTO getGoalProgressPercentage(Integer workerId) {
+        List<GoalWorkerResponse> goals = goalRepository.getGoalsByWorkerId(workerId);
+
+        if (goals.isEmpty()) {
+            throw new EntityNotFoundException("Goals not found");
+        }
+
+        int size = goals.size();
+        int completedGoals = (int) goals.stream().filter(GoalWorkerResponse::getCompleted).count();
+        double progress = (double) completedGoals / size * 100;
+
+        return goalMapper.convertToGoalProgressResponseDTO(size, progress);
     }
 
 }
