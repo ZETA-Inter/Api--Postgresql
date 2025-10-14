@@ -1,6 +1,5 @@
 package com.example.Api_Postgresql.repository;
 
-import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
 import com.example.Api_Postgresql.model.Goal;
@@ -22,7 +21,7 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
 
     List<Goal> findByProgramIdAndCompanyId(Integer programId, Integer companyId);
 
-    Optional<Goal> findGoalByDescriptionAndProgram_Id(String description, Integer programId);
+    Optional<Goal> findGoalByDescriptionAndProgram_IdAndCompanyId(String description, Integer programId, Integer companyId);
 
     @Procedure(procedureName = "public.sp_create_goal")
     void createGoal(
