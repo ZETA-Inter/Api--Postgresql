@@ -1,6 +1,5 @@
 package com.example.Api_Postgresql.mapper;
 
-import com.example.Api_Postgresql.dto.response.PlanFunctionalitiesResponse;
 import com.example.Api_Postgresql.dto.response.PlanResponse;
 import com.example.Api_Postgresql.model.Functionalities;
 import com.example.Api_Postgresql.model.Plan;

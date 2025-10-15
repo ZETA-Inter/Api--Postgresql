@@ -55,7 +55,7 @@ public class CompanyController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<String> partiallyUpdateCompany(@PathVariable Integer id, @RequestBody @Validated({OnPatch.class, Default.class}) CompanyRequestDTO requestDTO) {
+    public ResponseEntity<String> partiallyUpdateCompany(@PathVariable Integer id, @RequestBody @Validated({OnPatch.class}) CompanyRequestDTO requestDTO) {
         companyService.partiallyUpdateCompany(id, requestDTO);
         return ResponseEntity.status(200).body("Company ID "+id+" partially updated sucessfully!");
     }
@@ -65,7 +65,7 @@ public class CompanyController {
         return ResponseEntity.status(200).body(companyService.getWorkersRanking(companyId));
     }
 
-    @PostMapping("/assign_goal/{goalId}")
+    @PostMapping("/assign-goal/{goalId}")
     public ResponseEntity<String> assignGoalToWorker(@RequestBody List<Integer> workerIds, @PathVariable("goalId") Integer goalId) {
         return ResponseEntity.status(200).body(companyService.assignGoal(workerIds, goalId));
     }

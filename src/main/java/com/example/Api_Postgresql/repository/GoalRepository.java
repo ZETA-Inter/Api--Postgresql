@@ -1,6 +1,5 @@
 package com.example.Api_Postgresql.repository;
 
-import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
 import com.example.Api_Postgresql.model.Goal;
@@ -18,11 +17,11 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
     List<GoalWorkerResponse> getGoalsByWorkerId(@Param("workerId") Integer workerId);
 
     @Query(value = "SELECT * FROM fn_workers_by_program(:companyId, :programId)", nativeQuery = true)
-    List<WorkerProgramResponse> getWorkersGoalByProgramAndCompany(@Param("companyId") Integer companyId, @Param("programId") Integer programId);
+    List<WorkerProgramResponse> getWorkersGoalByProgramAndCompany(@Param("programId") Integer programId, @Param("companyId") Integer companyId);
 
     List<Goal> findByProgramIdAndCompanyId(Integer programId, Integer companyId);
 
-    Optional<Goal> findGoalByDescriptionAndProgram_Id(String description, Integer programId);
+    Optional<Goal> findGoalByDescriptionAndProgram_IdAndCompanyId(String description, Integer programId, Integer companyId);
 
     @Procedure(procedureName = "public.sp_create_goal")
     void createGoal(

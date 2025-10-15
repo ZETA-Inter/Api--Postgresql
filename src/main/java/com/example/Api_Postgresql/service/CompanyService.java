@@ -1,13 +1,11 @@
 package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
-import com.example.Api_Postgresql.dto.request.PaymentRequest;
+import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
-import com.example.Api_Postgresql.exception.BadCredentialsException;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.CompanyMapper;
-import com.example.Api_Postgresql.mapper.WorkerMapper;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.repository.CompanyRepository;
 import com.example.Api_Postgresql.validation.CompanyPatchValidation;
@@ -58,10 +56,8 @@ public class CompanyService {
     }
 
     public CompanyResponseDTO findById(Integer id) {
-        Company exists = companyRepository.findById(id).get();
-        if (exists == null) {
-            throw new EntityNotFoundException("Company not found!");
-        }
+        Company exists = companyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Company not found!"));
         return companyMapper.convertCompanyToCompanyResponseDTO(exists);
     }
 
@@ -85,7 +81,7 @@ public class CompanyService {
             imageService.createImage("companies", request.getImageUrl(), company.getId());
         }
 
-        paymentService.createPayment(new PaymentRequest("company", company.getId(), request.getPlanInfo()));
+        paymentService.createPayment(new PaymentRequestDTO("company", company.getId(), request.getPlanInfo()));
 
         return companyMapper.convertCompanyToCompanyResponseDTO(company);
     }

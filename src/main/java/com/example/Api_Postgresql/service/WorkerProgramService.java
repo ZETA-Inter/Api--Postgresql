@@ -1,10 +1,9 @@
 package com.example.Api_Postgresql.service;
 
-import com.example.Api_Postgresql.dto.response.ProgramResponseDTO;
-import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
+import com.example.Api_Postgresql.dto.response.WorkerProgramResponseDTO;
+import com.example.Api_Postgresql.mapper.WorkerProgramMapper;
 import com.example.Api_Postgresql.model.*;
 import com.example.Api_Postgresql.repository.WorkerProgramRepository;
-import com.example.Api_Postgresql.repository.WorkerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,14 +17,18 @@ public class WorkerProgramService {
 
     private final WorkerProgramRepository workerProgramRepository;
 
-    public List<WorkerProgram> listWorkerPrograms(Integer workerId) {
+    private final WorkerProgramMapper workerProgramMapper;
+
+    public List<WorkerProgramResponseDTO> listWorkerPrograms(Integer workerId) {
         List<WorkerProgram> wps = workerProgramRepository.findAllByWorker_Id(workerId);
 
         if (wps.isEmpty()) {
             throw new EntityNotFoundException("Worker program with worker_id="+ workerId +" not found");
         }
 
-        return wps;
+        return wps.stream()
+                .map(workerProgramMapper::convertToWorkerProgramResponse)
+                .toList();
     }
 
     public void assignProgramToWorker(Worker worker, Program program) {

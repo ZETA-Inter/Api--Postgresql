@@ -27,17 +27,17 @@ public class WorkerController {
         return ResponseEntity.status(200).body(workerService.list());
     }
 
-    @GetMapping("/listByCompanyId/{id}")
+    @GetMapping("/list-by-companyId/{id}")
     public ResponseEntity<List<WorkerResponseDTO>> listarByCompanyId(@PathVariable Integer id) {
         return ResponseEntity.status(200).body(workerService.listWorkersByCompanyId(id));
     }
 
-    @GetMapping("/findById/{id}")
+    @GetMapping("/find-by-id/{id}")
     public ResponseEntity<WorkerResponseDTO> findWorkerById(@PathVariable Integer id) {
         return ResponseEntity.status(200).body(workerService.findById(id));
     }
 
-    @GetMapping("/findEmail/{email}")
+    @GetMapping("/find-email/{email}")
     public ResponseEntity<WorkerResponseDTO> findWorkerByEmail(@PathVariable String email) {
         return ResponseEntity.status(200).body(workerService.findByEmail(email));
     }
@@ -47,7 +47,7 @@ public class WorkerController {
         return ResponseEntity.status(201).body(workerService.createWorker(requestDTO));
     }
 
-    @GetMapping("/listActualProgramsById/{id}")
+    @GetMapping("/list-actual-programs-by-id/{id}")
     public ResponseEntity<List<ProgramWorkerResponseDTO>> listActualProgramsById(@PathVariable("id") Integer id) {
         return ResponseEntity.status(200).body(workerService.listActualProgramsById(id));
     }
@@ -70,17 +70,17 @@ public class WorkerController {
         return ResponseEntity.status(200).body("Worker ID "+id+" partially updated sucessfully!");
     }
 
-    @GetMapping("/recent_progress/{id}")
+    @GetMapping("/recent-progress/{id}")
     public ResponseEntity<WorkerProgressResponse> getRecentProgress(@PathVariable("id") Integer workerId) {
         return ResponseEntity.status(200).body(workerService.getMostRecentProgress(workerId));
     }
 
-    @GetMapping("/program_progress/{id}")
+    @GetMapping("/program-progress/{id}")
     public ResponseEntity<WorkerProgressResponse> getProgramProgress(@PathVariable("id") Integer workerId, @RequestParam Integer programId) {
         return ResponseEntity.status(200).body(workerService.getProgramProgress(workerId, programId));
     }
 
-    @PostMapping("/assign_program")
+    @PostMapping("/assign-program")
     public ResponseEntity<String> assignProgramToWorker(@RequestParam Integer workerId, @RequestParam Integer programId) {
         workerService.assignProgramToWorker(workerId, programId);
         return ResponseEntity.status(201).body("Program ID "+programId+" assigned to Worker ID "+workerId+" sucessfully!");

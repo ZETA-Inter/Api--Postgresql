@@ -21,7 +21,7 @@ public class ProgramController {
 
     private final ProgramService service;
 
-    @GetMapping("/listAll")
+    @GetMapping("/list-all")
     public ResponseEntity<List<ProgramResponseDTO>> listAllPrograms() {
         return ResponseEntity.status(200).body(service.listAllPrograms());
     }
@@ -32,7 +32,7 @@ public class ProgramController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProgramResponseDTO> createProgram(@RequestBody ProgramRequestDTO request) {
+    public ResponseEntity<ProgramResponseDTO> createProgram(@RequestBody @Validated({OnCreate.class, Default.class}) ProgramRequestDTO request) {
         return ResponseEntity.status(201).body(service.createProgram(request));
     }
 

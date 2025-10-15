@@ -2,7 +2,6 @@ package com.example.Api_Postgresql.dto.request;
 
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,16 +14,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CompanyRequestDTO {
 
-    @NotNull(message = "field 'name' is null", groups = OnCreate.class)
+    @NotNull(message = "field 'name' is null", groups = {OnCreate.class})
     private String name;
 
-    @NotNull(message = "field 'email' is null", groups = OnCreate.class)
+    @NotNull(message = "field 'email' is null", groups = {OnCreate.class})
     private String email;
 
+    @JsonProperty("image_url")
     private String imageUrl;
 
     @JsonProperty("plan_info")
-    @NotNull(message = "field 'plan_info' is null", groups = OnCreate.class)
+    @NotNull(message = "field 'plan_info' is null", groups = {OnCreate.class})
     private PlanInfoRequestDTO planInfo;
 
 }

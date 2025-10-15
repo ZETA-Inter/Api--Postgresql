@@ -4,8 +4,6 @@ import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.exception.MultipleValidationException;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Worker;
-import com.example.Api_Postgresql.repository.CompanyRepository;
-import com.example.Api_Postgresql.repository.PlanRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,11 +16,7 @@ import java.util.Map;
 @Component
 public class WorkerPatchValidation {
 
-    private final PlanRepository planRepository;
-
-    private final CompanyRepository companyRepository;
-
-    public Worker validator(WorkerRequestDTO updates, Worker worker) {
+    public Worker validator(WorkerRequestDTO updates, Worker worker, Company company) {
         Map<String, String> errors = new HashMap<>();
 
         if (StringUtils.isNotEmpty(updates.getName())) {
@@ -38,7 +32,6 @@ public class WorkerPatchValidation {
         }
 
         if (updates.getCompanyId() != null) {
-            Company company = companyRepository.findById(updates.getCompanyId()).get(); // talvez poderia retornar uma exceção de company não encontrado
             worker.setCompany(company);
         }
 

@@ -1,6 +1,6 @@
 package com.example.Api_Postgresql.mapper;
 
-import com.example.Api_Postgresql.dto.request.PaymentRequest;
+import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.response.PaymentResponse;
 import com.example.Api_Postgresql.dto.response.PaymentResponse.UserInfo;
 import com.example.Api_Postgresql.dto.response.PaymentResponse.PlanInfo;
@@ -8,10 +8,6 @@ import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Payment;
 import com.example.Api_Postgresql.model.Plan;
 import com.example.Api_Postgresql.model.Worker;
-import com.example.Api_Postgresql.repository.CompanyRepository;
-import com.example.Api_Postgresql.repository.PlanRepository;
-import com.example.Api_Postgresql.repository.WorkerRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,42 +17,28 @@ import java.time.LocalDate;
 @Component
 public class PaymentMapper {
 
-    private final PlanRepository planRepository;
-
-    private final CompanyRepository companyRepository;
-
-    private final WorkerRepository workerRepository;
-
-    public Payment toPayment(PaymentRequest request) {
-
-        Plan plan = planRepository.findById(request.getPlanInfo().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Plan with id "+ request.getPlanInfo().getId() +" not found"));
-
+    public Payment toPayment(PaymentRequestDTO request, Plan plan, Worker worker) {
         LocalDate paidDate = LocalDate.now();
 
-        if (request.getUserType().equals("worker")) {
-            Worker worker = workerRepository.findById(request.getUserId())
-                    .orElseThrow(() ->  new EntityNotFoundException("Worker with id "+ request.getUserId() +" not found"));
+        return new Payment(
+                worker,
+                plan,
+                request.getPlanInfo().getAmount(),
+                paidDate,
+                request.getPlanInfo().getFrequency()
+        );
+    }
 
-            return new Payment(
-                    worker,
-                    plan,
-                    request.getPlanInfo().getAmount(),
-                    paidDate,
-                    request.getPlanInfo().getFrequency()
-            );
-        } else {
-            Company company = companyRepository.findById(request.getUserId())
-                    .orElseThrow(() ->  new EntityNotFoundException("Company with id "+ request.getUserId() +" not found"));
+    public Payment toPayment(PaymentRequestDTO request, Plan plan, Company company) {
+        LocalDate paidDate = LocalDate.now();
 
-            return new Payment(
-                    company,
-                    plan,
-                    request.getPlanInfo().getAmount(),
-                    paidDate,
-                    request.getPlanInfo().getFrequency()
-            );
-        }
+        return new Payment(
+                company,
+                plan,
+                request.getPlanInfo().getAmount(),
+                paidDate,
+                request.getPlanInfo().getFrequency()
+        );
     }
 
     public PaymentResponse toPaymentResponse(Payment payment) {

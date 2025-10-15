@@ -1,15 +1,14 @@
 package com.example.Api_Postgresql.service;
 
-import com.example.Api_Postgresql.dto.request.PaymentRequest;
+import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.dto.response.*;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
+import com.example.Api_Postgresql.mapper.ImageMapper;
 import com.example.Api_Postgresql.mapper.SegmentMapper;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
-import com.example.Api_Postgresql.model.Program;
-import com.example.Api_Postgresql.model.Progress;
-import com.example.Api_Postgresql.model.Worker;
-import com.example.Api_Postgresql.model.WorkerProgram;
+import com.example.Api_Postgresql.model.*;
+import com.example.Api_Postgresql.repository.CompanyRepository;
 import com.example.Api_Postgresql.repository.ProgramRepository;
 import com.example.Api_Postgresql.repository.WorkerRepository;
 import com.example.Api_Postgresql.validation.WorkerPatchValidation;
@@ -32,11 +31,17 @@ public class WorkerService {
 
     private final ImageService imageService;
 
+    private final ImageMapper imageMapper;
+
     private final PaymentService paymentService;
+
+    private final PlanService planService;
 
     private final WorkerProgramService workerProgramService;
 
     private final ProgramRepository programRepository;
+
+    private final CompanyRepository companyRepository;
 
     private final SegmentMapper segmentMapper;
 
@@ -45,14 +50,9 @@ public class WorkerService {
                 .stream()
                 .map(w -> {
                     ImageResponseDTO image = imageService.getImageById("workers", w.getId());
-                    WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(w);
-
-                    if (image != null) {
-                        response.setImageUrl(image.getImageUrl());
-                    }
-
-                    return response;
-                })                .toList();
+                    String planName = planService.getPlanNameByWorkerId(w.getId());
+                    return workerMapper.convertWorkerToWorkerResponse(w, image, planName);
+                }).toList();
     }
 
     public List<WorkerResponseDTO> listWorkersByCompanyId(Integer companyId) {
@@ -60,31 +60,18 @@ public class WorkerService {
                 .stream()
                 .map(w -> {
                     ImageResponseDTO image = imageService.getImageById("workers", w.getId());
-                    WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(w);
-
-                    if (image != null) {
-                        response.setImageUrl(image.getImageUrl());
-                    }
-
-                    return response;
-                })
-                .toList();
+                    String planName = planService.getPlanNameByWorkerId(w.getId());
+                    return workerMapper.convertWorkerToWorkerResponse(w, image, planName);
+                }).toList();
     }
 
     public WorkerResponseDTO findById(Integer id) {
-        Worker exists = workerRepository.findById(id).get();
-        if (exists == null) {
-            throw new EntityNotFoundException("Worker not found!");
-        }
+        Worker exists = workerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Worker not found!"));
 
         ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
-        WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(exists);
-
-        if (image != null) {
-            response.setImageUrl(image.getImageUrl());
-        }
-
-        return response;
+        String planName = planService.getPlanNameByWorkerId(id);
+        return workerMapper.convertWorkerToWorkerResponse(exists, image, planName);
     }
 
     public WorkerResponseDTO findByEmail(String email) {
@@ -94,24 +81,21 @@ public class WorkerService {
         }
 
         ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
-        WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(exists);
 
-        if (image != null) {
-            response.setImageUrl(image.getImageUrl());
-        }
+        String planName = planService.getPlanNameByWorkerId(exists.getId());
 
-        return response;
+        return workerMapper.convertWorkerToWorkerResponse(exists, image, planName);
     }
 
     public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
-        List<WorkerProgram> wps = workerProgramService.listWorkerPrograms(workerId);
+        List<WorkerProgramResponseDTO> wps = workerProgramService.listWorkerPrograms(workerId);
         return wps.stream()
                 .filter(wp -> {
-                    Progress latest = wp.getLatestProgress();
+                    Progress latest = wp.getProgresses().getFirst();
                     return latest != null && latest.getProgressPercentage() < 100;
                 })
                 .map(wp -> {
-                    Progress latest = wp.getLatestProgress();
+                    Progress latest = wp.getProgresses().getFirst();
                     ProgramWorkerResponseDTO dto = new ProgramWorkerResponseDTO();
                     dto.setId(wp.getProgram().getId());
                     dto.setName(wp.getProgram().getName());
@@ -128,16 +112,26 @@ public class WorkerService {
             throw new EntityAlreadyExists("Worker already exist!");
         }
 
-        Worker worker = workerMapper.convertWorkerRequestToWorker(request);
-        workerRepository.save(worker);
-
-        if (request.getImageUrl() != null) {
-            imageService.createImage("workers", request.getImageUrl(), worker.getId());
+        Company company = null;
+        if (request.getCompanyId() != null) {
+            company = companyRepository.findById(request.getCompanyId())
+                    .orElseThrow(() -> new EntityNotFoundException("Company with ID '"+request.getCompanyId()+"' don't exist!"));
         }
 
-        paymentService.createPayment(new PaymentRequest("worker", worker.getId(), request.getPlanInfo()));
+        Worker worker = workerMapper.convertWorkerRequestToWorker(request, company);
+        workerRepository.save(worker);
 
-        return workerMapper.convertWorkerToWorkerResponse(worker);
+        ImageResponseDTO imageResponse = null;
+        if (request.getImageUrl() != null) {
+            Image image = imageService.createImage("workers", request.getImageUrl(), worker.getId());
+            imageResponse = imageMapper.convertToImageResponse(image);
+        }
+
+        paymentService.createPayment(new PaymentRequestDTO("worker", worker.getId(), request.getPlanInfo()));
+
+        String planName = planService.getPlanNameByWorkerId(worker.getId());
+
+        return workerMapper.convertWorkerToWorkerResponse(worker, imageResponse, planName);
     }
 
     public void deleteWorker(Integer id) {
@@ -150,7 +144,14 @@ public class WorkerService {
 
     public void updateWorker(Integer id, WorkerRequestDTO request) {
         Worker workerExists = workerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Worker with ID \"" + id + "\" not found"));
-        Worker worker = workerMapper.convertWorkerRequestToWorker(request);
+
+        Company company = workerExists.getCompany();
+        if (request.getCompanyId() != null) {
+            company = companyRepository.findById(request.getCompanyId())
+                    .orElseThrow(() -> new EntityNotFoundException("Company with ID '"+request.getCompanyId()+"' don't exist!"));
+        }
+
+        Worker worker = workerMapper.convertWorkerRequestToWorker(request, company);
         worker.setId(id);
         workerRepository.save(worker);
     }
@@ -160,7 +161,13 @@ public class WorkerService {
         if (workerExists.isPresent()) {
             Worker worker = workerExists.get();
 
-            Worker workerFinal = validation.validator(request, worker);
+            Company company = worker.getCompany();
+            if (request.getCompanyId() != null) {
+                company = companyRepository.findById(request.getCompanyId())
+                        .orElseThrow(() -> new EntityNotFoundException("Company with ID '"+request.getCompanyId()+"' don't exist!"));
+            }
+
+            Worker workerFinal = validation.validator(request, worker, company);
 
             workerRepository.save(workerFinal);
         } else {

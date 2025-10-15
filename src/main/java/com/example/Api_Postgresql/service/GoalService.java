@@ -5,7 +5,6 @@ import com.example.Api_Postgresql.dto.response.GoalProgressResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
-import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.GoalMapper;
 import com.example.Api_Postgresql.model.Goal;
 import com.example.Api_Postgresql.repository.GoalRepository;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -42,7 +40,7 @@ public class GoalService {
 
     public GoalResponseDTO createGoal(GoalRequestDTO request) {
         goalRepository.createGoal(request.getCompanyId(), request.getDescription(), request.getProgramId());
-        Goal goal = goalRepository.findGoalByDescriptionAndProgram_Id(request.getDescription(), request.getProgramId())
+        Goal goal = goalRepository.findGoalByDescriptionAndProgram_IdAndCompanyId(request.getDescription(), request.getProgramId(), request.getCompanyId())
                 .orElseThrow(() -> new EntityNotFoundException("Create goal failed"));
 
         return goalMapper.convertGoalToGoalResponse(goal);
