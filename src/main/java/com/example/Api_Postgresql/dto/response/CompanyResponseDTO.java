@@ -15,7 +15,5 @@ public class CompanyResponseDTO {
     private Integer id;
     private String name;
     private String email;
-    @JsonProperty("plan_name")
-    private String planName;
 
 }

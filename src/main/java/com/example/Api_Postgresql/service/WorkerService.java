@@ -4,6 +4,7 @@ import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.dto.response.*;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
+import com.example.Api_Postgresql.mapper.ImageMapper;
 import com.example.Api_Postgresql.mapper.SegmentMapper;
 import com.example.Api_Postgresql.mapper.WorkerMapper;
 import com.example.Api_Postgresql.model.*;
@@ -30,7 +31,11 @@ public class WorkerService {
 
     private final ImageService imageService;
 
+    private final ImageMapper imageMapper;
+
     private final PaymentService paymentService;
+
+    private final PlanService planService;
 
     private final WorkerProgramService workerProgramService;
 
@@ -45,13 +50,8 @@ public class WorkerService {
                 .stream()
                 .map(w -> {
                     ImageResponseDTO image = imageService.getImageById("workers", w.getId());
-                    WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(w);
-
-                    if (image != null) {
-                        response.setImageUrl(image.getImageUrl());
-                    }
-
-                    return response;
+                    String planName = planService.getPlanNameByWorkerId(w.getId());
+                    return workerMapper.convertWorkerToWorkerResponse(w, image, planName);
                 }).toList();
     }
 
@@ -60,13 +60,8 @@ public class WorkerService {
                 .stream()
                 .map(w -> {
                     ImageResponseDTO image = imageService.getImageById("workers", w.getId());
-                    WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(w);
-
-                    if (image != null) {
-                        response.setImageUrl(image.getImageUrl());
-                    }
-
-                    return response;
+                    String planName = planService.getPlanNameByWorkerId(w.getId());
+                    return workerMapper.convertWorkerToWorkerResponse(w, image, planName);
                 }).toList();
     }
 
@@ -75,13 +70,8 @@ public class WorkerService {
                 .orElseThrow(() -> new EntityNotFoundException("Worker not found!"));
 
         ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
-        WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(exists);
-
-        if (image != null) {
-            response.setImageUrl(image.getImageUrl());
-        }
-
-        return response;
+        String planName = planService.getPlanNameByWorkerId(id);
+        return workerMapper.convertWorkerToWorkerResponse(exists, image, planName);
     }
 
     public WorkerResponseDTO findByEmail(String email) {
@@ -91,13 +81,10 @@ public class WorkerService {
         }
 
         ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
-        WorkerResponseDTO response = workerMapper.convertWorkerToWorkerResponse(exists);
 
-        if (image != null) {
-            response.setImageUrl(image.getImageUrl());
-        }
+        String planName = planService.getPlanNameByWorkerId(exists.getId());
 
-        return response;
+        return workerMapper.convertWorkerToWorkerResponse(exists, image, planName);
     }
 
     public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
@@ -134,13 +121,17 @@ public class WorkerService {
         Worker worker = workerMapper.convertWorkerRequestToWorker(request, company);
         workerRepository.save(worker);
 
+        ImageResponseDTO imageResponse = null;
         if (request.getImageUrl() != null) {
-            imageService.createImage("workers", request.getImageUrl(), worker.getId());
+            Image image = imageService.createImage("workers", request.getImageUrl(), worker.getId());
+            imageResponse = imageMapper.convertToImageResponse(image);
         }
 
         paymentService.createPayment(new PaymentRequestDTO("worker", worker.getId(), request.getPlanInfo()));
 
-        return workerMapper.convertWorkerToWorkerResponse(worker);
+        String planName = planService.getPlanNameByWorkerId(worker.getId());
+
+        return workerMapper.convertWorkerToWorkerResponse(worker, imageResponse, planName);
     }
 
     public void deleteWorker(Integer id) {

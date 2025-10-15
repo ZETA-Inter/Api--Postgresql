@@ -44,7 +44,7 @@ public class ResponsibleController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteResponsible(@PathVariable Integer id) {
         responsibleService.deleteResponsible(id);
-        return ResponseEntity.ok().body("Responsible with ID "+id+" updated sucessfully!");
+        return ResponseEntity.ok().body("Responsible with ID "+id+" deleted sucessfully!");
     }
 
     @PutMapping("/update/{id}")

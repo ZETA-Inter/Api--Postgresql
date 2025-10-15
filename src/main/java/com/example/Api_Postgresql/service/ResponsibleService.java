@@ -86,8 +86,11 @@ public class ResponsibleService {
         if (exists.isPresent()) {
             Responsible responsible = exists.get();
 
-            Company company = companyRepository.findById(requestDTO.getCompanyId())
-                    .orElseThrow(() -> new EntityNotFoundException("Company not found"));
+            Company company = null;
+            if (requestDTO.getCompanyId() != null) {
+                company = companyRepository.findById(requestDTO.getCompanyId())
+                        .orElseThrow(() -> new EntityNotFoundException("Company not found"));
+            }
 
             Responsible newResponsible = validator.validator(requestDTO, responsible, company);
 

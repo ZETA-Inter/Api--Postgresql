@@ -2,7 +2,9 @@ package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.response.PaymentResponse;
+import com.example.Api_Postgresql.dto.response.PlanResponse;
 import com.example.Api_Postgresql.mapper.PaymentMapper;
+import com.example.Api_Postgresql.mapper.PlanMapper;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Payment;
 import com.example.Api_Postgresql.model.Plan;
@@ -29,7 +31,6 @@ public class PaymentService {
 
     private final WorkerRepository workerRepository;
 
-
     public PaymentResponse createPayment(PaymentRequestDTO paymentRequestDTO) {
 
         Plan plan = planRepository.findById(paymentRequestDTO.getPlanInfo().getId())
@@ -51,6 +52,15 @@ public class PaymentService {
 
         paymentRepository.save(payment);
         return paymentMapper.toPaymentResponse(payment);
+    }
+
+    public Plan getPlanByWorkerId(Integer id) {
+        Payment payment = paymentRepository.findPaymentByWorker_IdOrderByPaidDate(id);
+
+        if (payment != null) {
+            return payment.getPlan();
+        }
+        return null;
     }
 
 }

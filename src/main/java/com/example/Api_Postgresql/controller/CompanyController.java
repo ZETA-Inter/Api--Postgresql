@@ -55,7 +55,7 @@ public class CompanyController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<String> partiallyUpdateCompany(@PathVariable Integer id, @RequestBody @Validated({OnPatch.class, Default.class}) CompanyRequestDTO requestDTO) {
+    public ResponseEntity<String> partiallyUpdateCompany(@PathVariable Integer id, @RequestBody @Validated({OnPatch.class}) CompanyRequestDTO requestDTO) {
         companyService.partiallyUpdateCompany(id, requestDTO);
         return ResponseEntity.status(200).body("Company ID "+id+" partially updated sucessfully!");
     }

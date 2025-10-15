@@ -19,6 +19,8 @@ public class PlanService {
 
     private final PlanRepository planRepository;
 
+    private final PaymentService paymentService;
+
     private final PlanMapper planMapper;
 
     private final FunctionalatitiesMapper functionalatitiesMapper;
@@ -40,6 +42,14 @@ public class PlanService {
             planResponse.add(planFunctionalities);
         });
         return planResponse;
+    }
+
+    public String getPlanNameByWorkerId(Integer workerId){
+        Plan plan = paymentService.getPlanByWorkerId(workerId);
+        if (plan != null) {
+            return plan.getName();
+        }
+        return null;
     }
 
 }

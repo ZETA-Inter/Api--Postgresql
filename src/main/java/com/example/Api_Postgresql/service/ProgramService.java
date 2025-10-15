@@ -85,9 +85,12 @@ public class ProgramService {
         Program exists = programRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Program not found"));
 
-        Segment segment = segmentRepository.findById(request.getSegmentId())
-                .orElseThrow(() -> new EntityNotFoundException("Segment not found"));
-        request.setSegmentId(segment.getId());
+        Segment segment = null;
+        if (request.getSegmentId() != null) {
+            segment = segmentRepository.findById(request.getSegmentId())
+                    .orElseThrow(() -> new EntityNotFoundException("Segment not found"));
+            request.setSegmentId(segment.getId());
+        }
 
         Program newProgram = validator.validator(request, exists, segment);
         programRepository.save(newProgram);
