@@ -86,10 +86,11 @@ public class CompanyService {
         return companyMapper.convertCompanyToCompanyResponseDTO(company);
     }
 
-    public void deleteCompany(Integer id) {
+    public void inactiveCompany(Integer id) {
         Company company = companyRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Company with id " + id + "not found!"));
-        companyRepository.delete(company);
+        company.setActive(false);
+        companyRepository.save(company);
     }
 
     public void updateCompany(Integer id, CompanyRequestDTO request) {

@@ -1,10 +1,13 @@
 package com.example.Api_Postgresql.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,5 +25,10 @@ public class Company {
 
     @Column(unique = true)
     private String email;
+
+    private boolean active;
+
+    @JsonProperty("created_at")
+    private LocalDate createdAt;
 
 }

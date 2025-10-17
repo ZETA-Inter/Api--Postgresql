@@ -4,9 +4,10 @@ import com.example.Api_Postgresql.dto.request.WorkerRequestDTO;
 import com.example.Api_Postgresql.dto.response.ImageResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.model.Company;
-import com.example.Api_Postgresql.model.Image;
 import com.example.Api_Postgresql.model.Worker;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class WorkerMapper {
@@ -16,6 +17,8 @@ public class WorkerMapper {
         worker.setName(request.getName());
         worker.setEmail(request.getEmail());
         worker.setCompany(company);
+        worker.setCreatedAt(LocalDate.now());
+        worker.setActive(true);
         return worker;
     }
 
@@ -25,6 +28,8 @@ public class WorkerMapper {
         responseDTO.setName(worker.getName());
         responseDTO.setEmail(worker.getEmail());
         responseDTO.setPlanName(planName);
+        responseDTO.setCreatedAt(worker.getCreatedAt());
+        responseDTO.setActive(worker.isActive());
 
         if (worker.getCompany() != null) {
             responseDTO.setCompanyName(worker.getCompany().getName());
@@ -32,6 +37,14 @@ public class WorkerMapper {
 
         if (image != null) {
             responseDTO.setImageUrl(image.getImageUrl());
+        }
+
+        if (worker.getWorkerPrograms() != null) {
+            responseDTO.setSegments(
+                    worker.getWorkerPrograms().stream()
+                            .map(wp -> wp.getProgram().getSegment().getName())
+                            .collect(java.util.stream.Collectors.toSet())
+            );
         }
 
         return responseDTO;

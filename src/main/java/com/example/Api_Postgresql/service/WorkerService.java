@@ -65,6 +65,17 @@ public class WorkerService {
                 }).toList();
     }
 
+    public List<WorkerResponseDTO> listActiveWorkersByCompanyId(Integer companyId) {
+        return workerRepository.findAllByCompany_Id(companyId)
+                .stream()
+                .filter(Worker::isActive)
+                .map(w -> {
+                    ImageResponseDTO image = imageService.getImageById("workers", w.getId());
+                    String planName = planService.getPlanNameByWorkerId(w.getId());
+                    return workerMapper.convertWorkerToWorkerResponse(w, image, planName);
+                }).toList();
+    }
+
     public WorkerResponseDTO findById(Integer id) {
         Worker exists = workerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Worker not found!"));
@@ -134,12 +145,14 @@ public class WorkerService {
         return workerMapper.convertWorkerToWorkerResponse(worker, imageResponse, planName);
     }
 
-    public void deleteWorker(Integer id) {
-        Optional<Worker> worker = workerRepository.findById(id);
-        if (worker.isEmpty()) {
+    public void inactiveWorker(Integer id) {
+        Optional<Worker> workerExists = workerRepository.findById(id);
+        if (workerExists.isEmpty()) {
             throw new EntityNotFoundException("Worker with ID '"+id+"' don't exist!");
         }
-        workerRepository.delete(worker.get());
+        Worker worker = workerExists.get();
+        worker.setActive(false);
+        workerRepository.save(worker);
     }
 
     public void updateWorker(Integer id, WorkerRequestDTO request) {

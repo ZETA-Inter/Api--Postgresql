@@ -5,6 +5,8 @@ import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.model.Company;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class CompanyMapper {
 
@@ -12,6 +14,8 @@ public class CompanyMapper {
         Company company = new Company();
         company.setName(request.getName());
         company.setEmail(request.getEmail());
+        company.setCreatedAt(LocalDate.now());
+        company.setActive(true);
         return company;
     }
 
@@ -20,6 +24,8 @@ public class CompanyMapper {
         responseDTO.setId(company.getId());
         responseDTO.setName(company.getName());
         responseDTO.setEmail(company.getEmail());
+        responseDTO.setCreatedAt(company.getCreatedAt());
+        responseDTO.setActive(company.isActive());
         return responseDTO;
     }
 
