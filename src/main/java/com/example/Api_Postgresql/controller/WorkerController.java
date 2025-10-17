@@ -28,8 +28,13 @@ public class WorkerController {
     }
 
     @GetMapping("/list-by-companyId/{id}")
-    public ResponseEntity<List<WorkerResponseDTO>> listarByCompanyId(@PathVariable Integer id) {
+    public ResponseEntity<List<WorkerResponseDTO>> listByCompanyId(@PathVariable Integer id) {
         return ResponseEntity.status(200).body(workerService.listWorkersByCompanyId(id));
+    }
+
+    @GetMapping("/list-active-by-companyId/{id}")
+    public ResponseEntity<List<WorkerResponseDTO>> listActiveWorkersByCompanyId(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(workerService.listActiveWorkersByCompanyId(id));
     }
 
     @GetMapping("/find-by-id/{id}")
@@ -52,10 +57,10 @@ public class WorkerController {
         return ResponseEntity.status(200).body(workerService.listActualProgramsById(id));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteWorker(@PathVariable Integer id) {
-        workerService.deleteWorker(id);
-        return ResponseEntity.status(200).body("Worker ID "+id+" sucessfully deleted!");
+    @DeleteMapping("/inactive/{id}")
+    public ResponseEntity<String> inactiveWorker(@PathVariable Integer id) {
+        workerService.inactiveWorker(id);
+        return ResponseEntity.status(200).body("Worker ID "+id+" sucessfully inactive!");
     }
 
     @PutMapping("/update/{id}")

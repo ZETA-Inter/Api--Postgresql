@@ -1,11 +1,13 @@
 package com.example.Api_Postgresql.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +27,11 @@ public class Worker {
 
     @Column(unique = true)
     private String email;
+
+    private boolean active;
+
+    @JsonProperty("created_at")
+    private LocalDate createdAt;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)

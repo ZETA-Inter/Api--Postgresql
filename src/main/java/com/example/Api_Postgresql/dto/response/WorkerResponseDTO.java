@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,6 +21,11 @@ public class WorkerResponseDTO {
 
     private String email;
 
+    private boolean active;
+
+    @JsonProperty("created_at")
+    private LocalDate createdAt;
+
     @JsonProperty("image_url")
     private String imageUrl;
 
@@ -26,5 +34,7 @@ public class WorkerResponseDTO {
 
     @JsonProperty("company_name")
     private String companyName;
+
+    private Set<String> segments;
 
 }
