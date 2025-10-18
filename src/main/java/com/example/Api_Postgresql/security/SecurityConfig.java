@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +17,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     @Autowired
-    private CustomAcessDeniedHandler customAcessDeniedHandler;
+    private CustomAcessDeniedHandler customAccessDeniedHandler;
 
     @Autowired
     private CustomAuthEntryPoint customAuthEntryPoint;
@@ -26,8 +25,11 @@ public class SecurityConfig {
     @Value("${ADMIN_PASSWORD}")
     private String adminPassword;
 
-    @Value("${TOKEN_AUTH}")
-    private String token;
+    @Value("${TOKEN_USER}")
+    private String userToken;
+
+    @Value("${TOKEN_ADMIN}")
+    private String adminToken;
 
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder encoder) {
@@ -45,31 +47,22 @@ public class SecurityConfig {
 
     @Bean
     public TokenAuthFilter tokenAuthFilter() {
-        return new TokenAuthFilter(token);
+        return new TokenAuthFilter(userToken, adminToken);
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, TokenAuthFilter tokenAuthFilter) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/v3/api-docs",
-                                "/swagger-resources/**"
-                        ).hasRole("ADMIN")
-                        .requestMatchers("/api/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(tokenAuthFilter, BasicAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(customAuthEntryPoint)
-                        .accessDeniedHandler(customAcessDeniedHandler)
-                )
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults())
-                .logout(Customizer.withDefaults());
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                );
 
         return http.build();
     }
