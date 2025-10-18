@@ -12,15 +12,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
 
     @Autowired
-    CustomAcessDeniedHandler customAcessDeniedHandler;
+    private CustomAcessDeniedHandler customAcessDeniedHandler;
+
+    @Autowired
+    private CustomAuthEntryPoint customAuthEntryPoint;
 
     @Value("${ADMIN_PASSWORD}")
     private String adminPassword;
+
+    @Value("${TOKEN_AUTH}")
+    private String token;
 
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder encoder) {
@@ -33,12 +40,18 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // criptografada
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth
+    public TokenAuthFilter tokenAuthFilter() {
+        return new TokenAuthFilter(token);
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, TokenAuthFilter tokenAuthFilter) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
@@ -46,16 +59,18 @@ public class SecurityConfig {
                                 "/v3/api-docs",
                                 "/swagger-resources/**"
                         ).hasRole("ADMIN")
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(tokenAuthFilter, BasicAuthenticationFilter.class)
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(customAuthEntryPoint)
+                        .accessDeniedHandler(customAcessDeniedHandler)
+                )
                 .httpBasic(Customizer.withDefaults())
-                .exceptionHandling(exception -> exception
-                    .accessDeniedHandler(customAcessDeniedHandler))
                 .formLogin(Customizer.withDefaults())
                 .logout(Customizer.withDefaults());
 
         return http.build();
     }
-
 }
