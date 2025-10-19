@@ -32,6 +32,11 @@ public class GoalController {
         return ResponseEntity.status(200).body(goalService.getGoalsByProgramIdAndCompanyId(programId, companyId));
     }
 
+    @GetMapping("/list-goals-by-company")
+    public ResponseEntity<List<GoalResponseDTO>> getGoalsByCompany(@RequestParam("companyId") Integer companyId) {
+        return ResponseEntity.status(200).body(goalService.getGoalsByCompanyId(companyId));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<GoalResponseDTO> createGoal(@RequestBody @Validated({OnCreate.class, Default.class}) GoalRequestDTO requestDTO) {
         return ResponseEntity.status(201).body(goalService.createGoal(requestDTO));
