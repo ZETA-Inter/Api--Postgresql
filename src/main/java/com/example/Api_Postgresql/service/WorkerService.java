@@ -138,9 +138,12 @@ public class WorkerService {
             imageResponse = imageMapper.convertToImageResponse(image);
         }
 
-        paymentService.createPayment(new PaymentRequestDTO("worker", worker.getId(), request.getPlanInfo()));
+        String planName = null;
+        if (request.getCompanyId() == null) { // Worker não é vinculado a uma company e precisa pagar um plano
+            paymentService.createPayment(new PaymentRequestDTO("worker", worker.getId(), request.getPlanInfo()));
 
-        String planName = planService.getPlanNameByWorkerId(worker.getId());
+            planName = planService.getPlanNameByWorkerId(worker.getId());
+        }
 
         return workerMapper.convertWorkerToWorkerResponse(worker, imageResponse, planName);
     }

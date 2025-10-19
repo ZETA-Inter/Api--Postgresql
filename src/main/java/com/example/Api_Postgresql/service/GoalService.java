@@ -38,6 +38,12 @@ public class GoalService {
                 .toList();
     }
 
+    public List<GoalResponseDTO> getGoalsByCompanyId(Integer companyId) {
+        return goalRepository.findByCompanyId(companyId).stream()
+                .map(goalMapper::convertGoalToGoalResponse)
+                .toList();
+    }
+
     public GoalResponseDTO createGoal(GoalRequestDTO request) {
         goalRepository.createGoal(request.getCompanyId(), request.getDescription(), request.getProgramId());
         Goal goal = goalRepository.findGoalByDescriptionAndProgram_IdAndCompanyId(request.getDescription(), request.getProgramId(), request.getCompanyId())

@@ -28,7 +28,6 @@ public class WorkerRequestDTO {
     private String imageUrl;
 
     @JsonProperty("plan_info")
-    @NotNull(message = "field 'plan_info' is null", groups = OnCreate.class)
     private PlanInfoRequestDTO planInfo;
 
     @JsonProperty("company_id")

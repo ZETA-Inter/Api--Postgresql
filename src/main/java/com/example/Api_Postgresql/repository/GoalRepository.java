@@ -21,6 +21,8 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
 
     List<Goal> findByProgramIdAndCompanyId(Integer programId, Integer companyId);
 
+    List<Goal> findByCompanyId(Integer companyId);
+
     Optional<Goal> findGoalByDescriptionAndProgram_IdAndCompanyId(String description, Integer programId, Integer companyId);
 
     @Procedure(procedureName = "public.sp_create_goal")

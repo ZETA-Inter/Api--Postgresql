@@ -57,7 +57,7 @@ public class WorkerController {
         return ResponseEntity.status(200).body(workerService.listActualProgramsById(id));
     }
 
-    @DeleteMapping("/inactive/{id}")
+    @PatchMapping("/inactive/{id}")
     public ResponseEntity<String> inactiveWorker(@PathVariable Integer id) {
         workerService.inactiveWorker(id);
         return ResponseEntity.status(200).body("Worker ID "+id+" sucessfully inactive!");

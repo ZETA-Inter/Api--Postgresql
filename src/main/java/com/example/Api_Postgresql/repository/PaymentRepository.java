@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
-    Payment findPaymentByWorker_IdOrderByPaidDate(Integer workerId);
+    Optional<Payment> findFirstByWorker_IdOrderByPaidDateDesc(Integer workerId);
 
 }
