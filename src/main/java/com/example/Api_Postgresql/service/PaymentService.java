@@ -54,13 +54,11 @@ public class PaymentService {
         return paymentMapper.toPaymentResponse(payment);
     }
 
-    public Plan getPlanByWorkerId(Integer id) {
-        Payment payment = paymentRepository.findPaymentByWorker_IdOrderByPaidDate(id);
-
-        if (payment != null) {
-            return payment.getPlan();
-        }
-        return null;
+    public Plan getPlanByWorkerId(Integer workerId) {
+        return paymentRepository.findFirstByWorker_IdOrderByPaidDateDesc(workerId)
+                .map(Payment::getPlan)
+                .orElse(null);
     }
+
 
 }

@@ -42,7 +42,7 @@ public class CompanyController {
         return ResponseEntity.status(201).body(companyService.createCompany(requestDTO));
     }
 
-    @DeleteMapping("/inactive/{id}")
+    @PatchMapping("/inactive/{id}")
     public ResponseEntity<String> inactiveCompany(@PathVariable Integer id) {
         companyService.inactiveCompany(id);
         return ResponseEntity.status(200).body("Company ID "+id+" sucessfully inactive!");
