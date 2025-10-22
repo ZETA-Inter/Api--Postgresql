@@ -31,9 +31,4 @@ public class GoalRequestDTO {
     @Min(value = 1, message = "'programId' can't be less than 1", groups = OnCreate.class)
     private Integer programId;
 
-    @JsonProperty("worker_ids")
-    @NotNull(message = "field 'workerIds' is null", groups = OnCreate.class)
-    @Size(min = 1, message = "A goal must have at least one worker assigned", groups = OnCreate.class)
-    private List<Integer> workerIds;
-
 }

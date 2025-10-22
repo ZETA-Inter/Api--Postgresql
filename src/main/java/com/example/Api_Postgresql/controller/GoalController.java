@@ -42,6 +42,12 @@ public class GoalController {
         return ResponseEntity.status(201).body(goalService.createGoal(requestDTO));
     }
 
+    @DeleteMapping("/delete/{goalId}")
+    public ResponseEntity<String> deleteGaol(@PathVariable Integer goalId) {
+        goalService.deleteGoal(goalId);
+        return ResponseEntity.status(200).body("Goal with ID "+goalId+" deleted sucessfully!");
+    }
+
     @GetMapping("/list-workers-goal-by-program-and-company")
     public ResponseEntity<List<WorkerProgramResponse>> getWorkersGoalByProgramAndCompany(@RequestParam("programId") Integer programId, @RequestParam("companyId") Integer companyId) {
         return ResponseEntity.status(200).body(goalService.getWorkersByProgramIdAndCompanyId(programId, companyId));

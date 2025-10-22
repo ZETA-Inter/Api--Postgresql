@@ -52,6 +52,13 @@ public class GoalService {
         return goalMapper.convertGoalToGoalResponse(goal);
     }
 
+    public void deleteGoal(Integer goalId) {
+        goalRepository.findById(goalId)
+                .orElseThrow(() -> new EntityNotFoundException("Delete goal failed"));
+
+        goalRepository.deleteById(goalId);
+    }
+
     public List<WorkerProgramResponse> getWorkersByProgramIdAndCompanyId(Integer programId, Integer companyId) {
         List<WorkerProgramResponse> workers = goalRepository.getWorkersGoalByProgramAndCompany(programId, companyId);
 
