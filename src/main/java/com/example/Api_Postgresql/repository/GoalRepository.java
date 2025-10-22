@@ -32,4 +32,5 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
             @Param("pProgramId") Integer programId
     );
 
+    Goal findGoalById(Integer id);
 }

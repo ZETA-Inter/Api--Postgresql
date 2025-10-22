@@ -57,7 +57,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/api/health").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(tokenAuthFilter, BasicAuthenticationFilter.class)

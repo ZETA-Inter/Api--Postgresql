@@ -53,8 +53,11 @@ public class GoalService {
     }
 
     public void deleteGoal(Integer goalId) {
-        goalRepository.findById(goalId)
-                .orElseThrow(() -> new EntityNotFoundException("Delete goal failed"));
+        Goal exists = goalRepository.findGoalById(goalId);
+
+        if (exists == null) {
+            throw new EntityNotFoundException("Goal with ID " + goalId + " not found");
+        }
 
         goalRepository.deleteById(goalId);
     }
