@@ -4,6 +4,7 @@ import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.service.CompanyService;
+import com.example.Api_Postgresql.swagger.CompanyControllerDocs;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
 import jakarta.validation.groups.Default;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/companies")
-public class CompanyController {
+public class CompanyController implements CompanyControllerDocs {
 
     private final CompanyService companyService;
 

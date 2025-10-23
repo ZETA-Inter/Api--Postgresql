@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.response.PlanResponse;
 import com.example.Api_Postgresql.service.PlanService;
+import com.example.Api_Postgresql.swagger.PlanControllerDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/plans")
-public class PlanController {
+public class PlanController implements PlanControllerDocs {
 
     private final PlanService planService;
 

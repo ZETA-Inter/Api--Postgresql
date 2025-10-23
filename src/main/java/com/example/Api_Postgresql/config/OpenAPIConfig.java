@@ -18,7 +18,7 @@ public class OpenAPIConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("ZETA API - MongoDB")
+                        .title("ZETA API - Postgres")
                         .version("1.0")
                         .description("API protegida por token para endpoints /api/**"))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
