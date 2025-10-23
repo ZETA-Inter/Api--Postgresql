@@ -1,6 +1,7 @@
 package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
+import com.example.Api_Postgresql.model.WorkerGoal;
 import com.example.Api_Postgresql.repository.WorkerGoalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,16 @@ public class WorkerGoalService {
 
         if (workerGoals == null) {
             throw new EntityNotFoundException("Workers not found with goal ID: " + goalId);
+        }
+
+        return workerGoals;
+    }
+
+    public List<WorkerGoal> listWorkerGoalsByWorkerId(Integer workerId) {
+        List<WorkerGoal> workerGoals = workerGoalRepository.findByWorkerId(workerId);
+
+        if (workerGoals.isEmpty()) {
+            throw new EntityNotFoundException("Worker Goals not found for worker ID: " + workerId);
         }
 
         return workerGoals;

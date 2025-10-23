@@ -45,6 +45,8 @@ public class WorkerService {
 
     private final SegmentMapper segmentMapper;
 
+    private final WorkerGoalService workerGoalService;
+
     public List<WorkerResponseDTO> list() {
         return workerRepository.findAll()
                 .stream()
@@ -195,6 +197,16 @@ public class WorkerService {
         return workerRepository.getMostRecentProgress(workerId);
     }
 
+    public int getOverallProgress(Integer workerId) {
+        List<WorkerGoal> workerGoals = workerGoalService.listWorkerGoalsByWorkerId(workerId);
+
+        int length = workerGoals.size();
+
+        int completedGoals = countCompletedGoals(workerGoals);
+
+        return Math.round((float) completedGoals / length);
+    }
+
     public WorkerProgressResponse getProgramProgress(Integer workerId, Integer programId) {
         return workerRepository.getProgramProgress(workerId, programId);
     }
@@ -207,6 +219,12 @@ public class WorkerService {
                 .orElseThrow(() -> new EntityNotFoundException("Program with ID '" + programId + "' not found"));
 
         workerProgramService.assignProgramToWorker(worker, program);
+    }
+
+    public int countCompletedGoals(List<WorkerGoal> workerGoals) {
+        return (int) workerGoals.stream()
+                .filter(WorkerGoal::isCompleted)
+                .count();
     }
 
 }

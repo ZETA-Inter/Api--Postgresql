@@ -80,6 +80,11 @@ public class WorkerController {
         return ResponseEntity.status(200).body(workerService.getMostRecentProgress(workerId));
     }
 
+    @GetMapping("/overall-progress/{id}")
+    public ResponseEntity<Integer> getOverallProgress(@PathVariable("id") Integer workerId) {
+        return ResponseEntity.status(200).body(workerService.getOverallProgress(workerId));
+    }
+
     @GetMapping("/program-progress/{id}")
     public ResponseEntity<WorkerProgressResponse> getProgramProgress(@PathVariable("id") Integer workerId, @RequestParam Integer programId) {
         return ResponseEntity.status(200).body(workerService.getProgramProgress(workerId, programId));
