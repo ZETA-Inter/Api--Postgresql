@@ -11,7 +11,11 @@ public interface WorkerGoalRepository extends JpaRepository<WorkerGoal, Integer>
 
     List<WorkerGoal> findByGoalId(Integer goalId);
 
+    List<WorkerGoal> findByWorkerId(Integer workerId);
+
     @Query("SELECT wg.worker.id FROM WorkerGoal wg WHERE wg.goal.id = :goalId")
     List<Integer> findWorkerIdsByGoalId(@Param("goalId") Integer goalId);
+
+    Integer deleteByWorkerIdAndGoalId(Integer workerId, Integer goalId);
 
 }
