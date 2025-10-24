@@ -15,11 +15,6 @@ public class WorkerGoalController {
 
     private final WorkerGoalService workerGoalService;
 
-    @GetMapping("/list-workers-goal-by-goalId/{goalId}")
-    public ResponseEntity<List<WorkerResponseDTO>> getWorkersByGoalId(@PathVariable("goalId") Integer goalId) {
-        return ResponseEntity.status(200).body(workerGoalService.getWorkersByGoalId(goalId));
-    }
-
     @GetMapping("/list-worker-ids-by-goalId/{goalId}")
     public ResponseEntity<List<Integer>> getWorkerIdsByGoalId(@PathVariable("goalId") Integer goalId) {
         return ResponseEntity.status(200).body(workerGoalService.getWorkerIdsByGoalId(goalId));
