@@ -16,20 +16,6 @@ public class WorkerGoalService {
 
     private final WorkerGoalRepository workerGoalRepository;
 
-    private final WorkerService workerService;
-
-    public List<WorkerResponseDTO> getWorkersByGoalId(Integer goalId) {
-        List<Integer> workerGoals = workerGoalRepository.findWorkerIdsByGoalId(goalId);
-
-        if (workerGoals == null) {
-            throw new EntityNotFoundException("Workers not found with goal ID: " + goalId);
-        }
-
-        return workerGoals.stream()
-                .map(workerService::findById)
-                .toList();
-    }
-
     public List<Integer> getWorkerIdsByGoalId(Integer goalId) {
         List<Integer> workerGoals = workerGoalRepository.findWorkerIdsByGoalId(goalId);
 
