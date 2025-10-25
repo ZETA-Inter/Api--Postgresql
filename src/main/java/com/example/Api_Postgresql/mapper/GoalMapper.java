@@ -11,6 +11,7 @@ public class GoalMapper {
     public GoalResponseDTO convertGoalToGoalResponse(Goal goal) {
         return new GoalResponseDTO(
                 goal.getId(),
+                goal.getName(),
                 goal.getDescription()
         );
     }

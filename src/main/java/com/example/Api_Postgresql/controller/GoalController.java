@@ -7,6 +7,7 @@ import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
 import com.example.Api_Postgresql.service.GoalService;
 import com.example.Api_Postgresql.validation.OnCreate;
+import com.example.Api_Postgresql.validation.OnPatch;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,13 @@ public class GoalController {
     @PostMapping("/create")
     public ResponseEntity<GoalResponseDTO> createGoal(@RequestBody @Validated({OnCreate.class, Default.class}) GoalRequestDTO requestDTO) {
         return ResponseEntity.status(201).body(goalService.createGoal(requestDTO));
+    }
+
+    @PatchMapping("/update/{goalId}")
+    public ResponseEntity<String> updateGoal(@PathVariable Integer goalId,
+                                                      @RequestBody @Validated({OnPatch.class}) GoalRequestDTO requestDTO) {
+        goalService.partiallyUpdateGoal(goalId, requestDTO);
+        return ResponseEntity.status(200).body("Company ID "+goalId+" partially updated sucessfully!");
     }
 
     @DeleteMapping("/delete/{goalId}")

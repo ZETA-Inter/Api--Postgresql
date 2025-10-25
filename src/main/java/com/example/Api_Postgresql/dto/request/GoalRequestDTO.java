@@ -19,6 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 public class GoalRequestDTO {
 
+    @NotNull(message = "field 'name' is null", groups = OnCreate.class)
+    @Size(min = 1, max = 50, message = "'name' size must be between 1 and 50", groups = OnCreate.class)
+    private String name;
+
     @NotNull(message = "field 'description' is null", groups = OnCreate.class)
     private String description;
 

@@ -6,8 +6,13 @@ import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
 import com.example.Api_Postgresql.mapper.GoalMapper;
+import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Goal;
+import com.example.Api_Postgresql.model.Program;
+import com.example.Api_Postgresql.repository.CompanyRepository;
 import com.example.Api_Postgresql.repository.GoalRepository;
+import com.example.Api_Postgresql.repository.ProgramRepository;
+import com.example.Api_Postgresql.validation.GoalPatchValidation;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +26,12 @@ public class GoalService {
     private final GoalRepository goalRepository;
 
     private final GoalMapper goalMapper;
+
+    private final CompanyRepository companyRepository;
+
+    private final GoalPatchValidation validation;
+
+    private final ProgramRepository programRepository;
 
     public List<GoalWorkerResponse> getGoalsByWorkerId(int workerId){
         List<GoalWorkerResponse> goals = goalRepository.getGoalsByWorkerId(workerId);
@@ -50,6 +61,30 @@ public class GoalService {
                 .orElseThrow(() -> new EntityNotFoundException("Create goal failed"));
 
         return goalMapper.convertGoalToGoalResponse(goal);
+    }
+
+    public void partiallyUpdateGoal(Integer id, GoalRequestDTO request) {
+        Goal goal = goalRepository.findGoalById(id);
+        if (goal != null) {
+
+            Company company = goal.getCompany();
+            if (request.getCompanyId() != null) {
+                company = companyRepository.findById(request.getCompanyId())
+                        .orElseThrow(() -> new EntityNotFoundException("Company with ID '"+request.getCompanyId()+"' don't exist!"));
+            }
+
+            Program program = goal.getProgram();
+            if (request.getProgramId() != null) {
+                program = programRepository.findById(request.getProgramId())
+                        .orElseThrow(() -> new EntityNotFoundException("Program with ID '"+request.getProgramId()+"' don't exist!"));
+            }
+
+            Goal goalFinal = validation.validator(request, goal, company, program);
+
+            goalRepository.save(goalFinal);
+        } else {
+            throw new EntityNotFoundException("Goal with ID '"+id+"' not found!");
+        }
     }
 
     public void deleteGoal(Integer goalId) {
