@@ -12,6 +12,7 @@ import lombok.Setter;
 public class GoalResponseDTO {
 
     private Integer id;
+    private String name;
     private String description;
 
 }

@@ -51,13 +51,13 @@ public class CompanyController {
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateCompany(@PathVariable Integer id, @Validated({OnCreate.class, Default.class}) @RequestBody CompanyRequestDTO requestDTO) {
         companyService.updateCompany(id, requestDTO);
-        return ResponseEntity.status(200).body("Company ID "+id+" sucessfully updated!");
+        return ResponseEntity.status(201).body("Company ID "+id+" sucessfully updated!");
     }
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<String> partiallyUpdateCompany(@PathVariable Integer id, @RequestBody @Validated({OnPatch.class}) CompanyRequestDTO requestDTO) {
         companyService.partiallyUpdateCompany(id, requestDTO);
-        return ResponseEntity.status(200).body("Company ID "+id+" partially updated sucessfully!");
+        return ResponseEntity.status(201).body("Company ID "+id+" partially updated sucessfully!");
     }
 
     @GetMapping("/ranking")
