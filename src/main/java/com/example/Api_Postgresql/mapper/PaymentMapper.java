@@ -1,9 +1,9 @@
 package com.example.Api_Postgresql.mapper;
 
 import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
-import com.example.Api_Postgresql.dto.response.PaymentResponse;
-import com.example.Api_Postgresql.dto.response.PaymentResponse.UserInfo;
-import com.example.Api_Postgresql.dto.response.PaymentResponse.PlanInfo;
+import com.example.Api_Postgresql.dto.response.PaymentResponseDTO;
+import com.example.Api_Postgresql.dto.response.PaymentResponseDTO.UserInfo;
+import com.example.Api_Postgresql.dto.response.PaymentResponseDTO.PlanInfo;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Payment;
 import com.example.Api_Postgresql.model.Plan;
@@ -41,7 +41,7 @@ public class PaymentMapper {
         );
     }
 
-    public PaymentResponse toPaymentResponse(Payment payment) {
+    public PaymentResponseDTO toPaymentResponse(Payment payment) {
         UserInfo userInfo = new UserInfo();
         if (payment.getCompany() != null) {
             userInfo.setId(payment.getCompany().getId());
@@ -60,7 +60,7 @@ public class PaymentMapper {
                 payment.getFrequency()
         );
 
-         return new PaymentResponse(
+         return new PaymentResponseDTO(
                 payment.getId(),
                 userInfo,
                 planInfo,

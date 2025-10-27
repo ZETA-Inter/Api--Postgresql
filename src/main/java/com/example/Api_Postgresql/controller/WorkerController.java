@@ -24,7 +24,7 @@ public class WorkerController implements WorkerControllerDocs {
     private final WorkerService workerService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<WorkerResponseDTO>> listar() {
+    public ResponseEntity<List<WorkerResponseDTO>> list() {
         return ResponseEntity.status(200).body(workerService.list());
     }
 

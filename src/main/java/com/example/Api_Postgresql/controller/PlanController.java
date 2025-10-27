@@ -1,6 +1,6 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.response.PlanResponse;
+import com.example.Api_Postgresql.dto.response.PlanResponseDTO;
 import com.example.Api_Postgresql.service.PlanService;
 import com.example.Api_Postgresql.swagger.PlanControllerDocs;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class PlanController implements PlanControllerDocs {
     private final PlanService planService;
 
     @GetMapping("/list-plans")
-    public ResponseEntity<List<PlanResponse>> listPlans() {
+    public ResponseEntity<List<PlanResponseDTO>> listPlans() {
         return ResponseEntity.status(200).body(planService.getAllPlanFunctionalities());
     }
 

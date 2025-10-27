@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PaymentResponse {
+public class PaymentResponseDTO {
 
     private Integer id;
 

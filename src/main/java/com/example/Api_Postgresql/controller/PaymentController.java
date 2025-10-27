@@ -1,7 +1,7 @@
 package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
-import com.example.Api_Postgresql.dto.response.PaymentResponse;
+import com.example.Api_Postgresql.dto.response.PaymentResponseDTO;
 import com.example.Api_Postgresql.service.PaymentService;
 import com.example.Api_Postgresql.swagger.PaymentControllerDocs;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class PaymentController implements PaymentControllerDocs {
     private final PaymentService paymentService;
 
     @PostMapping("/create")
-    public ResponseEntity<PaymentResponse> createPayment(@RequestBody PaymentRequestDTO request) {
+    public ResponseEntity<PaymentResponseDTO> createPayment(@RequestBody PaymentRequestDTO request) {
         return ResponseEntity.status(200).body(paymentService.createPayment(request));
     }
 

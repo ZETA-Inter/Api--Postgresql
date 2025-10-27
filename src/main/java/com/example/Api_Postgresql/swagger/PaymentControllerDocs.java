@@ -1,7 +1,7 @@
 package com.example.Api_Postgresql.swagger;
 
 import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
-import com.example.Api_Postgresql.dto.response.PaymentResponse;
+import com.example.Api_Postgresql.dto.response.PaymentResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -16,5 +16,5 @@ public interface PaymentControllerDocs {
             summary = "Create a new payment",
             description = "Creates a new payment record based on the provided payment data."
     )
-    ResponseEntity<PaymentResponse> createPayment(PaymentRequestDTO request);
+    ResponseEntity<PaymentResponseDTO> createPayment(PaymentRequestDTO request);
 }
