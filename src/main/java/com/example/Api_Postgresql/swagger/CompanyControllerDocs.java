@@ -17,7 +17,7 @@ import java.util.List;
 public interface CompanyControllerDocs {
 
     @Operation(summary = "List all companies", description = "Returns a list of all registered companies.")
-    ResponseEntity<List<CompanyResponseDTO>> listar();
+    ResponseEntity<List<CompanyResponseDTO>> list();
 
     @Operation(summary = "Find company by ID", description = "Returns detailed information for a specific company.")
     ResponseEntity<CompanyResponseDTO> findCompanyById(

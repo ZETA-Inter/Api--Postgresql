@@ -1,6 +1,6 @@
 package com.example.Api_Postgresql.service;
 
-import com.example.Api_Postgresql.dto.response.PlanResponse;
+import com.example.Api_Postgresql.dto.response.PlanResponseDTO;
 import com.example.Api_Postgresql.mapper.FunctionalatitiesMapper;
 import com.example.Api_Postgresql.mapper.PlanMapper;
 import com.example.Api_Postgresql.model.Functionalities;
@@ -25,8 +25,8 @@ public class PlanService {
 
     private final FunctionalatitiesMapper functionalatitiesMapper;
 
-    public List<PlanResponse> getAllPlanFunctionalities(){
-        List<PlanResponse> planResponse = new ArrayList<>();
+    public List<PlanResponseDTO> getAllPlanFunctionalities(){
+        List<PlanResponseDTO> planResponse = new ArrayList<>();
         List<Plan> listPlans = planRepository.findAll();
 
         if (listPlans.isEmpty()){
@@ -38,7 +38,7 @@ public class PlanService {
                     .map(functionalatitiesMapper::getFunctionalities)
                     .toList();
 
-            PlanResponse planFunctionalities = planMapper.createPlanFunctionalitiesResponse(plan, functionalities);
+            PlanResponseDTO planFunctionalities = planMapper.createPlanFunctionalitiesResponse(plan, functionalities);
             planResponse.add(planFunctionalities);
         });
         return planResponse;

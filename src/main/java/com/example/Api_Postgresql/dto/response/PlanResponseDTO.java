@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class PlanResponse {
+public class PlanResponseDTO {
 
     @JsonProperty("plan_id")
     private Integer planId;

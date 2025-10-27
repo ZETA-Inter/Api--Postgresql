@@ -24,7 +24,7 @@ public class CompanyController implements CompanyControllerDocs {
     private final CompanyService companyService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<CompanyResponseDTO>> listar() {
+    public ResponseEntity<List<CompanyResponseDTO>> list() {
         return ResponseEntity.status(200).body(companyService.list());
     }
 

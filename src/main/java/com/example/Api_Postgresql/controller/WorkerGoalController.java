@@ -1,6 +1,5 @@
 package com.example.Api_Postgresql.controller;
 
-import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerGoalService;
 import com.example.Api_Postgresql.swagger.WorkerGoalControllerDocs;
 import lombok.RequiredArgsConstructor;

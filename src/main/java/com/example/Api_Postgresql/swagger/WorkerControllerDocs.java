@@ -18,7 +18,7 @@ import java.util.List;
 public interface WorkerControllerDocs {
 
     @Operation(summary = "List all workers", description = "Returns a list of all registered workers.")
-    ResponseEntity<List<WorkerResponseDTO>> listar();
+    ResponseEntity<List<WorkerResponseDTO>> list();
 
     @Operation(summary = "List workers by company ID", description = "Returns all workers associated with a given company.")
     ResponseEntity<List<WorkerResponseDTO>> listByCompanyId(

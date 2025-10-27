@@ -1,6 +1,5 @@
 package com.example.Api_Postgresql.service;
 
-import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.model.WorkerGoal;
 import com.example.Api_Postgresql.repository.WorkerGoalRepository;
 import jakarta.persistence.EntityNotFoundException;

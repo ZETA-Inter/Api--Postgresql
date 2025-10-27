@@ -49,7 +49,6 @@ public class WorkerProgramService {
         progress.setPoints(0);
         progress.setProgressPercentage(0);
 
-        // Adiciona o progresso ao workerProgram (mantém bidirecional)
         wp.addProgress(progress);
 
         worker.getWorkerPrograms().add(wp);
