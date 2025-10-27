@@ -6,6 +6,7 @@ import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
 import com.example.Api_Postgresql.service.GoalService;
+import com.example.Api_Postgresql.swagger.GoalControllerDocs;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
 import jakarta.validation.groups.Default;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/goals")
-public class GoalController {
+public class GoalController implements GoalControllerDocs {
 
     private final GoalService goalService;
 

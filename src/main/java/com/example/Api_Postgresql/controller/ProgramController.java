@@ -3,6 +3,7 @@ package com.example.Api_Postgresql.controller;
 import com.example.Api_Postgresql.dto.request.ProgramRequestDTO;
 import com.example.Api_Postgresql.dto.response.ProgramResponseDTO;
 import com.example.Api_Postgresql.service.ProgramService;
+import com.example.Api_Postgresql.swagger.ProgramControllerDocs;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
 import jakarta.validation.groups.Default;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/programs")
-public class ProgramController {
+public class ProgramController implements ProgramControllerDocs {
 
     private final ProgramService service;
 
@@ -43,7 +44,7 @@ public class ProgramController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updatePrgoram(@PathVariable Integer id, @Validated({OnCreate.class, Default.class}) @RequestBody ProgramRequestDTO requestDTO) {
+    public ResponseEntity<String> updateProgram(@PathVariable Integer id, @Validated({OnCreate.class, Default.class}) @RequestBody ProgramRequestDTO requestDTO) {
         service.updateProgram(id, requestDTO);
         return ResponseEntity.ok().body("Program with ID "+id+" updated successfully!");
     }

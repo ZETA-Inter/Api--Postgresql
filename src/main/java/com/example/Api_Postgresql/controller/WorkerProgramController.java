@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.GradeRequestDTO;
 import com.example.Api_Postgresql.service.WorkerProgramService;
+import com.example.Api_Postgresql.swagger.WorkerProgramControllerDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/worker-programs")
 @RequiredArgsConstructor
-public class WorkerProgramController {
+public class WorkerProgramController implements WorkerProgramControllerDocs {
 
     private final WorkerProgramService workerProgramService;
 

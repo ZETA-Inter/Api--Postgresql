@@ -3,6 +3,7 @@ package com.example.Api_Postgresql.controller;
 import com.example.Api_Postgresql.dto.request.ResponsibleRequestDTO;
 import com.example.Api_Postgresql.dto.response.ResponsibleResponseDTO;
 import com.example.Api_Postgresql.service.ResponsibleService;
+import com.example.Api_Postgresql.swagger.ResponsibleControllerDocs;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
 import jakarta.validation.groups.Default;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/responsibles")
-public class ResponsibleController {
+public class ResponsibleController implements ResponsibleControllerDocs {
 
     private final ResponsibleService responsibleService;
 

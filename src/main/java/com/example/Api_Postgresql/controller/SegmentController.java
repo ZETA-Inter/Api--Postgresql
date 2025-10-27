@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.response.SegmentResponseDTO;
 import com.example.Api_Postgresql.service.SegmentService;
+import com.example.Api_Postgresql.swagger.SegmentControllerDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("api/segments")
 @RestController
-public class SegmentController {
+public class SegmentController implements SegmentControllerDocs {
 
     private final SegmentService segmentService;
 

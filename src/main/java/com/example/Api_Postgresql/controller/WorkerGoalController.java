@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerGoalService;
+import com.example.Api_Postgresql.swagger.WorkerGoalControllerDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/worker-goals")
-public class WorkerGoalController {
+public class WorkerGoalController implements WorkerGoalControllerDocs {
 
     private final WorkerGoalService workerGoalService;
 

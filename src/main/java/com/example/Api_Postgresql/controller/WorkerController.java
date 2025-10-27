@@ -5,6 +5,7 @@ import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerProgressResponse;
 import com.example.Api_Postgresql.dto.response.WorkerResponseDTO;
 import com.example.Api_Postgresql.service.WorkerService;
+import com.example.Api_Postgresql.swagger.WorkerControllerDocs;
 import com.example.Api_Postgresql.validation.OnCreate;
 import com.example.Api_Postgresql.validation.OnPatch;
 import jakarta.validation.groups.Default;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/workers")
 @RestController
-public class WorkerController {
+public class WorkerController implements WorkerControllerDocs {
 
     private final WorkerService workerService;
 
