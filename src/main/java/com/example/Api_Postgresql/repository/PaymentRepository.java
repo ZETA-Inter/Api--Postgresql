@@ -9,4 +9,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
     Optional<Payment> findFirstByWorker_IdOrderByPaidDateDesc(Integer workerId);
 
+    Optional<Payment> findFirstByCompany_IdOrderByPaidDateDesc(Integer workerId);
+
+
 }

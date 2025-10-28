@@ -58,5 +58,11 @@ public class PaymentService {
                 .orElse(null);
     }
 
+    public Plan getPlanByCompanyId(Integer companyId) {
+        return paymentRepository.findFirstByCompany_IdOrderByPaidDateDesc(companyId)
+                .map(Payment::getPlan)
+                .orElse(null);
+    }
+
 
 }
