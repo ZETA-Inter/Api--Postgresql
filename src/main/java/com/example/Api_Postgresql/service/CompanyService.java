@@ -7,6 +7,7 @@ import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.CompanyMapper;
 import com.example.Api_Postgresql.model.Company;
+import com.example.Api_Postgresql.model.Plan;
 import com.example.Api_Postgresql.repository.CompanyRepository;
 import com.example.Api_Postgresql.validation.CompanyPatchValidation;
 import jakarta.persistence.EntityNotFoundException;
@@ -58,7 +59,10 @@ public class CompanyService {
     public CompanyResponseDTO findById(Integer id) {
         Company exists = companyRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Company not found!"));
-        return companyMapper.convertCompanyToCompanyResponseDTO(exists);
+
+        Plan plan = paymentService.getPlanByCompanyId(id);
+
+        return companyMapper.convertCompanyToCompanyResponseDTO(exists, plan);
     }
 
     public CompanyResponseDTO findByEmail(String email) {
@@ -66,7 +70,10 @@ public class CompanyService {
         if (exists == null) {
             throw new EntityNotFoundException("Company not found!");
         }
-        return companyMapper.convertCompanyToCompanyResponseDTO(exists);
+
+        Plan plan = paymentService.getPlanByCompanyId(exists.getId());
+
+        return companyMapper.convertCompanyToCompanyResponseDTO(exists, plan);
     }
 
     public CompanyResponseDTO createCompany(CompanyRequestDTO request) {
@@ -94,7 +101,7 @@ public class CompanyService {
     }
 
     public void updateCompany(Integer id, CompanyRequestDTO request) {
-        Company companyExists = companyRepository.findById(id)
+        companyRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Company with ID \"" + id + "\" not found"));
         Company company = companyMapper.convertCompanyRequestToCompany(request);
         company.setId(id);

@@ -3,6 +3,7 @@ package com.example.Api_Postgresql.mapper;
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
 import com.example.Api_Postgresql.model.Company;
+import com.example.Api_Postgresql.model.Plan;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -26,6 +27,17 @@ public class CompanyMapper {
         responseDTO.setEmail(company.getEmail());
         responseDTO.setCreatedAt(company.getCreatedAt());
         responseDTO.setActive(company.isActive());
+        return responseDTO;
+    }
+
+    public CompanyResponseDTO convertCompanyToCompanyResponseDTO(Company company, Plan plan) {
+        CompanyResponseDTO responseDTO = new CompanyResponseDTO();
+        responseDTO.setId(company.getId());
+        responseDTO.setName(company.getName());
+        responseDTO.setEmail(company.getEmail());
+        responseDTO.setCreatedAt(company.getCreatedAt());
+        responseDTO.setActive(company.isActive());
+        responseDTO.setPlanId(plan.getId());
         return responseDTO;
     }
 

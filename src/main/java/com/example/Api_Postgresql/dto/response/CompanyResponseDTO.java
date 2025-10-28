@@ -22,6 +22,9 @@ public class CompanyResponseDTO {
 
     private boolean active;
 
+    @JsonProperty("plan_id")
+    private Integer planId;
+
     @JsonProperty("created_at")
     private LocalDate createdAt;
 
