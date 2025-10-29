@@ -18,7 +18,7 @@ public class SegmentController implements SegmentControllerDocs {
 
     private final SegmentService segmentService;
 
-    @GetMapping("/list_segments")
+    @GetMapping("/list-segments")
     public ResponseEntity<List<SegmentResponseDTO>> listSegments() {
         return ResponseEntity.status(200).body(segmentService.listSegments());
     }
