@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,5 +25,5 @@ public class PlanInfoRequestDTO {
 
     @NotNull(message = "field 'plan_info.id' is null", groups = OnCreate.class)
     @Min(value = 0, message = "'plan_info.amount' can't be less than 1", groups = OnCreate.class)
-    private Double amount;
+    private BigDecimal amount;
 }

@@ -7,7 +7,7 @@ import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Worker;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class WorkerMapper {
@@ -17,7 +17,7 @@ public class WorkerMapper {
         worker.setName(request.getName());
         worker.setEmail(request.getEmail());
         worker.setCompany(company);
-        worker.setCreatedAt(LocalDate.now());
+        worker.setCreatedAt(LocalDateTime.now());
         worker.setActive(true);
         return worker;
     }

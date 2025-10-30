@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -30,14 +31,14 @@ public class Payment {
     @JoinColumn(name = "plan_id", nullable = false)
     private Plan plan;
 
-    private Double amount;
+    private BigDecimal amount;
 
     @Column(name = "paid_date")
     private LocalDate paidDate;
 
     private String frequency;
 
-    public Payment(Worker worker, Plan plan, Double amount, LocalDate paidDate, String frequency) {
+    public Payment(Worker worker, Plan plan, BigDecimal amount, LocalDate paidDate, String frequency) {
         this.worker = worker;
         this.plan = plan;
         this.amount = amount;
@@ -45,7 +46,7 @@ public class Payment {
         this.frequency = frequency;
     }
 
-    public Payment(Company company, Plan plan, Double amount, LocalDate paidDate, String frequency) {
+    public Payment(Company company, Plan plan, BigDecimal amount, LocalDate paidDate, String frequency) {
         this.company = company;
         this.plan = plan;
         this.amount = amount;

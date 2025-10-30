@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -29,6 +29,6 @@ public class Company {
     private boolean active;
 
     @JsonProperty("created_at")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
 }

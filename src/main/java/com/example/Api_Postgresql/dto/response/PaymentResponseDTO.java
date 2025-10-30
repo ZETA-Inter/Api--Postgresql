@@ -3,6 +3,7 @@ package com.example.Api_Postgresql.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -42,7 +43,7 @@ public class PaymentResponseDTO {
     public static class PlanInfo {
         private Integer id;
         private String name;
-        private Double amount;
+        private BigDecimal amount;
         private String frequency;
     }
 
