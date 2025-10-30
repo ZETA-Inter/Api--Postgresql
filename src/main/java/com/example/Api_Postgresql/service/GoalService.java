@@ -56,7 +56,7 @@ public class GoalService {
     }
 
     public GoalResponseDTO createGoal(GoalRequestDTO request) {
-        goalRepository.createGoal(request.getCompanyId(), request.getDescription(), request.getProgramId());
+        goalRepository.createGoal(request.getCompanyId(), request.getDescription(), request.getName(), request.getProgramId());
         Goal goal = goalRepository.findGoalByDescriptionAndProgram_IdAndCompanyId(request.getDescription(), request.getProgramId(), request.getCompanyId())
                 .orElseThrow(() -> new EntityNotFoundException("Create goal failed"));
 
