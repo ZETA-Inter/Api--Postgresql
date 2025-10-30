@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -24,7 +24,7 @@ public class WorkerResponseDTO {
     private boolean active;
 
     @JsonProperty("created_at")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @JsonProperty("image_url")
     private String imageUrl;

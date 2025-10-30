@@ -141,7 +141,7 @@ public class WorkerService {
         }
 
         String planName = null;
-        if (request.getCompanyId() == null) { // Worker não é vinculado a uma company e precisa pagar um plano
+        if (request.getCompanyId() == null) {
             paymentService.createPayment(new PaymentRequestDTO("worker", worker.getId(), request.getPlanInfo()));
 
             planName = planService.getPlanNameByWorkerId(worker.getId());

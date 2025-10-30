@@ -6,7 +6,7 @@ import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Plan;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class CompanyMapper {
@@ -15,7 +15,7 @@ public class CompanyMapper {
         Company company = new Company();
         company.setName(request.getName());
         company.setEmail(request.getEmail());
-        company.setCreatedAt(LocalDate.now());
+        company.setCreatedAt(LocalDateTime.now());
         company.setActive(true);
         return company;
     }
