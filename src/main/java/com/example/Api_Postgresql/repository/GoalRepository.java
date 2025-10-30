@@ -29,6 +29,7 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
     void createGoal(
             @Param("pCompanyId") Integer companyId,
             @Param("pDescription") String description,
+            @Param("pName") String name,
             @Param("pProgramId") Integer programId
     );
 
