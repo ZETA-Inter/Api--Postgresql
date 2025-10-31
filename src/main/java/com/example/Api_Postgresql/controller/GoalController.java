@@ -67,5 +67,9 @@ public class GoalController implements GoalControllerDocs {
         return ResponseEntity.status(200).body(goalService.getGoalProgressPercentage(workerId));
     }
 
+    @GetMapping("/avg-progress-goals/{companyId}")
+    public ResponseEntity<GoalProgressResponseDTO> getAvgGoalProgressPercentage(@PathVariable("companyId") Integer companyId) {
+        return ResponseEntity.status(200).body(goalService.getGoalProgressPercentage(companyId));
+    }
 
 }

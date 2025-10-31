@@ -34,4 +34,5 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
     );
 
     Goal findGoalById(Integer id);
+
 }

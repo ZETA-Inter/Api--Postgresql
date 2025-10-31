@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -44,6 +45,16 @@ public class WorkerGoalService {
             }
         }
         return "Worker Goals deleted successfully for goal ID " + goalId + " and worker Ids " + workerIds;
+    }
+
+    public String completeGoal(Integer workerId, Integer goalId) {
+        WorkerGoal wg = workerGoalRepository.findWorkerGoalByWorkerIdAndGoalId(workerId, goalId)
+                .orElseThrow(() -> new EntityNotFoundException("Can't find Worker Goal with goal ID "+goalId + " and worker ID "+workerId+"."));
+
+        wg.setCompleted(true);
+        workerGoalRepository.save(wg);
+
+        return "Worker Goal completed with sucessfully for goal ID " + goalId + " and worker ID " + workerId;
     }
 
 }

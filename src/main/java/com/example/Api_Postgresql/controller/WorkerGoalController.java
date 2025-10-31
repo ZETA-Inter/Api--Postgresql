@@ -24,4 +24,9 @@ public class WorkerGoalController implements WorkerGoalControllerDocs {
     public ResponseEntity<String> deleteWorkersByGoalId(@PathVariable("goalId") Integer goalId, @RequestBody List<Integer> workerIds) {
         return ResponseEntity.status(200).body(workerGoalService.deleteWorkersByGoalId(goalId, workerIds));
     }
+
+    @PatchMapping("/complete-goal/{workerId}/{goalId}")
+    public ResponseEntity<String> completeGoal(@PathVariable("workerId") Integer workerId, @PathVariable("goalId") Integer goalId) {
+        return ResponseEntity.status(200).body(workerGoalService.completeGoal(workerId, goalId));
+    }
 }
