@@ -71,4 +71,14 @@ public class CompanyController implements CompanyControllerDocs {
         return ResponseEntity.status(200).body(companyService.assignGoal(workerIds, goalId));
     }
 
+    @GetMapping("/average-progress-percentage/{companyId}")
+    public ResponseEntity<Integer> getAverageProgressPercentage(@PathVariable Integer companyId) {
+        return ResponseEntity.status(200).body(companyService.getAverageProgressPercentage(companyId));
+    }
+
+    @GetMapping("/average-points/{companyId}")
+    public ResponseEntity<Integer> getAveragePoints(@PathVariable Integer companyId) {
+        return ResponseEntity.status(200).body(companyService.getAveragePoints(companyId));
+    }
+
 }

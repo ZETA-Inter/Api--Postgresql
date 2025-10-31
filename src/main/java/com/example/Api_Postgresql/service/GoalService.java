@@ -125,4 +125,8 @@ public class GoalService {
         return goalRepository.getSegmentGoal(goalId);
     }
 
+    public Integer getAverageFinishedGoals(Integer companyId) {
+        return goalRepository.getFinishedGoalsPercentage(companyId);
+    }
+
 }

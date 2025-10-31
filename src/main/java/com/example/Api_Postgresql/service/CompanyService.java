@@ -141,4 +141,12 @@ public class CompanyService {
         return "Workers successfully assigned";
     }
 
+    public Integer getAverageProgressPercentage(Integer companyId) {
+        return companyRepository.getAverageProgressPercentage(companyId);
+    }
+
+    public Integer getAveragePoints(Integer companyId) {
+        return companyRepository.getAveragePoints(companyId);
+    }
+
 }
