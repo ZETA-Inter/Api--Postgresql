@@ -121,4 +121,8 @@ public class GoalService {
         return goalMapper.convertToGoalProgressResponseDTO(size, progress);
     }
 
+    public String getSegmentGoal(Integer goalId) {
+        return goalRepository.getSegmentGoal(goalId);
+    }
+
 }

@@ -35,4 +35,7 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
 
     Goal findGoalById(Integer id);
 
+    @Query(value = "SELECT * FROM fn_segment_by_goal(:goalId)", nativeQuery = true)
+    String getSegmentGoal(@Param("goalId") Integer goalId);
+
 }

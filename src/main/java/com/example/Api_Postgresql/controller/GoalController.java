@@ -72,4 +72,9 @@ public class GoalController implements GoalControllerDocs {
         return ResponseEntity.status(200).body(goalService.getGoalProgressPercentage(companyId));
     }
 
+    @GetMapping("/segment-goal/{goalId}")
+    public ResponseEntity<String> getSegmentGoal(@PathVariable("goalId") Integer goalId) {
+        return ResponseEntity.status(200).body(goalService.getSegmentGoal(goalId));
+    }
+
 }
