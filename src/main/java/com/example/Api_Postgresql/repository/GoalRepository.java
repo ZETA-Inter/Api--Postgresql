@@ -38,4 +38,7 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
     @Query(value = "SELECT * FROM fn_segment_by_goal(:goalId)", nativeQuery = true)
     String getSegmentGoal(@Param("goalId") Integer goalId);
 
+    @Query(value = "SELECT * FROM fn_finished_goals_percentage(:companyId)", nativeQuery = true)
+    Integer getFinishedGoalsPercentage(@Param("companyId") Integer companyId);
+
 }
