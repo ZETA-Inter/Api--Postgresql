@@ -76,14 +76,19 @@ public class WorkerController implements WorkerControllerDocs {
         return ResponseEntity.status(200).body("Worker ID "+id+" partially updated sucessfully!");
     }
 
-    @GetMapping("/recent-progress/{id}")
-    public ResponseEntity<WorkerProgressResponse> getRecentProgress(@PathVariable("id") Integer workerId) {
+    @GetMapping("/recent-program-progress/{id}")
+    public ResponseEntity<WorkerProgressResponse> getRecentProgramProgress(@PathVariable("id") Integer workerId) {
         return ResponseEntity.status(200).body(workerService.getMostRecentProgress(workerId));
     }
 
-    @GetMapping("/overall-progress/{id}")
-    public ResponseEntity<Integer> getOverallProgress(@PathVariable("id") Integer workerId) {
-        return ResponseEntity.status(200).body(workerService.getOverallProgress(workerId));
+    @GetMapping("/overall-goals-progress/{id}")
+    public ResponseEntity<Integer> getOverallGoalsProgress(@PathVariable("id") Integer workerId) {
+        return ResponseEntity.status(200).body(workerService.getOverallGoalsProgress(workerId));
+    }
+
+    @GetMapping("/overall-programs-progress/{id}")
+    public ResponseEntity<Integer> getOverallProgramsProgress(@PathVariable("id") Integer workerId) {
+        return ResponseEntity.status(200).body(workerService.getOverallProgramsProgress(workerId));
     }
 
     @GetMapping("/program-progress/{id}")
