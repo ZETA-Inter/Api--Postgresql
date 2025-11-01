@@ -202,10 +202,11 @@ public class WorkerService {
         List<WorkerGoal> workerGoals = workerGoalService.listWorkerGoalsByWorkerId(workerId);
 
         int length = workerGoals.size();
+        if (length == 0) return 0;
 
         int completedGoals = countCompletedGoals(workerGoals);
 
-        return Math.round((float) completedGoals / length) * 100;
+        return Math.round((float) completedGoals / length * 100);
     }
 
     public int getOverallProgramsProgress(Integer workerId) {
@@ -213,9 +214,7 @@ public class WorkerService {
 
         int length = workerPrograms.size();
 
-        if (length == 0) {
-            return 0;
-        }
+        if (length == 0) return 0;
 
         int completedProgramSum = workerPrograms.stream()
                 .map(WorkerProgram::getLatestProgress)
