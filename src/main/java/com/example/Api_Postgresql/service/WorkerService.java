@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -197,14 +198,32 @@ public class WorkerService {
         return workerRepository.getMostRecentProgress(workerId);
     }
 
-    public int getOverallProgress(Integer workerId) {
+    public int getOverallGoalsProgress(Integer workerId) {
         List<WorkerGoal> workerGoals = workerGoalService.listWorkerGoalsByWorkerId(workerId);
 
         int length = workerGoals.size();
 
         int completedGoals = countCompletedGoals(workerGoals);
 
-        return Math.round((float) completedGoals / length);
+        return Math.round((float) completedGoals / length) * 100;
+    }
+
+    public int getOverallProgramsProgress(Integer workerId) {
+        List<WorkerProgram> workerPrograms = workerProgramService.listWorkerProgramsByWorkerId(workerId);
+
+        int length = workerPrograms.size();
+
+        if (length == 0) {
+            return 0;
+        }
+
+        int completedProgramSum = workerPrograms.stream()
+                .map(WorkerProgram::getLatestProgress)
+                .filter(Objects::nonNull)
+                .mapToInt(Progress::getProgressPercentage)
+                .sum();
+
+        return Math.round((float) completedProgramSum / length);
     }
 
     public WorkerProgressResponse getProgramProgress(Integer workerId, Integer programId) {
