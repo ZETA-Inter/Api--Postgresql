@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
+import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.service.CompanyService;
 import com.example.Api_Postgresql.swagger.CompanyControllerDocs;
@@ -79,6 +80,11 @@ public class CompanyController implements CompanyControllerDocs {
     @GetMapping("/average-points/{companyId}")
     public ResponseEntity<Integer> getAveragePoints(@PathVariable Integer companyId) {
         return ResponseEntity.status(200).body(companyService.getAveragePoints(companyId));
+    }
+
+    @GetMapping("/list-actual-worker-programs-by-id/{companyId}")
+    public ResponseEntity<List<ProgramWorkerResponseDTO>> listActualWorkerPrograms(@PathVariable("companyId") Integer companyId) {
+        return ResponseEntity.status(200).body(companyService.listActualWorkerPrograms(companyId));
     }
 
 }
