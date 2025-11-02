@@ -4,11 +4,13 @@ public class CountWorkerProgramResponse {
 
     private Integer programId;
     private String programName;
+    private String segment;
     private Long countWorkers;
 
-    public CountWorkerProgramResponse(Integer programId, String programName, Long countWorkers) {
+    public CountWorkerProgramResponse(Integer programId, String programName, String segment, Long countWorkers) {
         this.programId = programId;
         this.programName = programName;
+        this.segment = segment;
         this.countWorkers = countWorkers;
     }
 
@@ -18,6 +20,10 @@ public class CountWorkerProgramResponse {
 
     public String getProgramName() {
         return programName;
+    }
+
+    public String getSegment() {
+        return segment;
     }
 
     public Long getCountWorkers() {
