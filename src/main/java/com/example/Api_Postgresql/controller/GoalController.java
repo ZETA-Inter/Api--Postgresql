@@ -1,10 +1,7 @@
 package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.GoalRequestDTO;
-import com.example.Api_Postgresql.dto.response.GoalProgressResponseDTO;
-import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
-import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
-import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
+import com.example.Api_Postgresql.dto.response.*;
 import com.example.Api_Postgresql.service.GoalService;
 import com.example.Api_Postgresql.swagger.GoalControllerDocs;
 import com.example.Api_Postgresql.validation.OnCreate;
@@ -72,9 +69,9 @@ public class GoalController implements GoalControllerDocs {
         return ResponseEntity.status(200).body(goalService.getSegmentGoal(goalId));
     }
 
-    @GetMapping("/average-finished-goals/{companyId}")
-    public ResponseEntity<Integer> getAverageFinishedGoals(@PathVariable("companyId") Integer companyId) {
-        return ResponseEntity.status(200).body(goalService.getAverageFinishedGoals(companyId));
+    @GetMapping("/finished-goals-percentage/{companyId}")
+    public ResponseEntity<GoalProgressPercentage> getAverageFinishedGoals(@PathVariable("companyId") Integer companyId) {
+        return ResponseEntity.status(200).body(goalService.getFinishedGoalsPercentage(companyId));
     }
 
 }

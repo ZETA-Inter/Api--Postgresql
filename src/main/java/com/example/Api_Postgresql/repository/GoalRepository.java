@@ -1,5 +1,6 @@
 package com.example.Api_Postgresql.repository;
 
+import com.example.Api_Postgresql.dto.response.GoalProgressPercentage;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
 import com.example.Api_Postgresql.model.Goal;
@@ -39,6 +40,6 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
     String getSegmentGoal(@Param("goalId") Integer goalId);
 
     @Query(value = "SELECT * FROM fn_finished_goals_percentage(:companyId)", nativeQuery = true)
-    Integer getFinishedGoalsPercentage(@Param("companyId") Integer companyId);
+    GoalProgressPercentage getFinishedGoalsPercentage(@Param("companyId") Integer companyId);
 
 }
