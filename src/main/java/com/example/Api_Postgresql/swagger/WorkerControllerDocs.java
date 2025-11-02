@@ -57,20 +57,24 @@ public interface WorkerControllerDocs {
             @Parameter(description = "Worker ID", example = "10") Integer id,
             WorkerRequestDTO requestDTO);
 
-    @Operation(summary = "Get most recent progress", description = "Returns the most recent progress record of a worker.")
+    @Operation(summary = "Get most recent program progress", description = "Returns the most recent program progress record of a worker.")
     ResponseEntity<WorkerProgressResponse> getRecentProgramProgress(
             @Parameter(description = "Worker ID", example = "10") Integer workerId);
 
-    @Operation(summary = "Get overall progress", description = "Returns the overall progress percentage of a worker.")
+    @Operation(summary = "Get overall goals progress", description = "Returns the average progress percentage across all goals of the worker.")
     ResponseEntity<Integer> getOverallGoalsProgress(
             @Parameter(description = "Worker ID", example = "10") Integer workerId);
 
-    @Operation(summary = "Get program progress", description = "Returns progress information for a specific program assigned to a worker.")
+    @Operation(summary = "Get overall programs progress", description = "Returns the average progress percentage across all programs of the worker.")
+    ResponseEntity<Integer> getOverallProgramsProgress(
+            @Parameter(description = "Worker ID", example = "10") Integer workerId);
+
+    @Operation(summary = "Get specific program progress", description = "Returns progress details for a specific program assigned to the worker.")
     ResponseEntity<WorkerProgressResponse> getProgramProgress(
             @Parameter(description = "Worker ID", example = "10") Integer workerId,
             @Parameter(description = "Program ID", example = "5") Integer programId);
 
-    @Operation(summary = "Assign program to worker", description = "Assigns a program to a specific worker.")
+    @Operation(summary = "Assign program to worker", description = "Assigns a specific program to a worker.")
     ResponseEntity<String> assignProgramToWorker(
             @Parameter(description = "Worker ID", example = "10") Integer workerId,
             @Parameter(description = "Program ID", example = "5") Integer programId);

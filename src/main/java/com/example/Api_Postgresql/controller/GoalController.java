@@ -49,7 +49,7 @@ public class GoalController implements GoalControllerDocs {
     }
 
     @DeleteMapping("/delete/{goalId}")
-    public ResponseEntity<String> deleteGaol(@PathVariable Integer goalId) {
+    public ResponseEntity<String> deleteGoal(@PathVariable Integer goalId) {
         goalService.deleteGoal(goalId);
         return ResponseEntity.status(200).body("Goal with ID "+goalId+" deleted sucessfully!");
     }

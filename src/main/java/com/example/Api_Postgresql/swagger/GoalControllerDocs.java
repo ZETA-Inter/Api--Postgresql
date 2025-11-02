@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.swagger;
 
 import com.example.Api_Postgresql.dto.request.GoalRequestDTO;
 import com.example.Api_Postgresql.dto.response.GoalProgressResponseDTO;
+import com.example.Api_Postgresql.dto.response.GoalProgressPercentage;
 import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Tag(
         name = "Goals",
-        description = "Endpoints for managing goals, including creation, deletion, listing, and progress tracking."
+        description = "Endpoints for managing goals, including creation, deletion, listing, partial updates, and progress tracking."
 )
 public interface GoalControllerDocs {
 
@@ -47,10 +48,18 @@ public interface GoalControllerDocs {
     ResponseEntity<GoalResponseDTO> createGoal(GoalRequestDTO requestDTO);
 
     @Operation(
+            summary = "Partially update goal",
+            description = "Performs a partial update on a goal's data."
+    )
+    ResponseEntity<String> updateGoal(
+            @Parameter(description = "Goal ID", example = "51") Integer goalId,
+            GoalRequestDTO requestDTO);
+
+    @Operation(
             summary = "Delete goal by ID",
             description = "Deletes a goal by its ID if it exists."
     )
-    ResponseEntity<String> deleteGaol(
+    ResponseEntity<String> deleteGoal(
             @Parameter(description = "Goal ID", example = "51") Integer goalId);
 
     @Operation(
@@ -67,4 +76,18 @@ public interface GoalControllerDocs {
     )
     ResponseEntity<GoalProgressResponseDTO> getGoalProgressPercentage(
             @Parameter(description = "Worker ID", example = "1") Integer workerId);
+
+    @Operation(
+            summary = "Get goal segment",
+            description = "Retrieves the segment/category of a specific goal."
+    )
+    ResponseEntity<String> getSegmentGoal(
+            @Parameter(description = "Goal ID", example = "51") Integer goalId);
+
+    @Operation(
+            summary = "Get average finished goals",
+            description = "Returns the percentage of goals finished for all workers in a company."
+    )
+    ResponseEntity<GoalProgressPercentage> getAverageFinishedGoals(
+            @Parameter(description = "Company ID", example = "5") Integer companyId);
 }
