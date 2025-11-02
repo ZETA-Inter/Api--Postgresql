@@ -13,4 +13,10 @@ import lombok.Setter;
 public class ProgramWorkerResponseDTO extends ProgramResponseDTO {
     @JsonProperty("progress_percentage")
     private Integer progressPercentage;
+
+    public ProgramWorkerResponseDTO(Integer id, String name, String description, Integer segmentId, String segmentName, String imageUrl, Integer progressPercentage) {
+        super(id, name, description, imageUrl, new SegmentResponseDTO(segmentId, segmentName));
+        this.progressPercentage = progressPercentage;
+    }
+
 }
