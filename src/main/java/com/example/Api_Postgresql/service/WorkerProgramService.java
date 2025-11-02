@@ -69,4 +69,14 @@ public class WorkerProgramService {
         return "Grade updated to " + newGrade + " for worker_id=" + workerId + " and program_id=" + programId;
     }
 
+    public List<WorkerProgram> listWorkerProgramsByWorkerId(Integer workerId) {
+        List<WorkerProgram> wps = workerProgramRepository.findAllByWorker_Id(workerId);
+
+        if (wps.isEmpty()) {
+            throw new EntityNotFoundException("Worker Goals not found for worker ID: " + workerId);
+        }
+
+        return wps;
+    }
+
 }

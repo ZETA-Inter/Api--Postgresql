@@ -58,11 +58,11 @@ public interface WorkerControllerDocs {
             WorkerRequestDTO requestDTO);
 
     @Operation(summary = "Get most recent progress", description = "Returns the most recent progress record of a worker.")
-    ResponseEntity<WorkerProgressResponse> getRecentProgress(
+    ResponseEntity<WorkerProgressResponse> getRecentProgramProgress(
             @Parameter(description = "Worker ID", example = "10") Integer workerId);
 
     @Operation(summary = "Get overall progress", description = "Returns the overall progress percentage of a worker.")
-    ResponseEntity<Integer> getOverallProgress(
+    ResponseEntity<Integer> getOverallGoalsProgress(
             @Parameter(description = "Worker ID", example = "10") Integer workerId);
 
     @Operation(summary = "Get program progress", description = "Returns progress information for a specific program assigned to a worker.")
