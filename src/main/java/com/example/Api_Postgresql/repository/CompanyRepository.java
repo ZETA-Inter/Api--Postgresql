@@ -27,13 +27,14 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     @Query("""
         SELECT new com.example.Api_Postgresql.dto.response.CountWorkerProgramResponse(
-            wp.program.id, 
-            wp.program.name, 
+            wp.program.id,
+            wp.program.name,
+            wp.program.segment.name,
             COUNT(wp.worker.id)
         )
         FROM WorkerProgram wp
         WHERE wp.worker.company.id = :companyId
-        GROUP BY wp.program.id, wp.program.name
+        GROUP BY wp.program.id, wp.program.name, wp.program.segment.name
     """)
     List<CountWorkerProgramResponse> findProgramSummaryByCompanyId(@Param("companyId") Integer companyId);
 
