@@ -22,6 +22,6 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     Integer getAveragePoints(@Param("companyId") Integer companyId);
 
     @Query(value = "SELECT * FROM fn_programs_in_progress(:companyId)", nativeQuery = true)
-    List<ProgramWorkerResponseDTO> listActualWorkerPrograms(@Param("companuId") Integer companyId);
+    List<ProgramWorkerResponseDTO> listActualWorkerPrograms(@Param("companyId") Integer companyId);
 
 }
