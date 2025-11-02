@@ -1,6 +1,6 @@
 package com.example.Api_Postgresql.repository;
 
-import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
+import com.example.Api_Postgresql.dto.response.ProgramWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.model.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +22,6 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     Integer getAveragePoints(@Param("companyId") Integer companyId);
 
     @Query(value = "SELECT * FROM fn_programs_in_progress(:companyId)", nativeQuery = true)
-    List<ProgramWorkerResponseDTO> listActualWorkerPrograms(@Param("companuId") Integer companyId);
+    List<ProgramWorkerResponse> listActualWorkerPrograms(@Param("companyId") Integer companyId);
 
 }

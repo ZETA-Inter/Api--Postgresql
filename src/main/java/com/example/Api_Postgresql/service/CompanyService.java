@@ -3,6 +3,7 @@ package com.example.Api_Postgresql.service;
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
+import com.example.Api_Postgresql.dto.response.ProgramWorkerResponse;
 import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
@@ -151,7 +152,20 @@ public class CompanyService {
     }
 
     public List<ProgramWorkerResponseDTO> listActualWorkerPrograms(Integer companyId) {
-        return companyRepository.listActualWorkerPrograms(companyId);
+        List<ProgramWorkerResponse> responses = companyRepository.listActualWorkerPrograms(companyId);
+        return responses.stream()
+                .map(pw -> {
+                    Integer progressPercentage = Math.toIntExact(Math.round(pw.getProgressPercentage()));
+                    return new ProgramWorkerResponseDTO(
+                            pw.getId(),
+                            pw.getName(),
+                            pw.getDescription(),
+                            pw.getSegmentId(),
+                            pw.getSegmentName(),
+                            pw.getImageUrl(),
+                            progressPercentage);
+                })
+                .toList();
     }
 
 }

@@ -1,10 +1,7 @@
 package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.GoalRequestDTO;
-import com.example.Api_Postgresql.dto.response.GoalProgressResponseDTO;
-import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
-import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
-import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
+import com.example.Api_Postgresql.dto.response.*;
 import com.example.Api_Postgresql.mapper.GoalMapper;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Goal;
@@ -125,8 +122,8 @@ public class GoalService {
         return goalRepository.getSegmentGoal(goalId);
     }
 
-    public Integer getAverageFinishedGoals(Integer companyId) {
-        return goalRepository.getFinishedGoalsPercentage(companyId);
+    public GoalProgressPercentage getFinishedGoals(Integer companyId) {
+        return goalRepository.getFinishedGoals(companyId);
     }
 
 }
