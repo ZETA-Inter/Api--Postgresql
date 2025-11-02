@@ -1,5 +1,6 @@
 package com.example.Api_Postgresql.repository;
 
+import com.example.Api_Postgresql.dto.response.CountWorkerProgramResponse;
 import com.example.Api_Postgresql.dto.response.ProgramWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.model.Company;
@@ -23,5 +24,17 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     @Query(value = "SELECT * FROM fn_programs_in_progress(:companyId)", nativeQuery = true)
     List<ProgramWorkerResponse> listActualWorkerPrograms(@Param("companyId") Integer companyId);
+
+    @Query("""
+        SELECT new com.example.Api_Postgresql.dto.response.CountWorkerProgramResponse(
+            wp.program.id, 
+            wp.program.name, 
+            COUNT(wp.worker.id)
+        )
+        FROM WorkerProgram wp
+        WHERE wp.worker.company.id = :companyId
+        GROUP BY wp.program.id, wp.program.name
+    """)
+    List<CountWorkerProgramResponse> findProgramSummaryByCompanyId(@Param("companyId") Integer companyId);
 
 }

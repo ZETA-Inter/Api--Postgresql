@@ -1,7 +1,6 @@
 package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.ProgressRequestDTO;
-import com.example.Api_Postgresql.dto.response.WorkerProgramResponseDTO;
 import com.example.Api_Postgresql.mapper.WorkerProgramMapper;
 import com.example.Api_Postgresql.model.*;
 import com.example.Api_Postgresql.repository.WorkerProgramRepository;
@@ -9,7 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,16 +29,14 @@ public class WorkerProgramService {
         return response;
     }
 
-    public List<WorkerProgramResponseDTO> listWorkerPrograms(Integer workerId) {
+    public List<WorkerProgram> listWorkerPrograms(Integer workerId) {
         List<WorkerProgram> wps = workerProgramRepository.findAllByWorker_Id(workerId);
 
         if (wps.isEmpty()) {
             throw new EntityNotFoundException("Worker program with worker_id="+ workerId +" not found");
         }
 
-        return wps.stream()
-                .map(workerProgramMapper::convertToWorkerProgramResponse)
-                .toList();
+        return wps;
     }
 
     public void assignProgramToWorker(Worker worker, Program program) {
@@ -56,7 +53,7 @@ public class WorkerProgramService {
                 .build();
 
         Progress progress = new Progress();
-        progress.setDate(LocalDate.now());
+        progress.setDate(LocalDateTime.now());
         progress.setPoints(0);
         progress.setProgressPercentage(0);
 
@@ -97,7 +94,7 @@ public class WorkerProgramService {
         int newPoints = (latestProgress != null) ? latestProgress.getPoints() + request.getPoints() : request.getPoints();
 
         Progress progress = new Progress(
-                LocalDate.now(),
+                LocalDateTime.now(),
                 newPoints,
                 request.getPercentage()
         );

@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -20,7 +20,7 @@ public class Progress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     private Integer points;
 
@@ -31,7 +31,7 @@ public class Progress {
     @JoinColumn(name = "worker_program_id", nullable = false)
     private WorkerProgram workerProgram;
 
-    public Progress(LocalDate date, Integer points, Integer progressPercentage) {
+    public Progress(LocalDateTime date, Integer points, Integer progressPercentage) {
         this.date = date;
         this.points = points;
         this.progressPercentage = progressPercentage;

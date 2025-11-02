@@ -13,6 +13,8 @@ public interface WorkerRepository extends JpaRepository<Worker, Integer> {
 
     List<Worker> findAllByCompany_Id(Integer companyId);
 
+    List<Integer> findWorkerIdByCompany_Id(Integer companyId);
+
     @Query(value = "SELECT * from fn_most_recent_progress(:workerId)", nativeQuery = true)
     WorkerProgressResponse getMostRecentProgress(Integer workerId);
 
