@@ -71,7 +71,7 @@ public class GoalController implements GoalControllerDocs {
 
     @GetMapping("/finished-goals-percentage/{companyId}")
     public ResponseEntity<GoalProgressPercentage> getAverageFinishedGoals(@PathVariable("companyId") Integer companyId) {
-        return ResponseEntity.status(200).body(goalService.getFinishedGoalsPercentage(companyId));
+        return ResponseEntity.status(200).body(goalService.getFinishedGoals(companyId));
     }
 
 }

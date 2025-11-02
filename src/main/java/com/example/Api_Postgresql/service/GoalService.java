@@ -122,8 +122,8 @@ public class GoalService {
         return goalRepository.getSegmentGoal(goalId);
     }
 
-    public GoalProgressPercentage getFinishedGoalsPercentage(Integer companyId) {
-        return goalRepository.getFinishedGoalsPercentage(companyId);
+    public GoalProgressPercentage getFinishedGoals(Integer companyId) {
+        return goalRepository.getFinishedGoals(companyId);
     }
 
 }
