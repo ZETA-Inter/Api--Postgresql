@@ -3,6 +3,7 @@ package com.example.Api_Postgresql.service;
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
+import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.CompanyMapper;
@@ -147,6 +148,10 @@ public class CompanyService {
 
     public Integer getAveragePoints(Integer companyId) {
         return companyRepository.getAveragePoints(companyId);
+    }
+
+    public List<ProgramWorkerResponseDTO> listActualWorkerPrograms(Integer companyId) {
+        return companyRepository.listActualWorkerPrograms(companyId);
     }
 
 }
