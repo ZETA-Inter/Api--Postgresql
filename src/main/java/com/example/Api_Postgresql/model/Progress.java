@@ -30,4 +30,10 @@ public class Progress {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_program_id", nullable = false)
     private WorkerProgram workerProgram;
+
+    public Progress(LocalDate date, Integer points, Integer progressPercentage) {
+        this.date = date;
+        this.points = points;
+        this.progressPercentage = progressPercentage;
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.Api_Postgresql.service;
 
+import com.example.Api_Postgresql.dto.request.ProgressRequestDTO;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponseDTO;
 import com.example.Api_Postgresql.mapper.WorkerProgramMapper;
 import com.example.Api_Postgresql.model.*;
@@ -18,6 +19,16 @@ public class WorkerProgramService {
     private final WorkerProgramRepository workerProgramRepository;
 
     private final WorkerProgramMapper workerProgramMapper;
+
+    public WorkerProgram findWorkerProgram(Integer workerId, Integer programId) {
+        WorkerProgram response = workerProgramRepository.findByWorker_IdAndProgram_Id(workerId, programId);
+
+        if (response == null) {
+            throw new EntityNotFoundException("Worker program with worker_id="+ workerId +" and program_id="+programId+"not found");
+        }
+
+        return response;
+    }
 
     public List<WorkerProgramResponseDTO> listWorkerPrograms(Integer workerId) {
         List<WorkerProgram> wps = workerProgramRepository.findAllByWorker_Id(workerId);
@@ -77,6 +88,23 @@ public class WorkerProgramService {
         }
 
         return wps;
+    }
+
+    public void addProgress(ProgressRequestDTO request) {
+        WorkerProgram wp = findWorkerProgram(request.getWorkerId(), request.getProgramId());
+
+        Progress latestProgress = wp.getLatestProgress();
+        int newPoints = (latestProgress != null) ? latestProgress.getPoints() + request.getPoints() : request.getPoints();
+
+        Progress progress = new Progress(
+                LocalDate.now(),
+                newPoints,
+                request.getPercentage()
+        );
+
+        wp.addProgress(progress);
+
+        workerProgramRepository.save(wp);
     }
 
 }
