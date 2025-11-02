@@ -2,15 +2,13 @@ package com.example.Api_Postgresql.service;
 
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.request.PaymentRequestDTO;
-import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
-import com.example.Api_Postgresql.dto.response.ProgramWorkerResponse;
-import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
-import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
+import com.example.Api_Postgresql.dto.response.*;
 import com.example.Api_Postgresql.exception.EntityAlreadyExists;
 import com.example.Api_Postgresql.mapper.CompanyMapper;
 import com.example.Api_Postgresql.model.Company;
 import com.example.Api_Postgresql.model.Plan;
 import com.example.Api_Postgresql.repository.CompanyRepository;
+import com.example.Api_Postgresql.repository.WorkerProgramRepository;
 import com.example.Api_Postgresql.validation.CompanyPatchValidation;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -166,6 +164,10 @@ public class CompanyService {
                             progressPercentage);
                 })
                 .toList();
+    }
+
+    public List<CountWorkerProgramResponse> countWorkerProgramResponses(Integer companyId) {
+        return companyRepository.findProgramSummaryByCompanyId(companyId);
     }
 
 }

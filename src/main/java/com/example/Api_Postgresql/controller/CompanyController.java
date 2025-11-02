@@ -2,6 +2,7 @@ package com.example.Api_Postgresql.controller;
 
 import com.example.Api_Postgresql.dto.request.CompanyRequestDTO;
 import com.example.Api_Postgresql.dto.response.CompanyResponseDTO;
+import com.example.Api_Postgresql.dto.response.CountWorkerProgramResponse;
 import com.example.Api_Postgresql.dto.response.ProgramWorkerResponseDTO;
 import com.example.Api_Postgresql.dto.response.WorkerRankingResponse;
 import com.example.Api_Postgresql.service.CompanyService;
@@ -85,6 +86,11 @@ public class CompanyController implements CompanyControllerDocs {
     @GetMapping("/list-actual-worker-programs-by-id/{companyId}")
     public ResponseEntity<List<ProgramWorkerResponseDTO>> listActualWorkerPrograms(@PathVariable("companyId") Integer companyId) {
         return ResponseEntity.status(200).body(companyService.listActualWorkerPrograms(companyId));
+    }
+
+    @GetMapping("/count-workers-by-program/{companyId}")
+    public ResponseEntity<List<CountWorkerProgramResponse>> countWorkersByProgram(@PathVariable Integer companyId) {
+        return ResponseEntity.status(200).body(companyService.countWorkerProgramResponses(companyId));
     }
 
 }

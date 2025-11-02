@@ -102,11 +102,11 @@ public class WorkerService {
     }
 
     public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
-        List<WorkerProgramResponseDTO> wps = workerProgramService.listWorkerPrograms(workerId);
+        List<WorkerProgram> wps = workerProgramService.listWorkerPrograms(workerId);
         return wps.stream()
                 .filter(wp -> {
-                    Progress latest = wp.getProgresses().getFirst();
-                    return latest != null && latest.getProgressPercentage() < 100;
+                    Progress latest = wp.getLatestProgress();
+                    return latest != null;
                 })
                 .map(wp -> {
                     Progress latest = wp.getProgresses().getFirst();
@@ -243,6 +243,16 @@ public class WorkerService {
         return (int) workerGoals.stream()
                 .filter(WorkerGoal::isCompleted)
                 .count();
+    }
+
+    public List<Integer> listWorkerIdsByCompanyId(Integer companyId) {
+        List<Integer> response = workerRepository.findWorkerIdByCompany_Id(companyId);
+
+        if (response.isEmpty()) {
+            throw new EntityNotFoundException("Worker Ids not found with companyId="+companyId+".");
+        }
+
+        return response;
     }
 
 }
