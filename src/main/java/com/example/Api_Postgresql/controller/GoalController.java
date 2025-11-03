@@ -74,4 +74,9 @@ public class GoalController implements GoalControllerDocs {
         return ResponseEntity.status(200).body(goalService.getFinishedGoals(companyId));
     }
 
+    @GetMapping("/count-goals-by-program/{companyId}")
+    public ResponseEntity<List<CountGoalProgramResponse>> countGoalsByProgramAndCompany(@PathVariable("companyId") Integer companyId) {
+        return ResponseEntity.status(200).body(goalService.countGoalsByProgramAndCompany(companyId));
+    }
+
 }

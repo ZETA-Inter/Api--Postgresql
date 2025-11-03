@@ -126,4 +126,8 @@ public class GoalService {
         return goalRepository.getFinishedGoals(companyId);
     }
 
+    public List<CountGoalProgramResponse> countGoalsByProgramAndCompany(Integer companyId) {
+        return goalRepository.countGoalsByProgramAndCompany(companyId);
+    }
+
 }

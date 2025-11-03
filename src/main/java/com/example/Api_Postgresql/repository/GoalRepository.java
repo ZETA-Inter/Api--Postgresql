@@ -1,5 +1,6 @@
 package com.example.Api_Postgresql.repository;
 
+import com.example.Api_Postgresql.dto.response.CountGoalProgramResponse;
 import com.example.Api_Postgresql.dto.response.GoalProgressPercentage;
 import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
 import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
@@ -41,5 +42,17 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
 
     @Query(value = "SELECT * FROM fn_finished_goals_total_goals(:companyId)", nativeQuery = true)
     GoalProgressPercentage getFinishedGoals(@Param("companyId") Integer companyId);
+
+    @Query("""
+        SELECT new com.example.Api_Postgresql.dto.response.CountGoalProgramResponse(
+            g.program.id,
+            g.program.name,
+            COUNT(g.id)
+        )
+        FROM Goal g
+        WHERE g.company.id = :companyId
+        GROUP BY g.program.id, g.program.name
+    """)
+    List<CountGoalProgramResponse> countGoalsByProgramAndCompany(@Param("companyId") Integer companyId);
 
 }
