@@ -47,11 +47,12 @@ public interface GoalRepository extends JpaRepository<Goal, Integer> {
         SELECT new com.example.Api_Postgresql.dto.response.CountGoalProgramResponse(
             g.program.id,
             g.program.name,
+            g.program.segment.name,
             COUNT(g.id)
         )
         FROM Goal g
         WHERE g.company.id = :companyId
-        GROUP BY g.program.id, g.program.name
+        GROUP BY g.program.id, g.program.name, g.program.segment.name
     """)
     List<CountGoalProgramResponse> countGoalsByProgramAndCompany(@Param("companyId") Integer companyId);
 
