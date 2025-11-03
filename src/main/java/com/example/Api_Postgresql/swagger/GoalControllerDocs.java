@@ -1,11 +1,7 @@
 package com.example.Api_Postgresql.swagger;
 
 import com.example.Api_Postgresql.dto.request.GoalRequestDTO;
-import com.example.Api_Postgresql.dto.response.GoalProgressResponseDTO;
-import com.example.Api_Postgresql.dto.response.GoalProgressPercentage;
-import com.example.Api_Postgresql.dto.response.GoalResponseDTO;
-import com.example.Api_Postgresql.dto.response.GoalWorkerResponse;
-import com.example.Api_Postgresql.dto.response.WorkerProgramResponse;
+import com.example.Api_Postgresql.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,12 +39,12 @@ public interface GoalControllerDocs {
 
     @Operation(
             summary = "Create a new goal",
-            description = "Creates a new goal and associates it with a company and optionally a program."
+            description = "Creates a new goal and associates it with a company and optionally with a program."
     )
     ResponseEntity<GoalResponseDTO> createGoal(GoalRequestDTO requestDTO);
 
     @Operation(
-            summary = "Partially update goal",
+            summary = "Partially update a goal",
             description = "Performs a partial update on a goal's data."
     )
     ResponseEntity<String> updateGoal(
@@ -56,14 +52,14 @@ public interface GoalControllerDocs {
             GoalRequestDTO requestDTO);
 
     @Operation(
-            summary = "Delete goal by ID",
+            summary = "Delete a goal by ID",
             description = "Deletes a goal by its ID if it exists."
     )
     ResponseEntity<String> deleteGoal(
             @Parameter(description = "Goal ID", example = "51") Integer goalId);
 
     @Operation(
-            summary = "List workers and their goals by program and company",
+            summary = "List workers and goals by program and company",
             description = "Retrieves all workers and their corresponding goals for a specific program and company."
     )
     ResponseEntity<List<WorkerProgramResponse>> getWorkersGoalByProgramAndCompany(
@@ -79,15 +75,25 @@ public interface GoalControllerDocs {
 
     @Operation(
             summary = "Get goal segment",
-            description = "Retrieves the segment/category of a specific goal."
+            description = "Retrieves the segment (category) of a specific goal."
     )
     ResponseEntity<String> getSegmentGoal(
             @Parameter(description = "Goal ID", example = "51") Integer goalId);
 
     @Operation(
             summary = "Get average finished goals",
-            description = "Returns the percentage of goals finished for all workers in a company."
+            description = "Returns the percentage of finished goals for all workers in a company."
     )
     ResponseEntity<GoalProgressPercentage> getAverageFinishedGoals(
+            @Parameter(description = "Company ID", example = "5") Integer companyId);
+
+    @Operation(
+            summary = "Count goals by program for a company",
+            description = """
+                Returns the number of goals grouped by each program of a specific company.
+                Each item contains the program ID, program name, and total goal count.
+                """
+    )
+    ResponseEntity<List<CountGoalProgramResponse>> countGoalsByProgramAndCompany(
             @Parameter(description = "Company ID", example = "5") Integer companyId);
 }
