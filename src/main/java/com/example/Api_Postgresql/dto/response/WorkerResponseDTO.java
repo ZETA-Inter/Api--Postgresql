@@ -29,12 +29,4 @@ public class WorkerResponseDTO {
     @JsonProperty("image_url")
     private String imageUrl;
 
-    @JsonProperty("plan_name")
-    private String planName;
-
-    @JsonProperty("company_name")
-    private String companyName;
-
-    private Set<String> segments;
-
 }

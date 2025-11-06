@@ -22,29 +22,16 @@ public class WorkerMapper {
         return worker;
     }
 
-    public WorkerResponseDTO convertWorkerToWorkerResponse(Worker worker, ImageResponseDTO image, String planName) {
+    public WorkerResponseDTO convertWorkerToWorkerResponse(Worker worker, ImageResponseDTO image) {
         WorkerResponseDTO responseDTO = new WorkerResponseDTO();
         responseDTO.setId(worker.getId());
         responseDTO.setName(worker.getName());
         responseDTO.setEmail(worker.getEmail());
-        responseDTO.setPlanName(planName);
         responseDTO.setCreatedAt(worker.getCreatedAt());
         responseDTO.setActive(worker.isActive());
 
-        if (worker.getCompany() != null) {
-            responseDTO.setCompanyName(worker.getCompany().getName());
-        }
-
         if (image != null) {
             responseDTO.setImageUrl(image.getImageUrl());
-        }
-
-        if (worker.getWorkerPrograms() != null) {
-            responseDTO.setSegments(
-                    worker.getWorkerPrograms().stream()
-                            .map(wp -> wp.getProgram().getSegment().getName())
-                            .collect(java.util.stream.Collectors.toSet())
-            );
         }
 
         return responseDTO;

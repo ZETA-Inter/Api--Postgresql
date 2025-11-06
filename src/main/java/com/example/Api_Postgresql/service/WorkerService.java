@@ -53,8 +53,7 @@ public class WorkerService {
                 .stream()
                 .map(w -> {
                     ImageResponseDTO image = imageService.getImageById("workers", w.getId());
-                    String planName = planService.getPlanNameByWorkerId(w.getId());
-                    return workerMapper.convertWorkerToWorkerResponse(w, image, planName);
+                    return workerMapper.convertWorkerToWorkerResponse(w, image);
                 }).toList();
     }
 
@@ -63,8 +62,7 @@ public class WorkerService {
                 .stream()
                 .map(w -> {
                     ImageResponseDTO image = imageService.getImageById("workers", w.getId());
-                    String planName = planService.getPlanNameByWorkerId(w.getId());
-                    return workerMapper.convertWorkerToWorkerResponse(w, image, planName);
+                    return workerMapper.convertWorkerToWorkerResponse(w, image);
                 }).toList();
     }
 
@@ -74,8 +72,7 @@ public class WorkerService {
                 .filter(Worker::isActive)
                 .map(w -> {
                     ImageResponseDTO image = imageService.getImageById("workers", w.getId());
-                    String planName = planService.getPlanNameByWorkerId(w.getId());
-                    return workerMapper.convertWorkerToWorkerResponse(w, image, planName);
+                    return workerMapper.convertWorkerToWorkerResponse(w, image);
                 }).toList();
     }
 
@@ -84,8 +81,7 @@ public class WorkerService {
                 .orElseThrow(() -> new EntityNotFoundException("Worker not found!"));
 
         ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
-        String planName = planService.getPlanNameByWorkerId(id);
-        return workerMapper.convertWorkerToWorkerResponse(exists, image, planName);
+        return workerMapper.convertWorkerToWorkerResponse(exists, image);
     }
 
     public WorkerResponseDTO findByEmail(String email) {
@@ -96,9 +92,7 @@ public class WorkerService {
 
         ImageResponseDTO image = imageService.getImageById("workers", exists.getId());
 
-        String planName = planService.getPlanNameByWorkerId(exists.getId());
-
-        return workerMapper.convertWorkerToWorkerResponse(exists, image, planName);
+        return workerMapper.convertWorkerToWorkerResponse(exists, image);
     }
 
     public List<ProgramWorkerResponseDTO> listActualProgramsById(Integer workerId) {
@@ -144,11 +138,9 @@ public class WorkerService {
         String planName = null;
         if (request.getCompanyId() == null) {
             paymentService.createPayment(new PaymentRequestDTO("worker", worker.getId(), request.getPlanInfo()));
-
-            planName = planService.getPlanNameByWorkerId(worker.getId());
         }
 
-        return workerMapper.convertWorkerToWorkerResponse(worker, imageResponse, planName);
+        return workerMapper.convertWorkerToWorkerResponse(worker, imageResponse);
     }
 
     public void inactiveWorker(Integer id) {
